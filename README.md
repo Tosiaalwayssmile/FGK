@@ -1,0 +1,2 @@
+# FGK
+Fotorealistyczna Grafika Komputerowa
