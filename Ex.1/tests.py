@@ -37,15 +37,18 @@ class Test(unittest.TestCase):
         self.assertEqual(self.r2.is_point_on_line(Vec(-3, -3, -3)), True)
         self.assertEqual(self.r2.is_point_on_line(Vec(-3, -3, -2)), False)
 
-        self.assertEqual(self.r3.is_point_on_line(self.v2), True)
-        self.assertEqual(self.r3.is_point_on_line(self.v1), False)
         self.assertEqual(self.r3.is_point_on_line(Vec(6, 9, 12)), True)
         self.assertEqual(self.r3.is_point_on_line(Vec(1, -1, -3)), True)
         self.assertEqual(self.r3.is_point_on_line(Vec(6, 9, 11)), False)
+        self.assertEqual(self.r3.is_point_on_line(Vec(1, -1, -4)), False)
 
         self.assertEqual(self.r4.is_point_on_line(self.v1), False)
         self.assertEqual(self.r4.is_point_on_line(Vec(-2, 8.5, 1)), True)
-        self.assertEqual(self.r4.is_point_on_line(Vec(-2, 8.5, 25)), False)  # Point is on line, but not in range of ray
+        self.assertEqual(self.r4.is_point_on_line(Vec(-2, 8.5, 25)), False)     # Point is on line, but not in range of ray
+        self.assertEqual(self.r4.is_point_on_line(Vec(3, -4, 1)), False)        # Point is on line and in range, but on the opposite side
+        self.r4.length = math.inf                                               # By setting range to infinity, side is ignored
+        self.assertEqual(self.r4.is_point_on_line(Vec(3, -4, 1)), True)
+
 
 
 # print(v3.__dict__)

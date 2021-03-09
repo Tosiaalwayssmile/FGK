@@ -43,9 +43,14 @@ class Ray:
         if not ((skip_x or skip_y or x_var == y_var) and (skip_y or skip_z or y_var == z_var) and (skip_x or skip_z or x_var == z_var)):
             return False
 
-        # Point is on the line, but we need to chech if it is on range
-        if self.origin.distance(point) > self.length:
-            return False
+        # Point is on the line, but we need to chech if it is on range and on correct side
+        if self.length != math.inf:
+            # Check if point if in range
+            if self.origin.distance(point) > self.length:
+                return False
+            # Check if point in on correct side of line
+            if (self.origin + self.direction).distance(point) > self.length:
+                return False
 
         # If all conditions are met, return true
         return True
