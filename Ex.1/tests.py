@@ -30,7 +30,7 @@ class Test(unittest.TestCase):
         self.assertEqual(-3 * self.v2, Vec(-12, -15, -18))
        # self.assertEqual(self.v4 * self.v5, Vec(-2, 5, 0))
 
-    def test_cross(self):
+    #def test_cross(self):
         #self.assertEqual(Vec.cross(self.v4, self.v5), (-5, -2, 7))
         #self.assertEqual(self.v4.cross(self.v5), (-5, -2, 7)) 
 
