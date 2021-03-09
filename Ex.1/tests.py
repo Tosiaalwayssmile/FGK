@@ -18,17 +18,40 @@ class Test(unittest.TestCase):
 
     # Vector tests #
     def test_add(self):
-        self.assertEqual(self.v1 + self.v2, Vec(5, 7, 9))
+        self.assertEqual(self.v1 + self.v2, Vec(5, 7, 9)) # Add two vectors
+        self.assertEqual(self.v1 + 3, Vec(4, 5, 6)) # Add vector and scalar
         self.assertNotEqual(self.v1 + self.v2, Vec(5, 5, 9))
+        self.v2 += 2
+        self.assertEqual(self.v2,  Vec(6, 7, 8)) # Subtract scalar from vector  (in-place)
+
+    def test_sub(self):
+        self.assertEqual(self.v1 - self.v2, Vec(-3, -3, -3)) # Subtracts two vectors
+        self.assertEqual(self.v2 - 3.5, Vec(0.5, 1.5, 2.5)) # Subtract scalar from vector 
+        self.v2 -= 3.5
+        self.assertEqual(self.v2, Vec(0.5, 1.5, 2.5)) # Subtract scalar from vector (in-place)
+
+    def test_pos(self):
+        self.assertEqual(+self.v5, Vec(-2, 5, 0))
+
+    def test_neg(self):
+        self.assertEqual(-self.v5, Vec(2, -5, 0))
 
     def test_length(self):
         self.assertEqual(self.v1.length(), 3.7416573867739413)
         self.assertEqual(self.v2.length(), 8.774964387392123)
 
+    def test___truediv__(self):
+        self.assertEqual(self.v1 / self.v2, Vec(1/4, 2/5, 3/6)) # Divide vector by vector
+        self.assertEqual(self.v2 / -2, Vec(-2, -5/2, -3)) # Divide vector by scalar
+        self.v2 /= -2      
+        self.assertEqual(self.v2, Vec(-2, -5/2, -3)) # Divide vector by scalar (in-place)
+
     def test_mul(self):
-        self.assertEqual(self.v1 * 3, Vec(3, 6, 9))
-        self.assertEqual(-3 * self.v2, Vec(-12, -15, -18))
-   
+        self.assertEqual(self.v1 * self.v2, 32) # Multiply vector by vector
+        self.assertEqual(self.v2 * 3, Vec(12, 15, 18)) # Multiply vector by scalar
+        self.assertEqual(-3 * self.v2, Vec(-12, -15, -18)) # Multiply scalar by vector
+        self.v2 *= -3  
+        self.assertEqual(self.v2, Vec(-12, -15, -18)) # Multiply scalar by vector (in-place)
 
     def test_cross(self):
         self.assertEqual(Vec.cross(self.v5, self.v2), Vec(30, 12, -30))
@@ -58,10 +81,6 @@ class Test(unittest.TestCase):
         self.assertEqual(self.r4.is_point_on_line(Vec(3, -4, 1)), False)        # Point is on line and in range, but on the opposite side
         self.r4.length = math.inf                                               # By setting range to infinity, side is ignored
         self.assertEqual(self.r4.is_point_on_line(Vec(3, -4, 1)), True)
-
-
-
-# print(v3.__dict__)
 
 if __name__ == "__main__":
     unittest.main()
