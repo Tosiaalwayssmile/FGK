@@ -1,4 +1,4 @@
-from definitions import * 
+from vector import *
 from tests import *
 
 v1 = Vec(1, 2, 3)
