@@ -1,3 +1,6 @@
+import math
+
+
 class Vec:
     def __init__(self, x, y, z):
         self.x = x
@@ -11,8 +14,7 @@ class Vec:
         return self.x == other.x and self.y == other.y and self.z == other.z
 
     def __str__(self):
-       result = '(' + str(self.x) + ', ' + str(self.y) + ', ' + str(self.z) + ')'
-       return result
+        return '(' + str(self.x) + ', ' + str(self.y) + ', ' + str(self.z) + ')'
 
-
- 
+    def length(self):
+        return math.sqrt((self.x * self.x) + (self.y * self.y) + (self.z * self.z))
