@@ -25,6 +25,15 @@ class Test(unittest.TestCase):
         self.assertEqual(self.v1.length(), 3.7416573867739413)
         self.assertEqual(self.v2.length(), 8.774964387392123)
 
+    def test_mul(self):
+        self.assertEqual(self.v1 * 3, Vec(3, 6, 9))
+        self.assertEqual(-3 * self.v2, Vec(-12, -15, -18))
+       # self.assertEqual(self.v4 * self.v5, Vec(-2, 5, 0))
+
+    def test_cross(self):
+        #self.assertEqual(Vec.cross(self.v4, self.v5), (-5, -2, 7))
+        #self.assertEqual(self.v4.cross(self.v5), (-5, -2, 7)) 
+
     # Ray tests #
     def test_point_on_line(self):
         self.assertEqual(self.r1.is_point_on_line(self.v1), False)
