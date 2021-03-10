@@ -9,7 +9,7 @@ class Ray:
         self.direction = direction
         self.length = length
 
-    def is_point_on_line(self, point):
+    def is_point_on_ray(self, point):
 
         # Variables to indicate if there is need to calculate parametric values
         skip_x = False

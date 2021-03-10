@@ -23,3 +23,6 @@ class Vec:
 
     def distance(self, other):
         return math.sqrt(((self.x - other.x) ** 2) + ((self.y - other.y) ** 2) + ((self.z - other.z) ** 2))
+
+    def is_point_on_ray(self, ray):
+        return ray.is_point_on_ray(self)
