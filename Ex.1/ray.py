@@ -9,6 +9,9 @@ class Ray:
         self.direction = direction
         self.length = length
 
+    def __str__(self):
+        return 'Origin: ' + str(self.origin) + ', Vector: ' + str(self.direction)
+
     def is_point_on_ray(self, point):
 
         # Variables to indicate if there is need to calculate parametric values
@@ -43,16 +46,16 @@ class Ray:
         if not ((skip_x or skip_y or x_var == y_var) and (skip_y or skip_z or y_var == z_var) and (skip_x or skip_z or x_var == z_var)):
             return False
 
-        # Point is on the line, but we need to chech if it is on range and on correct side
-        if self.length != math.inf:
-            # Check if point if in range
-            if self.origin.distance(point) > self.length:
-                return False
-            # Check if point in on correct side of line
-            if (self.origin + self.direction).distance(point) > self.length:
-                return False
+        # Check if point is before or after origin point
+        if (not skip_x and x_var < 0) or (not skip_y and y_var < 0) or (not skip_z and z_var < 0):
+            return False
+
+        # Check if point is in range
+        if self.origin.distance(point) > self.length:
+            return False
 
         # If all conditions are met, return true
         return True
 
-
+    def get_intersection(self, plane):
+        return plane.get_intersection(self)

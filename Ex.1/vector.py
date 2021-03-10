@@ -11,34 +11,36 @@ class Vec:
 
     # Addition #
     def __add__(self, other):
-        if type(other) == type(self): # For vector
+        if type(other) == type(self):  # For vector
             return Vec(self.x + other.x, self.y + other.y, self.z + other.z)
-        else: # For scalar
+        else:  # For scalar
             return Vec(self.x + other, self.y + other, self.z + other)
 
     # In-place Addition #
     def __iadd__(self, other):
-        if type(other) == type(self): # For vector
+        if type(other) == type(self):  # For vector
             return Vec(self.x + other.x, self.y + other.y, self.z + other.z)
-        else: # For scalar
+        else:  # For scalar
             return Vec(self.x + other, self.y + other, self.z + other)
 
     # Subtraction #
     def __sub__(self, other):
-        if type(other) == type(self): # For vector
+        if type(other) == type(self):  # For vector
             return Vec(self.x - other.x, self.y - other.y, self.z - other.z)
-        else: # For scalar
+        else:  # For scalar
             return Vec(self.x - other, self.y - other, self.z - other)
 
     # In-place Subtraction #
     def __isub__(self, other):
-        if type(other) == type(self): # For vector
+        if type(other) == type(self):  # For vector
             return Vec(self.x - other.x, self.y - other.y, self.z - other.z)
-        else: # For scalar
+        else:  # For scalar
             return Vec(self.x - other, self.y - other, self.z - other)
     
     # Equal #
     def __eq__(self, other):
+        if other is None:
+            return False
         return self.x == other.x and self.y == other.y and self.z == other.z
     
     # Absolute #
@@ -75,30 +77,30 @@ class Vec:
 
     # Division #
     def __truediv__(self, other): 
-        if type(other) == type(self): # For vector
-             return Vec(self.x / other.x,self.y / other.y,self.z / other.z)
+        if type(other) == type(self):  # For vector
+            return Vec(self.x / other.x, self.y / other.y,self.z / other.z)
         else: # For scalar
             return Vec(self.x / other, self.y / other, self.z / other)
 
     # In-place Division #
     def __itruediv__(self, other): 
-        if type(other) == type(self): # For vector
-             return Vec(self.x / other.x,self.y / other.y,self.z / other.z)
-        else: # For scalar
+        if type(other) == type(self):  # For vector
+            return Vec(self.x / other.x, self.y / other.y,self.z / other.z)
+        else:  # For scalar
             return Vec(self.x / other, self.y / other, self.z / other)
     
     # Dot product and multiplication #
     def __mul__(self, other): 
-        if type(other) == type(self): # For vector
-             return self.x * other.x + self.y * other.y + self.z * other.z
-        else: # For scalar
+        if type(other) == type(self):  # For vector
+            return self.x * other.x + self.y * other.y + self.z * other.z
+        else:  # For scalar
             return Vec(other * self.x, other * self.y, other * self.z)
             
     # In-place Dot product and multiplication #
     def __imul__(self, other): 
-        if type(other) == type(self): # For vector
-             return self.x * other.x + self.y * other.y + self.z * other.z
-        else: # For scalar
+        if type(other) == type(self):  # For vector
+            return self.x * other.x + self.y * other.y + self.z * other.z
+        else:  # For scalar
             return Vec(other * self.x, other * self.y, other * self.z)
     
     # Reverse multiplication #
