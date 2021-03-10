@@ -1,6 +1,7 @@
 from vector import *
 from ray import *
 from plane import *
+from sphere import *
 import unittest
 
 
@@ -19,6 +20,9 @@ class Test(unittest.TestCase):
 
         self.p1 = Plane(self.v1, 3)
         self.p2 = Plane(self.v5, -5)
+
+        self.s1 = Sphere(self.v1, 12)
+        self.s2 = Sphere(self.v2, 20.5)
 
     # Vector tests #
     def test_add(self):
@@ -92,6 +96,22 @@ class Test(unittest.TestCase):
         self.assertEqual(self.p2.get_intersection(self.r2), None)
         self.assertEqual(self.p2.get_intersection(self.r4), Vec(0.8620689655172413, 1.3448275862068966, 1))
         self.assertNotEqual(self.p2.get_intersection(self.r4), Vec(1, 1, 1))
+    
+    # Sphere tests #
+    def test_get_centre(self):
+        self.assertEqual(Sphere.get_centre(self.s1), Vec(1, 2, 3)) 
+
+    def test_get_radius(self):
+        self.assertEqual(Sphere.get_radius(self.s2), 20.5) 
+
+    def test_surface_area(self):
+        self.assertEqual(Sphere.surface_area(self.s1), 1808.64) 
+    
+    def test_get_volume(self):
+        self.assertEqual(Sphere.get_volume(self.s1), 7234.56)
+    
+    #def test_intersect(self):
+        #self.assertEqual(Sphere.intersect(self.s1, self.r1), ###jakiś punkt)
 
 
 if __name__ == "__main__":
