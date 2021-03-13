@@ -118,8 +118,9 @@ class Test(unittest.TestCase):
     def test_get_volume(self):
         self.assertEqual(Sphere.get_volume(self.s1), 7234.56)
     
-    #def test_intersect(self):
-        #self.assertEqual(Sphere.intersect(self.s1, self.r1), ###jakiś punkt)
+    def test_get_sphere_intersection(self):        
+        self.assertListEqual(Sphere.get_sphere_intersection(self.s1, self.r2), [Vec3(-5.93, -4.93, -3.93), Vec3(7.93, 8.93, 9.93)])
+        self.assertListEqual(Sphere.get_sphere_intersection(self.s2, self.r3), [Vec3(15.84, 16.84, 17.84), Vec3(-7.84, -6.84, -5.84)])
 
 
 if __name__ == "__main__":
