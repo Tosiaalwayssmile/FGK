@@ -4,9 +4,9 @@ from vector import *
 
 class Ray:
 
-    def __init__(self, origin = Vec3(0, 0, 0), direction = Vec3(0, 0, 0), length = math.inf):
+    def __init__(self, origin=Vec3(0, 0, 0), direction=Vec3(1, 1, 1), length=math.inf):
         self.origin = origin
-        self.direction = direction
+        self.direction = direction / direction.length()
         self.length = length
 
     def __str__(self):
@@ -36,11 +36,11 @@ class Ray:
 
         # Get parametric values for X and Y coordinate
         if not skip_x:
-            x_var = (point.x - self.origin.x) / self.direction.x
+            x_var = round((point.x - self.origin.x) / self.direction.x, 5)
         if not skip_y:
-            y_var = (point.y - self.origin.y) / self.direction.y
+            y_var = round((point.y - self.origin.y) / self.direction.y, 5)
         if not skip_z:
-            z_var = (point.z - self.origin.z) / self.direction.z
+            z_var = round((point.z - self.origin.z) / self.direction.z, 5)
 
         # Check if point is on the line
         if not ((skip_x or skip_y or x_var == y_var) and (skip_y or skip_z or y_var == z_var) and (skip_x or skip_z or x_var == z_var)):
@@ -57,5 +57,13 @@ class Ray:
         # If all conditions are met, return true
         return True
 
-    def get_intersection(self, plane):
+    def set_direction(self, new_direction):
+        if new_direction == Vec3(0, 0, 0):
+            raise ValueError('Direction vector cannot be (0, 0, 0)')
+        self.direction = new_direction / new_direction.length()
+
+    def get_plane_intersection(self, plane):
         return plane.get_intersection(self)
+
+    def get_sphere_intersections(self, sphere):
+        return sphere.get_ray_intersections(self)

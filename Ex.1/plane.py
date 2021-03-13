@@ -18,10 +18,6 @@ class Plane:
         return str(self.a) + 'x + ' + str(self.b) + 'y + ' + str(self.c) + 'z + ' + str(self.d)
 
     def get_intersection(self, ray):
-        # Can't calculate is ray has direction (0, 0, 0)
-        if ray.direction == Vec3(0, 0, 0):
-            raise ValueError('Ray direction vector cannot be (0, 0, 0)')
-
         # Ray is paralell to plane
         if self.normal_vector * ray.direction == 0:
             return None
@@ -33,9 +29,9 @@ class Plane:
         if t < 0:
             return None
 
-        x = ray.origin.x + (t * ray.direction.x)
-        y = ray.origin.y + (t * ray.direction.y)
-        z = ray.origin.z + (t * ray.direction.z)
+        x = round(ray.origin.x + (t * ray.direction.x), 5)
+        y = round(ray.origin.y + (t * ray.direction.y), 5)
+        z = round(ray.origin.z + (t * ray.direction.z), 5)
         point = Vec3(x, y, z)
 
         # Check if point is in range

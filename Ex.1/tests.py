@@ -99,28 +99,27 @@ class Test(unittest.TestCase):
         self.assertEqual(self.p1.get_intersection(self.r3), None)
         self.assertNotEqual(self.p1.get_intersection(self.r2), Vec3(-1.126, -0.65625, -0.1875))
         self.assertEqual(self.p1.get_intersection(Ray(self.v1, Vec3(0, 3, -2))), None)
-        self.assertRaises(ValueError, self.p1.get_intersection, self.r1)
 
         self.assertEqual(self.p2.get_intersection(self.r2), None)
-        self.assertEqual(self.p2.get_intersection(self.r4), Vec3(0.8620689655172413, 1.3448275862068966, 1))
+        self.assertEqual(self.p2.get_intersection(self.r4), Vec3(0.86207, 1.34483, 1))
         self.assertNotEqual(self.p2.get_intersection(self.r4), Vec3(1, 1, 1))
     
     # Sphere tests #
     def test_get_centre(self):
-        self.assertEqual(Sphere.get_centre(self.s1), Vec3(1, 2, 3)) 
+        self.assertEqual(self.s1.get_centre(), Vec3(1, 2, 3))
 
     def test_get_radius(self):
-        self.assertEqual(Sphere.get_radius(self.s2), 20.5) 
+        self.assertEqual(self.s2.get_radius(), 20.5)
 
     def test_surface_area(self):
-        self.assertEqual(Sphere.surface_area(self.s1), 1808.64) 
+        self.assertEqual(self.s1.surface_area(), 1808.64)
     
     def test_get_volume(self):
-        self.assertEqual(Sphere.get_volume(self.s1), 7234.56)
+        self.assertEqual(self.s1.get_volume(), 7234.56)
     
-    def test_get_sphere_intersection(self):        
-        self.assertListEqual(Sphere.get_sphere_intersection(self.s1, self.r2), [Vec3(-5.93, -4.93, -3.93), Vec3(7.93, 8.93, 9.93)])
-        self.assertListEqual(Sphere.get_sphere_intersection(self.s2, self.r3), [Vec3(15.84, 16.84, 17.84), Vec3(-7.84, -6.84, -5.84)])
+    def test_get_sphere_intersection(self):
+        self.assertListEqual(self.s1.get_ray_intersections(self.r2), [Vec3(6.47011, 8.83763, 11.20516)])
+        self.assertListEqual(self.s2.get_ray_intersections(self.r3), [Vec3(9.47886, 15.95771, 22.43657)])
 
 
 if __name__ == "__main__":
