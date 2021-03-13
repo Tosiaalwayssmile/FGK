@@ -5,7 +5,7 @@ from ray import *
 class Plane:
 
     def __init__(self, normal_vector, d):
-        if normal_vector == Vec(0, 0, 0):
+        if normal_vector == Vec3(0, 0, 0):
             raise ValueError('Normal vector cannot be (0, 0, 0)')
 
         self.normal_vector = normal_vector
@@ -19,7 +19,7 @@ class Plane:
 
     def get_intersection(self, ray):
         # Can't calculate is ray has direction (0, 0, 0)
-        if ray.direction == Vec(0, 0, 0):
+        if ray.direction == Vec3(0, 0, 0):
             raise ValueError('Ray direction vector cannot be (0, 0, 0)')
 
         # Ray is paralell to plane
@@ -36,7 +36,7 @@ class Plane:
         x = ray.origin.x + (t * ray.direction.x)
         y = ray.origin.y + (t * ray.direction.y)
         z = ray.origin.z + (t * ray.direction.z)
-        point = Vec(x, y, z)
+        point = Vec3(x, y, z)
 
         # Check if point is in range
         if ray.origin.distance(point) > ray.length:

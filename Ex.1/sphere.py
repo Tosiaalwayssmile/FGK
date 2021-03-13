@@ -3,7 +3,7 @@ from vector import *
 from ray import *
 
 class Sphere:
-    def __init__(self, centre = Vec(0, 0, 0), radius = math.inf):
+    def __init__(self, centre = Vec3(0, 0, 0), radius = math.inf):
         self.centre = centre
         self.radius = radius
         self.area = 0

@@ -4,7 +4,7 @@ from vector import *
 
 class Ray:
 
-    def __init__(self, origin=Vec(0, 0, 0), direction=Vec(0, 0, 0), length=math.inf):
+    def __init__(self, origin = Vec3(0, 0, 0), direction = Vec3(0, 0, 0), length = math.inf):
         self.origin = origin
         self.direction = direction
         self.length = length
