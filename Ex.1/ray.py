@@ -1,17 +1,24 @@
 import math
 from vector import *
 
-
+## Documentation for a class Ray.
 class Ray:
 
+    ## The constructor.
     def __init__(self, origin=Vec3(0, 0, 0), direction=Vec3(1, 1, 1), length=math.inf):
+
+        ## A class variable. Origin vector of a given ray.
         self.origin = origin
+        ## A class variable. Direction vector of a given ray.
         self.direction = direction / direction.length()
+        ## A class variable. Length of a given ray.
         self.length = length
 
+    ## Function printing ray attributes. 
     def __str__(self):
         return 'Origin: ' + str(self.origin) + ', Vector: ' + str(self.direction)
 
+    ## Function returning true if point is on ray and false otherwise. 
     def is_point_on_ray(self, point):
 
         # Variables to indicate if there is need to calculate parametric values
@@ -57,13 +64,16 @@ class Ray:
         # If all conditions are met, return true
         return True
 
+    ## Function setting new direction vector.
     def set_direction(self, new_direction):
         if new_direction == Vec3(0, 0, 0):
             raise ValueError('Direction vector cannot be (0, 0, 0)')
         self.direction = new_direction / new_direction.length()
 
+    ## Function calling plane.get_intersection() method.
     def get_plane_intersection(self, plane):
         return plane.get_intersection(self)
 
+    ## Function calling sphere.get_ray_intersections() method.
     def get_sphere_intersections(self, sphere):
         return sphere.get_ray_intersections(self)

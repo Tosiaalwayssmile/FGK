@@ -2,32 +2,44 @@ from math import *
 from vector import *
 from ray import *
 
-
+## Documentation for a class Sphere.
 class Sphere:
+
+    ## The constructor.
     def __init__(self, centre = Vec3(0, 0, 0), radius = math.inf):
+        
+        ## A class variable. Centre of a sphere.
         self.centre = centre
+        ## A class variable. Radius of a sphere.
         self.radius = radius
+        ## A class variable. Area of a sphere.
         self.area = 0
+        ## A class variable. Volume of a sphere.
         self.volume = 0
 
+    ## Function returning centre of the sphere.
     def get_centre(self):
         return self.centre
-        
+
+    ## Function returning radius of the sphere.   
     def get_radius(self):
         return self.radius
 
+    ## Function returning area of the sphere.  
     def surface_area(self):
         self.area = 4 * 3.14 * (self.radius * self.radius)
         return self.area
 
+    ## Function returning volume of the sphere.  
     def get_volume(self):
         self.volume = (4/3) * 3.14 * (self.radius * self.radius * self.radius)
         return round(self.volume, 2)
         
-    # Print #
+    ## Function printing sphere attributes. 
     def __str__(self):
         return 'Sphere: Centre: ' + self.centre + ', Radius: ' + str(self.radius)
         
+    ## Function returning intersection of a ray and a sphere.     
     def get_ray_intersections(self, ray):
 
         # Calculate variables

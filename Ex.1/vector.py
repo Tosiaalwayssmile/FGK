@@ -1,215 +1,222 @@
 import math
 
-
+## Documentation for a class Vec3.
 class Vec3:
 
-    # Methods #
+    ## The constructor.
     def __init__(self, x, y, z):
+
+        ## A class variable. Coordinate x of a given vector.
         self.x = x
+        ## A class variable. Coordinate y of a given vector.
         self.y = y
+        ## A class variable. Coordinate z of a given vector.
         self.z = z
 
-    # Addition #
+    ## Function returning sum of two vectors or sum of a vector and a scalar.
     def __add__(self, other):
         if type(other) == type(self):  # For Vector
             return Vec3(self.x + other.x, self.y + other.y, self.z + other.z)
         else:  # For scalar
             return Vec3(self.x + other, self.y + other, self.z + other)
 
-    # In-place Addition #
+    ## Function returning sum (In-place addition) of two vectors or sum of a vector and a scalar.
     def __iadd__(self, other):
         if type(other) == type(self):  # For Vector
             return Vec3(self.x + other.x, self.y + other.y, self.z + other.z)
         else:  # For scalar
             return Vec3(self.x + other, self.y + other, self.z + other)
 
-    # Subtraction #
+    ## Function returning difference of two vectors or difference of a vector and a scalar.
     def __sub__(self, other):
         if type(other) == type(self):  # For Vec3tor
             return Vec3(self.x - other.x, self.y - other.y, self.z - other.z)
         else:  # For scalar
             return Vec3(self.x - other, self.y - other, self.z - other)
 
-    # In-place Subtraction #
+    ## Function returning difference (In-place Subtraction) of two vectors or difference of a vector and a scalar.
     def __isub__(self, other):
         if type(other) == type(self):  # For Vector
             return Vec3(self.x - other.x, self.y - other.y, self.z - other.z)
         else:  # For scalar
             return Vec3(self.x - other, self.y - other, self.z - other)
     
-    # Equal #
+    ## Function "equal".
     def __eq__(self, other):
         if other is None:
             return False
         return self.x == other.x and self.y == other.y and self.z == other.z
     
-    # Absolute #
+    ## Function returning absolute value of a given vector.
     def __abs__(self):
         return math.sqrt(self.x**2 + self.y**2 + self.z**2)
 
-    # Not equal #
+    ## Function "not equal".
     def __ne__(self, other):
         return not self.__eq__(other)  
 
-    # Negation #
+    ## Function negating vector coordinates.
     def __neg__(self):
         return Vec3(-self.x, -self.y, -self.z)
 
-    # Positive #
+    ## Function for positive vector coordinates.
     def __pos__(self):
         return Vec3(+self.x, +self.y, +self.z)
 
-    # Print #
+    ## Function printing Vec3 attributes. 
     def __str__(self):
         return '(' + str(self.x) + ', ' + str(self.y) + ', ' + str(self.z) + ')'
     
-    # Vector length #
+    ## Function returning vector length.
     def length(self):
         return math.sqrt((self.x * self.x) + (self.y * self.y) + (self.z * self.z))
 
-    # The length of the displacement Vector (Distance between two points) #
+    ## Function returning the length of the displacement vector (distance between two points).
     def distance(self, other):
         return math.sqrt(((self.x - other.x) ** 2) + ((self.y - other.y) ** 2) + ((self.z - other.z) ** 2))
 
-    # Is point on ray wrapper
+    ## Is point on ray wrapper
     def is_point_on_ray(self, ray):
         return ray.is_point_on_ray(self)
 
-    # Division #
+    ## Function returning quotient of two vectors or quotient of a vector and a scalar. 
     def __truediv__(self, other): 
         if type(other) == type(self):  # For Vector
             return Vec3(self.x / other.x, self.y / other.y, self.z / other.z)
         else: # For scalar
             return Vec3(self.x / other, self.y / other, self.z / other)
 
-    # In-place Division #
+    ## Function returning quotient (In-place Division) of two vectors or quotient of a vector and a scalar. 
     def __itruediv__(self, other): 
         if type(other) == type(self):  # For Vector
             return Vec3(self.x / other.x, self.y / other.y, self.z / other.z)
         else:  # For scalar
             return Vec3(self.x / other, self.y / other, self.z / other)
     
-    # Dot product and multiplication #
+    ## Function returning dot product of two vectors or dot product of a vector and a scalar. 
     def __mul__(self, other): 
         if type(other) == type(self):  # For Vector
             return self.x * other.x + self.y * other.y + self.z * other.z
         else:  # For scalar
             return Vec3(other * self.x, other * self.y, other * self.z)
             
-    # In-place Dot product and multiplication #
+    ## Function returning dot product (In-place multiplication) of two vectors or dot product of a vector and a scalar. 
     def __imul__(self, other): 
         if type(other) == type(self):  # For Vector
             return self.x * other.x + self.y * other.y + self.z * other.z
         else:  # For scalar
             return Vec3(other * self.x, other * self.y, other * self.z)
     
-    # Reverse multiplication #
+    ## Function returning dot product (Reverse multiplication). 
     def __rmul__(self, other): 
         return self.__mul__(other)
     
-    # Cross product #
+    ## Function returning cross product of two vectors.
     def cross(self, other): 
         return Vec3(self.y * other.z - self.z * other.y, self.z * other.x - self.x * other.z, self.x * other.y - self.y * other.x)
 
-
+## Documentation for a class Vec2.
 class Vec2:
 
-    # Methods #
+    ## The constructor.
     def __init__(self, x, y):
+
+        ## A class variable. Coordinate x of a given vector.
         self.x = x
+        ## A class variable. Coordinate y of a given vector.
         self.y = y
 
-    # Addition #
+    ## Function returning sum of two vectors or sum of a vector and a scalar.
     def __add__(self, other):
         if type(other) == type(self):  # For Vector
             return Vec2(self.x + other.x, self.y + other.y)
         else:  # For scalar
             return Vec2(self.x + other, self.y + other)
 
-    # In-place Addition #
+    ## Function returning sum (In-place addition) of two vectors or sum of a vector and a scalar.
     def __iadd__(self, other):
         if type(other) == type(self):  # For Vector
             return Vec2(self.x + other.x, self.y + other.y)
         else:  # For scalar
             return Vec2(self.x + other, self.y + other)
 
-    # Subtraction #
+    ## Function returning difference of two vectors or difference of a vector and a scalar.
     def __sub__(self, other):
         if type(other) == type(self):  # For Vector
             return Vec2(self.x - other.x, self.y - other.y)
         else:  # For scalar
             return Vec2(self.x - other, self.y - other)
 
-    # In-place Subtraction #
+    ## Function returning difference (In-place Subtraction) of two vectors or difference of a vector and a scalar.
     def __isub__(self, other):
         if type(other) == type(self):  # For Vector
             return Vec2(self.x - other.x, self.y - other.y)
         else:  # For scalar
             return Vec2(self.x - other, self.y - other)
     
-    # Equal #
+    ## Function "equal".
     def __eq__(self, other):
         if other is None:
             return False
         return self.x == other.x and self.y == other.y 
     
-    # Absolute #
+    ## Function returning absolute value of a given vector.
     def __abs__(self):
         return math.sqrt(self.x**2 + self.y**2)
 
-    # Not equal #
+    ## Function "not equal".
     def __ne__(self, other):
         return not self.__eq__(other)  
 
-    # Negation #
+    ## Function negating vector coordinates.
     def __neg__(self):
         return Vec2(-self.x, -self.y)
 
-    # Positive #
+    ## Function for positive vector coordinates.
     def __pos__(self):
         return Vec2(+self.x, +self.y)
 
-    # Print #
+    ## Function printing Vec2 attributes. 
     def __str__(self):
         return '(' + str(self.x) + ', ' + str(self.y) + ')'
     
-    # Vector length #
+    ## Function returning vector length.
     def length(self):
         return math.sqrt((self.x * self.x) + (self.y * self.y))
 
-    # The length of the displacement Vector (Distance between two points) #
+    ## Function returning the length of the displacement vector (distance between two points).
     def distance(self, other):
         return abs(self - other)
 
-    # Division #
+    ## Function returning quotient of two vectors or quotient of a vector and a scalar. 
     def __truediv__(self, other): 
         if type(other) == type(self):  # For Vector
             return Vec2(self.x / other.x, self.y / other.y)
         else: # For scalar
             return Vec2(self.x / other, self.y / other)
 
-    # In-place Division #
+    ## Function returning quotient (In-place Division) of two vectors or quotient of a vector and a scalar.
     def __itruediv__(self, other): 
         if type(other) == type(self):  # For Vector
             return Vec2(self.x / other.x, self.y / other.y)
         else:  # For scalar
             return Vec2(self.x / other, self.y / other)
     
-    # Dot product and multiplication #
+    ## Function returning dot product of two vectors or dot product of a vector and a scalar. 
     def __mul__(self, other): 
         if type(other) == type(self):  # For Vector
             return self.x * other.x + self.y * other.y 
         else:  # For scalar
             return Vec2(other * self.x, other * self.y)
             
-    # In-place Dot product and multiplication #
+    ## Function returning dot product (In-place multiplication) of two vectors or dot product of a vector and a scalar. 
     def __imul__(self, other): 
         if type(other) == type(self):  # For Vector
             return self.x * other.x + self.y * other.y 
         else:  # For scalar
             return Vec2(other * self.x, other * self.y)
     
-    # Reverse multiplication #
+    ## Function returning cross product of two vectors.
     def __rmul__(self, other): 
         return self.__mul__(other)
     
