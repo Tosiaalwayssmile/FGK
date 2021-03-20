@@ -35,7 +35,7 @@ class Sphere:
         self.volume = (4/3) * 3.14 * (self.radius * self.radius * self.radius)
         return round(self.volume, 2)
         
-    ## Function printing sphere attributes. 
+    ## Function returning object values in string format.
     def __str__(self):
         return 'Sphere: Centre: ' + self.centre + ', Radius: ' + str(self.radius)
         

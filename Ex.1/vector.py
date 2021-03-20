@@ -63,7 +63,7 @@ class Vec3:
     def __pos__(self):
         return Vec3(+self.x, +self.y, +self.z)
 
-    ## Function printing Vec3 attributes. 
+    ## Function returning object values in string format.
     def __str__(self):
         return '(' + str(self.x) + ', ' + str(self.y) + ', ' + str(self.z) + ')'
     
@@ -176,7 +176,7 @@ class Vec2:
     def __pos__(self):
         return Vec2(+self.x, +self.y)
 
-    ## Function printing Vec2 attributes. 
+    ## Function returning object values in string format.
     def __str__(self):
         return '(' + str(self.x) + ', ' + str(self.y) + ')'
     

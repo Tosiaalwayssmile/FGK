@@ -14,7 +14,7 @@ class Ray:
         ## A class variable. Length of a given ray.
         self.length = length
 
-    ## Function printing ray attributes. 
+    ## Function returning object values in string format.
     def __str__(self):
         return 'Origin: ' + str(self.origin) + ', Vector: ' + str(self.direction)
 

@@ -20,7 +20,7 @@ class Plane:
         ## A class variable. A shift, along the plane normal, from the center of the coordinate system.
         self.d = d
 
-    ## Function printing plane attributes. 
+    ## Function returning object values in string format.
     def __str__(self):
         return str(self.a) + 'x + ' + str(self.b) + 'y + ' + str(self.c) + 'z + ' + str(self.d)
 
