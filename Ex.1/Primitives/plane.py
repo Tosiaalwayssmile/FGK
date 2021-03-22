@@ -1,30 +1,30 @@
-from vector import *
-from ray import *
+from Primitives.ray import *
+
 
 ## Documentation for a class Plane.
 class Plane:
 
-    ## The constructor.
+    ## Constructor.
     def __init__(self, normal_vector, d):
         if normal_vector == Vec3(0, 0, 0):
             raise ValueError('Normal vector cannot be (0, 0, 0)')
 
-        ## A class variable. Normal vector.
+        ## VEctor perpendicular to plane.
         self.normal_vector = normal_vector
-        ## A class variable. Coordinate x of the normal vector.
+        ## Represents A in 'Ax + By + Cz D = 0' equation.
         self.a = normal_vector.x
-        ## A class variable. Coordinate y of the normal vector.
+        ## Represents B in 'Ax + By + Cz D = 0' equation.
         self.b = normal_vector.y
-        ## A class variable. Coordinate z of the normal vector.
+        ## Represents C in 'Ax + By + Cz D = 0' equation.
         self.c = normal_vector.z
-        ## A class variable. A shift, along the plane normal, from the center of the coordinate system.
+        ## Represents D in 'Ax + By + Cz D = 0' equation.
         self.d = d
 
     ## Function returning object values in string format.
     def __str__(self):
         return str(self.a) + 'x + ' + str(self.b) + 'y + ' + str(self.c) + 'z + ' + str(self.d)
 
-    ## Function returning intersection of a ray and a plane.   
+    ## Checks if plane and ray intersect witch each other and returns intersection point if they do, otherwise None.
     def get_intersection(self, ray):
         # Ray is paralell to plane
         if self.normal_vector * ray.direction == 0:
