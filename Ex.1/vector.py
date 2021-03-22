@@ -1,5 +1,6 @@
 import math
 
+
 ## Documentation for a class Vec3.
 class Vec3:
 

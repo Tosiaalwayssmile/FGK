@@ -1,7 +1,5 @@
-from vector import *
-from ray import *
-from plane import *
-from sphere import *
+from Primitives.plane import *
+from Primitives.sphere import *
 import unittest
 
 ## Documentation for a class Test. Unit tests.
@@ -114,19 +112,19 @@ class Test(unittest.TestCase):
     
     ## Sphere tests 
     def test_get_centre(self):
-        self.assertEqual(self.s1.get_centre(), Vec3(1, 2, 3))
+        self.assertEqual(self.s1.centre, Vec3(1, 2, 3))
 
     ## Sphere tests 
     def test_get_radius(self):
-        self.assertEqual(self.s2.get_radius(), 20.5)
+        self.assertEqual(self.s2.radius, 20.5)
 
     ## Sphere tests 
     def test_surface_area(self):
-        self.assertEqual(self.s1.surface_area(), 1808.64)
+        self.assertEqual(self.s1.area, 1808.64)
     
     ## Sphere tests 
     def test_get_volume(self):
-        self.assertEqual(self.s1.get_volume(), 7234.56)
+        self.assertEqual(self.s1.volume, 7234.56)
     
     ## Sphere tests 
     def test_get_sphere_intersection(self):
