@@ -1,6 +1,7 @@
-from Primitives.sphere import *
-from Primitives.plane import *
-from Cameras.camera_orthogonal import *
+from vector import *
+from ray import *
+from sphere import *
+from plane import *
 
 
 # Zdefiniować sferę S o środku w punkcie (0,0,0) i promieniu 10. #
@@ -35,8 +36,3 @@ p1 = Plane(Vec3(0, 1, 1), 0)
 # Znaleźć punkt przecięcia płaszczyzny P z promieniem R2.
 print('Miejsce przecięcia płaszczyzny p1 z promieniem r2: ')
 print(p1.get_intersection(r2))
-
-# ============
-#    ZAD 2
-# ============
-cam = CameraOrthogonal()

@@ -1,29 +1,24 @@
 import math
 from vector import *
 
-
 ## Documentation for a class Ray.
 class Ray:
 
-    ## Constructor.
+    ## The constructor.
     def __init__(self, origin=Vec3(0, 0, 0), direction=Vec3(1, 1, 1), length=math.inf):
 
-        ## Origin vector of a given ray.
-        ## Default = (0, 0, 0)
+        ## A class variable. Origin vector of a given ray.
         self.origin = origin
-        ## Direction vector of a given ray.
-        ## Cannot be (0, 0, 0).
-        ## Default = (1, 1, 1)
+        ## A class variable. Direction vector of a given ray.
         self.direction = direction / direction.length()
-        ## Length of a given ray.
-        ## Default = Infinity
+        ## A class variable. Length of a given ray.
         self.length = length
 
     ## Function returning object values in string format.
     def __str__(self):
         return 'Origin: ' + str(self.origin) + ', Vector: ' + str(self.direction)
 
-    ## Check if point is on ray, returns true if yes, false otherwise.
+    ## Function returning true if point is on ray and false otherwise. 
     def is_point_on_ray(self, point):
 
         # Variables to indicate if there is need to calculate parametric values
@@ -69,20 +64,16 @@ class Ray:
         # If all conditions are met, return true
         return True
 
-    ## Sets new direction vector and converts it to normalized vector.
+    ## Function setting new direction vector.
     def set_direction(self, new_direction):
         if new_direction == Vec3(0, 0, 0):
             raise ValueError('Direction vector cannot be (0, 0, 0)')
         self.direction = new_direction / new_direction.length()
 
-    ## Plane.get_intersection(ray) wrapper.
+    ## Function calling plane.get_intersection() method.
     def get_plane_intersection(self, plane):
         return plane.get_intersection(self)
 
-    ## Sphere.get_intersection(ray) wrapper.
-    def get_sphere_intersection(self, sphere):
-        return sphere.get_intersection(self)
-
-    ## Sphere.get_ray_intersections(ray) wrapper.
+    ## Function calling sphere.get_ray_intersections() method.
     def get_sphere_intersections(self, sphere):
         return sphere.get_ray_intersections(self)
