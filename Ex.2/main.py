@@ -40,3 +40,13 @@ print(p1.get_intersection(r2))
 #    ZAD 2
 # ============
 cam = CameraOrthogonal()
+<<<<<<< Updated upstream
+=======
+
+print('Test klasy LightIntensity: ')
+lightyLight = LightIntensity(0.3, -0.5, 1)
+print(lightyLight + lightyLight.r)
+r = lightyLight + lightyLight.r
+print(LightIntensity.map_0_1(r))
+print(LightIntensity.map_0_255(r))
+>>>>>>> Stashed changes
