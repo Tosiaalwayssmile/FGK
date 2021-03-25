@@ -1,7 +1,7 @@
 from Primitives.sphere import *
 from Primitives.plane import *
 from Cameras.camera_orthogonal import *
-
+from light_intensity import *
 
 # Zdefiniować sferę S o środku w punkcie (0,0,0) i promieniu 10. #
 s1 = Sphere(Vec3(0, 0, 0), 10)
@@ -40,8 +40,6 @@ print(p1.get_intersection(r2))
 #    ZAD 2
 # ============
 cam = CameraOrthogonal()
-<<<<<<< Updated upstream
-=======
 
 print('Test klasy LightIntensity: ')
 lightyLight = LightIntensity(0.3, -0.5, 1)
@@ -49,4 +47,3 @@ print(lightyLight + lightyLight.r)
 r = lightyLight + lightyLight.r
 print(LightIntensity.map_0_1(r))
 print(LightIntensity.map_0_255(r))
->>>>>>> Stashed changes

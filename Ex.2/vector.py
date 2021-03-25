@@ -5,7 +5,7 @@ import math
 class Vec3:
 
     ## The constructor.
-    def __init__(self, x, y, z):
+    def __init__(self, x = 0, y = 0, z = 0):
 
         ## A class variable. Coordinate x of a given vector.
         self.x = x
@@ -13,6 +13,42 @@ class Vec3:
         self.y = y
         ## A class variable. Coordinate z of a given vector.
         self.z = z
+
+    @property
+    def x(self):
+        return self._x
+    @x.setter
+    def x(self, inp):
+        self._x = inp
+    @x.deleter
+    def x(self):
+        del self._x
+    ## Alias    
+    r = x
+
+    @property
+    def y(self):
+        return self._y
+    @y.setter
+    def y(self, inp):
+        self._y = inp
+    @y.deleter
+    def y(self):
+        del self._y
+    ## Alias 
+    g = y
+
+    @property
+    def z(self):
+        return self._z
+    @z.setter
+    def z(self, inp):
+        self._z = inp
+    @z.deleter
+    def z(self):
+        del self._z
+    ## Alias 
+    b = z
 
     ## Function returning sum of two vectors or sum of a vector and a scalar.
     def __add__(self, other):
