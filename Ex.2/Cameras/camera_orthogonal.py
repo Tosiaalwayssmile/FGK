@@ -7,7 +7,7 @@ from image import *
 class CameraOrthogonal:
 
     ## Constructor
-    def __init__(self, position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=256, pixel_size=(0.01, 0.01)):
+    def __init__(self, position = Vec3(0, 0, 0), view_direction = Vec3(0, 0, 1), width = 512, height = 256, pixel_size = (0.01, 0.01)):
         ## Position of the camera
         self.position = position
         ## Direction camera is facing
@@ -40,8 +40,6 @@ class CameraOrthogonal:
         background_color = (153, 204, 255)  # RGB
         image.clear_color(background_color)
         
-        
-        #image = np.zeros((self.h, self.w, 3), dtype=np.uint8)
         depth = np.zeros((self.h, self.w))
         depth.fill(-1)
 
@@ -59,10 +57,7 @@ class CameraOrthogonal:
                     # ...assign color and depth
                     if depth[i][j] == -1 or depth[i][j] > distance:
                         MyImage.set_pixel(image, i, j, [255, 0, 0])
-                        #image[i][j] = [255, 0, 0]
                         depth[i][j] = distance
                         continue
 
         MyImage.save_image(image)
-        #img = Image.fromarray(image, 'RGB')
-        #img.save('MyImage.png')
