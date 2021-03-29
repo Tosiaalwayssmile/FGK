@@ -1,7 +1,7 @@
 from PIL import Image
 from Primitives.ray import *
 import numpy as np
-
+from image import *
 
 ## Class for othogonal camera
 class CameraOrthogonal:
@@ -36,7 +36,12 @@ class CameraOrthogonal:
                 self.arRay[i][j] = Ray(position - center + Vec3(x_offset * i, y_offset * j, z_offset * i), view_direction)
 
     def generate_image(self, primitives):
-        image = np.zeros((self.h, self.w, 3), dtype=np.uint8)
+        image = MyImage(self.h, self.w)
+        background_color = (153, 204, 255)  # RGB
+        image.clear_color(background_color)
+        
+        
+        #image = np.zeros((self.h, self.w, 3), dtype=np.uint8)
         depth = np.zeros((self.h, self.w))
         depth.fill(-1)
 
@@ -53,9 +58,11 @@ class CameraOrthogonal:
                     # If there was no data for this pixel before or that data is from pixel that is futher from pixel
                     # ...assign color and depth
                     if depth[i][j] == -1 or depth[i][j] > distance:
-                        image[i][j] = [255, 0, 0]
+                        MyImage.set_pixel(image, i, j, [255, 0, 0])
+                        #image[i][j] = [255, 0, 0]
                         depth[i][j] = distance
                         continue
 
-        img = Image.fromarray(image, 'RGB')
-        img.save('image.png')
+        MyImage.save_image(image)
+        #img = Image.fromarray(image, 'RGB')
+        #img.save('MyImage.png')

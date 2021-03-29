@@ -33,6 +33,7 @@ class MyImage:
         img.save('MyImage.png')
         #img.show()
 
-    def __str__(self):
+    """def __str__(self):
         s = "\n" + "\n".join([str(i) for i in [rows for rows in self.rows] ]) + "\n"
         return s
+        """
