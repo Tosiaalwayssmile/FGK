@@ -2,6 +2,7 @@ from Primitives.sphere import *
 from Primitives.plane import *
 from Cameras.camera_orthogonal import *
 from light_intensity import *
+from image import *
 
 # Zdefiniować sferę S o środku w punkcie (0,0,0) i promieniu 10. #
 s1 = Sphere(Vec3(0, 0, 0), 10)
@@ -40,3 +41,8 @@ print(p1.get_intersection(r2))
 #    ZAD 2
 # ============
 cam = CameraOrthogonal()
+
+background_color = (153, 204, 255, 255) #RGBA
+im = MyImage(500, 500, background_color)
+print(im.clear_color(background_color))
+im.save_image()
