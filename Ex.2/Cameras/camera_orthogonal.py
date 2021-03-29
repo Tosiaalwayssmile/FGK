@@ -6,7 +6,7 @@ import numpy as np
 class CameraOrthogonal:
 
     ## Constructor
-    def __init__(self, position=Vec3(0, 0, 0), view_direction=Vec3(1, 0, 0), width=512, height=256):
+    def __init__(self, position = Vec3(0, 0, 0), view_direction = Vec3(1, 0, 0), width = 512, height = 256):
         ## Position of the camera
         self.position = position
         ## Direction camera is facing
