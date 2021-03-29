@@ -6,41 +6,30 @@ import math
 class MyImage:
 
     # The constructor.
-    def __init__(self, width = 500, height = 500, rgba_color = (255, 255, 255, 255)):
+    def __init__(self, width = 500, height = 500):
         
         # A class variable. Width of an image.
         self.width = width
         # A class variable. Height of an image.
         self.height = height
-        # A class variable. Color of an image.
-        self.rgba_color = rgba_color
         # A class variable. 
-        self.image_matrix = np.zeros((width, height, 4), dtype = np.uint8)
+        self.image_matrix = np.zeros((width, height, 3), dtype = np.uint8)
     
     def len(self):
         return self.height * self.width
 
-    def clear_color(self, rgba_color):
+    def clear_color(self, rgb_color):
+        for j in range(self.height):
+            for i in range(self.width):
+                self.image_matrix[i, j] = rgb_color
+        return self.image_matrix
 
-         for j in range(self.height):
-             for i in range(self.width):
-                 self.image_matrix[i, j] = rgba_color
-         return self.image_matrix
-        # def clear_color(self, fill_list):
-        # index = 0
-        # for i in range(len(self.rows)):
-        #     try:
-        #         for j in range(len(self.rows[i])):
-        #             self.rows[i][j] = fill_list[index]
-        #             index += 1
-        #     except IndexError:
-        #         print (f"Matrix not filled \nMatrix fill stopped at: row {i}, Column {j}")
-        #         break        
-        # return fill_list[index:]
+    def set_pixel(self, i, j, value):
+        self.image_matrix[i, j] = value 
+        return self.image_matrix
 
     def save_image(self):
-
-        img = Image.fromarray(self.image_matrix, 'RGBA')
+        img = Image.fromarray(self.image_matrix, 'RGB')
         img.save('MyImage.png')
         #img.show()
 
