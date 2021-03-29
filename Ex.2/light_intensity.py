@@ -4,7 +4,7 @@ from vector import *
 ## Documentation for a class LightIntensity.
 class LightIntensity(Vec3):
 
-    ## Function mapping (0, 255) values to (0,1).
+    ## Function checking if values are between (0,1).
     def map_0_1(light):
 
         x1 = light.x 

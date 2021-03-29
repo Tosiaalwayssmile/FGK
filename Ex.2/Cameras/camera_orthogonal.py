@@ -19,7 +19,7 @@ class CameraOrthogonal:
 
         view_n = view_direction / view_direction.length()
 
-        # Angles in radians
+        # Angles in radians between view_direction vector and axises of the coordinate system
         x_angle = np.arccos(view_n * Vec3(1, 0, 0))
         y_angle = np.arccos(view_n * Vec3(0, 1, 0))
         z_angle = np.arccos(view_n * Vec3(0, 0, 1))
