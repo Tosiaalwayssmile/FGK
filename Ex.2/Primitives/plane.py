@@ -1,8 +1,9 @@
 from Primitives.ray import *
+from Primitives.Primitive import *
 
 
 ## Documentation for a class Plane.
-class Plane:
+class Plane(Primitive):
 
     ## Constructor.
     def __init__(self, normal_vector, d):

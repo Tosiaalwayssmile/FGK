@@ -1,3 +1,4 @@
+from PIL import Image
 from Primitives.ray import *
 import numpy as np
 
@@ -6,7 +7,7 @@ import numpy as np
 class CameraOrthogonal:
 
     ## Constructor
-    def __init__(self, position=Vec3(0, 0, 0), view_direction=Vec3(1, 0, 0), width=512, height=256):
+    def __init__(self, position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=256, pixel_size=(0.01, 0.01)):
         ## Position of the camera
         self.position = position
         ## Direction camera is facing
@@ -16,38 +17,45 @@ class CameraOrthogonal:
         ## Height in pixels
         self.h = height
 
-        ## Minimum X coordinate of the pixel
-        self.x_min = 0
-        ## Minimum Y coordinate of the pixel
-        self.y_min = 0
+        view_n = view_direction / view_direction.length()
 
-        if width % 2 == 0:
-            x_min = -width * 0.5 + 0.5
-        else:
-            x_min = -width * 0.5
+        # Angles in radians
+        x_angle = np.arccos(view_n * Vec3(1, 0, 0))
+        y_angle = np.arccos(view_n * Vec3(0, 1, 0))
+        z_angle = np.arccos(view_n * Vec3(0, 0, 1))
 
-        if height % 2 == 0:
-            y_min = -height * 0.5 + 0.5
-        else:
-            y_min = -height * 0.5
+        x_offset = np.sin(x_angle) * pixel_size[0]
+        y_offset = np.sin(y_angle) * pixel_size[1]
+        z_offset = np.sin(z_angle) * pixel_size[0]
+        center = Vec3(x_offset * width * .5, y_offset * height * .5, z_offset * width * .5)
 
         ## Array of rays
         self.arRay = np.zeros((width, height), Ray)
-        x_offset = self.view_direction.x
-        y_offset = self.view_direction.y
-        z_offset = self.view_direction.z
-
+        for i in range(width):
+            for j in range(height):
+                self.arRay[i][j] = Ray(position - center + Vec3(x_offset * i, y_offset * j, z_offset * i), view_direction)
 
     def generate_image(self, primitives):
-        image = np.zeros((self.w, self.h), (float, float, float))
-        depth = np.zeros((self.w, self.h), None)
-
-        ray = Ray()
+        image = np.zeros((self.h, self.w, 3), dtype=np.uint8)
+        depth = np.zeros((self.h, self.w))
+        depth.fill(-1)
 
         for i in range(self.h):
             for j in range(self.w):
                 for p in primitives:
-                    pass
+                    # Get intersection point
+                    point = p.get_intersection(self.arRay[j][i])
+                    # If there is no intersection, continue
+                    if point is None:
+                        continue
+                    # If there is intersection, calculate distance
+                    distance = self.arRay[j][i].origin.distance(point)
+                    # If there was no data for this pixel before or that data is from pixel that is futher from pixel
+                    # ...assign color and depth
+                    if depth[i][j] == -1 or depth[i][j] > distance:
+                        image[i][j] = [255, 0, 0]
+                        depth[i][j] = distance
+                        continue
 
-
-
+        img = Image.fromarray(image, 'RGB')
+        img.save('image.png')

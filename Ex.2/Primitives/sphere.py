@@ -1,8 +1,9 @@
 from Primitives.ray import *
+from Primitives.Primitive import *
 
 
 ## Documentation for a class Sphere.
-class Sphere:
+class Sphere(Primitive):
 
     ## Constructor.
     def __init__(self, centre=Vec3(0, 0, 0), radius=1):
