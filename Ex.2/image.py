@@ -2,6 +2,7 @@ import numpy as np
 from PIL import Image
 import math
 
+
 ## Documentation for a class MyImage.
 class MyImage:
 
