@@ -1,17 +1,20 @@
 from Primitives.sphere import *
 from Primitives.plane import *
-from Cameras.camera_orthogonal import *
+from Cameras.camera import *
 from light_intensity import *
 from image import *
 
 # ============
 #    ZAD 2
 # ============
-cam = CameraOrthogonal(position=Vec3(1, 0, 0), view_direction=Vec3(0, .1, 1))
-primitives = []
+cam = Camera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1))
+cam.perspectic_init()
+# cam.ortogonal_init()
 
-primitives.append(Sphere(Vec3(0, 0, 2), 1))
-primitives.append(Sphere(Vec3(1, .5, 2), .5))
+primitives = [
+    Sphere(Vec3(-1.1, 0, 10), 1),
+    Sphere(Vec3(1.1, 0, 20), 1)
+]
 
 cam.generate_image(primitives)
 

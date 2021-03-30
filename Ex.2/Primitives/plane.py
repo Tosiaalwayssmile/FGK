@@ -1,5 +1,5 @@
 from Primitives.ray import *
-from Primitives.Primitive import *
+from Primitives.primitive import *
 
 
 ## Documentation for a class Plane.

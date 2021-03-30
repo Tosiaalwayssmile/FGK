@@ -116,6 +116,8 @@ class Vec3:
     def is_point_on_ray(self, ray):
         return ray.is_point_on_ray(self)
 
+    def normalize(self):
+        return self / self.length()
 
     ## Function returning quotient of two vectors or quotient of a vector and a scalar. 
     def __truediv__(self, other): 

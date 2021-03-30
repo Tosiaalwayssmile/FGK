@@ -31,7 +31,7 @@ class MyImage:
     def save_image(self):
         img = Image.fromarray(self.image_matrix, 'RGB')
         img.save('MyImage.png')
-        #img.show()
+        # img.show()
 
     def __str__(self):
         s = "\n" + "\n".join([str(i) for i in [rows for rows in self.rows] ]) + "\n"
