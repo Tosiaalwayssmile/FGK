@@ -29,16 +29,10 @@ class MyImage:
 
     ## Function changing pixel color.
     def set_pixel(self, i, j, value):
-        self.image_matrix[i, j] = value 
-        return self.image_matrix
+        self.image_matrix[i, j] = value
 
     ## Function saving image to png format.
     def save_image(self):
         img = Image.fromarray(self.image_matrix, 'RGB')
         img.save('MyImage.png')
         # img.show()
-
-    """def __str__(self):
-        s = "\n" + "\n".join([str(i) for i in [rows for rows in self.rows] ]) + "\n"
-        return s
-        """

@@ -4,6 +4,7 @@ from light_intensity import *
 from Primitives.plane import *
 from Primitives.sphere import *
 
+
 ## Documentation for a class Test. Unit tests.
 class Test(unittest.TestCase):
     def setUp(self):
@@ -29,7 +30,6 @@ class Test(unittest.TestCase):
 
         self.li1 = LightIntensity(0.3, 0.5, 1)
         self.li2 = LightIntensity(0.1, 1, 1)
-
     
     ## Vector tests 
     def test_add(self):
@@ -133,14 +133,15 @@ class Test(unittest.TestCase):
     
     ## Sphere tests 
     def test_get_sphere_intersection(self):
-        self.assertListEqual(self.s1.get_ray_intersections(self.r2), [Vec3(6.47011, 8.83763, 11.20516)])
-        self.assertListEqual(self.s2.get_ray_intersections(self.r3), [Vec3(9.47886, 15.95771, 22.43657)])
+        self.assertEqual(self.s1.get_ray_intersections(self.r2)[0][0], Vec3(6.47011, 8.83763, 11.20516))
+        self.assertEqual(self.s2.get_ray_intersections(self.r3)[0][0], Vec3(9.47886, 15.95771, 22.43657))
 
     ## Light intensity tests 
-    def test_map_0_255(self):
-        self.assertEqual(LightIntensity.map_0_255(self.li1), Vec3(76, 128, 255))
+    def test_clamp_0_255(self):
+        self.assertEqual(LightIntensity.clamp_0_255(self.li1), Vec3(76, 128, 255))
         self.li3 = self.li1 + self.li2
-        self.assertEqual(LightIntensity.map_0_1(self.li3), Vec3(0.4, 1, 1))
+        self.assertEqual(LightIntensity.clamp_0_1(self.li3), Vec3(0.4, 1, 1))
+
 
 if __name__ == "__main__":
     unittest.main()

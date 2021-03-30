@@ -27,7 +27,6 @@ class Sphere(Primitive):
         
     ## Checks if ray intersects with sphere and returns intersection points in form one- or two-element array.
     def get_ray_intersections(self, ray):
-
         # Calculate variables
         oc = ray.origin - self.centre
         a = round(ray.direction * ray.direction, 5)
@@ -39,23 +38,26 @@ class Sphere(Primitive):
 
         # If delta is negative, there is no intersection
         if delta < -0.001:
-            return None
+            return None, 0
 
         # If delta equals zero, there is one possible intersection
         if 0.001 >= delta >= -0.001:
             t = -b / (2 * a)
             # If t is negative, intersetion occurs before origin point of ray
             if t < 0:
-                return None
+                return None, 0
             # Otherwise, return intersection point as one-element array (since 2 intersections are possible if delta is positive)
             p = ray.origin + t * ray.direction
             p.x = round(p.x, 5)
             p.y = round(p.y, 5)
             p.z = round(p.z, 5)
-            return [p]
+            dist = ray.origin.distance(p)
+            return [(p, dist)]
 
         p1 = None
         p2 = None
+        dist1 = None
+        dist2 = None
 
         t1 = (-b + math.sqrt(delta)) / (2 * a)
         if t1 >= 0:
@@ -63,6 +65,7 @@ class Sphere(Primitive):
             p1.x = round(p1.x, 5)
             p1.y = round(p1.y, 5)
             p1.z = round(p1.z, 5)
+            dist1 = ray.origin.distance(p1)
 
         t2 = (-b - math.sqrt(delta)) / (2 * a)
         if t2 >= 0:
@@ -70,14 +73,15 @@ class Sphere(Primitive):
             p2.x = round(p2.x, 5)
             p2.y = round(p2.y, 5)
             p2.z = round(p2.z, 5)
+            dist2 = ray.origin.distance(p2)
 
         if p1 is None and p2 is None:
             return None
         if p1 is None:
-            return [p2]
+            return [(p2, dist2)]
         if p2 is None:
-            return [p1]
-        return [p1, p2]
+            return [(p1, dist1)]
+        return [(p1, dist1), (p2, dist2)]
 
     ## Checks if ray intersects with sphere and returns point closest to ray origin.
     def get_intersection(self, ray):
@@ -85,7 +89,15 @@ class Sphere(Primitive):
         if intersections is None:
             return None
         if len(intersections) == 1:
-            return intersections[0]
-        if ray.origin.distance(intersections[0]) < ray.origin.distance(intersections[1]):
+            return intersections[0][0]
+        if intersections[0][1] < intersections[1][1]:
+            return intersections[0][0]
+        return intersections[1][0]
+
+    def get_detailed_intersection(self, ray):
+        intersections = self.get_ray_intersections(ray)
+        if intersections[0] is None:
+            return None, 0
+        if len(intersections) == 1 or intersections[0][1] < intersections[1][1]:
             return intersections[0]
         return intersections[1]
