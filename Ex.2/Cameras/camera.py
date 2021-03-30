@@ -45,7 +45,7 @@ class Camera:
             for j in range(self.h):
                 self.arRay[i][j] = Ray(self.position - center + Vec3(x_offset * i, y_offset * j, z_offset * i), self.view_direction)
 
-    def perspectic_init2(self, horizontal_fov=60, vertical_fov=0, pixel_size=(0.01, 0.01)):
+    def perspective_init2(self, horizontal_fov=60, vertical_fov=0, pixel_size=(0.01, 0.01)):
         single_angle_hor = horizontal_fov / self.w
         if vertical_fov == 0:
             vertical_fov = horizontal_fov * self.hw_ratio
@@ -66,7 +66,7 @@ class Camera:
                 direction = self.view_direction - center + Vec3(x_offset * i, y_offset * j, z_offset * i)
                 self.arRay[i][j] = Ray(self.position, direction)
 
-    def perspectic_init(self, hor_fov=60, vert_fov=0, s=1):
+    def perspective_init(self, hor_fov=60, vert_fov=0, s=1):
 
         if vert_fov == 0:
             vert_fov = hor_fov * self.hw_ratio

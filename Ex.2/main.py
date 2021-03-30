@@ -12,7 +12,7 @@ import time
 time_0 = time.time()
 cam = Camera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1))
 time_1 = time.time()
-cam.perspectic_init2()
+cam.perspective_init2()
 # cam.ortogonal_init()
 time_2 = time.time()
 
