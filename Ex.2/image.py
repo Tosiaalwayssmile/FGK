@@ -42,13 +42,13 @@ class MyImage:
                 elif (column == 2):
                     MyImage.set_pixel(self, y, x,  [0, 0, (intensity + 0.1)])
                 elif (column == 3):               
-                    MyImage.set_pixel(self, y, x,  [255, (intensity * 0.3), intensity])
+                    MyImage.set_pixel(self, y, x,  [1, (intensity * 0.3), intensity])
                 elif (column == 4):
-                    MyImage.set_pixel(self, y, x,  [(intensity * 0.3), 255, intensity])
+                    MyImage.set_pixel(self, y, x,  [(intensity * 0.3), 1, intensity])
                 elif (column == 5):
-                    MyImage.set_pixel(self, y, x, [255, 255, (intensity + 0.15)])
+                    MyImage.set_pixel(self, y, x, [1, 1, (intensity + 0.15)])
                 else:
-                    MyImage.set_pixel(self, y, x, [255, 255, intensity])
+                    MyImage.set_pixel(self, y, x, [1, 1, intensity])
 
         return self.image_matrix
  
