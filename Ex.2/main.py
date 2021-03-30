@@ -1,7 +1,6 @@
 from Primitives.sphere import *
 from Primitives.plane import *
 from Cameras.camera import *
-from light_intensity import *
 from image import *
 import time
 
@@ -17,8 +16,8 @@ cam.perspective_init2()
 time_2 = time.time()
 
 primitives = [
-    Sphere(Vec3(0, 0, 8), 1, [0, 0, 255]),
-    Sphere(Vec3(2.5, 0, 16), 1, [255, 0, 0])
+    Sphere(Vec3(0, 0, 8), 1, [0, 0, 1]),
+    Sphere(Vec3(2.5, 0, 16), 1, [1, 0, 0])
 ]
 time_3 = time.time()
 

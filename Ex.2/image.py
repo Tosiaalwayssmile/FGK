@@ -1,7 +1,7 @@
 import numpy as np
 from PIL import Image
 import math
-
+from light_intensity import *
 
 ## Documentation for a class MyImage.
 class MyImage:
@@ -24,7 +24,7 @@ class MyImage:
     def clear_color(self, rgb_color):
         for j in range(self.height):
             for i in range(self.width):
-                self.image_matrix[i, j] = rgb_color
+                 MyImage.set_pixel(self, i, j, rgb_color)
         return self.image_matrix
 
     ## Function setting background color.
@@ -33,43 +33,31 @@ class MyImage:
         partY = self.height / 6
         for x in range(self.width):
             for y in range(self.height):
-                intensity = int(y / partY) / 6.0
-                newValue = int(intensity * 255)
+                intensity = int(y / partY) / 6.0                
                 column = int(x / partX)
                 if (column == 0):
-                    MyImage.set_pixel(self, y, x,  [(newValue + 20), 0, 0])
+                    MyImage.set_pixel(self, y, x,  [(intensity + 0.1), 0, 0])
                 elif (column == 1):
-                    MyImage.set_pixel(self, y, x,  [0, (newValue + 20), 0])
+                    MyImage.set_pixel(self, y, x,  [0, (intensity + 0.1), 0])
                 elif (column == 2):
-                    MyImage.set_pixel(self, y, x,  [0, 0, (newValue + 20)])
+                    MyImage.set_pixel(self, y, x,  [0, 0, (intensity + 0.1)])
                 elif (column == 3):               
-                    MyImage.set_pixel(self, y, x,  [255, (newValue * 0.30), newValue])
+                    MyImage.set_pixel(self, y, x,  [255, (intensity * 0.3), intensity])
                 elif (column == 4):
-                    MyImage.set_pixel(self, y, x,  [(newValue * 0.30), 255, newValue])
+                    MyImage.set_pixel(self, y, x,  [(intensity * 0.3), 255, intensity])
                 elif (column == 5):
-                    MyImage.set_pixel(self, y, x, [255, 255, (newValue + 43)])
+                    MyImage.set_pixel(self, y, x, [255, 255, (intensity + 0.15)])
                 else:
-                    MyImage.set_pixel(self, y, x, [255, 255, newValue])
+                    MyImage.set_pixel(self, y, x, [255, 255, intensity])
 
         return self.image_matrix
  
 
     ## Function changing pixel color.
     def set_pixel(self, i, j, value):
-        if (value[0] < 0):
-            value[0] = 0
-        elif (value[1] < 0):
-            value[1] = 0
-        elif (value[2] < 0):
-            value[2] = 0        
-        elif (value[0] > 255):
-            value[0] = 255
-        elif (value[1] > 255):
-            value[1] = 255
-        elif (value[2] > 255):
-            value[2] = 255
-
-        self.image_matrix[i, j] = value 
+        value = LightIntensity.clamp_0_255(value)
+        clamped_value = [value.x, value.y, value.z]
+        self.image_matrix[i, j] = clamped_value 
 
     ## Function saving image to png format.
     def save_image(self):

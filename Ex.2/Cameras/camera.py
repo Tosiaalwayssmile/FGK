@@ -81,7 +81,7 @@ class Camera:
 
     def generate_image(self, primitives):
         image = MyImage(self.h, self.w)
-        #background_color = (153, 204, 255)  # RGB
+        #background_color = (0.6, 0.8, 1.0)  # RGB
         #image.clear_color(background_color)
         image.fancy_background()
 
