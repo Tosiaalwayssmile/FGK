@@ -6,11 +6,12 @@ from Primitives.primitive import *
 class Sphere(Primitive):
 
     ## Constructor.
-    def __init__(self, centre=Vec3(0, 0, 0), radius=1):
+    def __init__(self, centre = Vec3(0, 0, 0), radius = 1, color = [0, 0, 0]):
         
         ## Centre of the sphere
         self.centre = centre
         self.change_radius(radius)
+        self.color = color
 
     ## Sets radius and recalculates area and volume
     def change_radius(self, new_radius):

@@ -9,7 +9,7 @@ import numpy as np
 class Camera:
 
     ## Constructor
-    def __init__(self, position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=256, near=.3, far=1000):
+    def __init__(self, position = Vec3(0, 0, 0), view_direction = Vec3(0, 0, 1), width = 512, height = 512, near = .3, far = 1000):
         ## Position of the camera
         self.position = position
         ## Direction camera is facing
@@ -81,8 +81,9 @@ class Camera:
 
     def generate_image(self, primitives):
         image = MyImage(self.h, self.w)
-        background_color = (153, 204, 255)  # RGB
-        image.clear_color(background_color)
+        #background_color = (153, 204, 255)  # RGB
+        #image.clear_color(background_color)
+        image.fancy_background()
 
         depth = np.zeros((self.h, self.w))
         depth.fill(-1)
@@ -93,6 +94,8 @@ class Camera:
         for i in range(self.h):
             for j in range(self.w):
                 for p in primitives:
+                    
+                    
                     # Get intersection point
                     hit = p.get_detailed_intersection(self.arRay[j][i])
                     # If there is no intersection, continue
@@ -102,11 +105,13 @@ class Camera:
                     # If there was no data for this pixel before or that data is from pixel that is futher from pixel
                     # ...assign color and depth
                     if depth[i][j] == -1 or depth[i][j] > hit[1]:
-                        MyImage.set_pixel(image, i, j, [255, 0, 0])
+                        MyImage.set_pixel(image, i, j, p.color)
                         depth[i][j] = hit[1]
                         hit_obj[i][j] = p
                         continue
+                
 
         # TODO - antialiasing
 
         MyImage.save_image(image)
+
