@@ -86,7 +86,15 @@ class Ray:
     ## Sphere.get_ray_intersections(ray) wrapper.
     def get_sphere_intersections(self, sphere):
         return sphere.get_ray_intersections(self)
-
-    def get_color_from_hitable(self):
-        color = Vec3(0,0,0)
-        return color
+   
+    ## Iterates through list of primitives and returns color of the pixel
+    def get_color_from_hitable(self, primitives):
+        d = None
+        c = None
+        for p in primitives:
+            hit = primitives.get_intersection(self)
+            if hit[0] is None:
+                continue
+            if d is None or hit[1] < d:
+                c = p.color
+        return c

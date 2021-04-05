@@ -27,22 +27,22 @@ class Camera:
         ##
         self.up = Vec3(0, 1, 0)
 
-    def adaptive_antialiasing(ray, A, B, C, D, E, depth, maxDepth, horizontal, vertical, background_color):
+    def adaptive_antialiasing(ray, A, B, C, D, E, depth, maxDepth, horizontal, vertical, background_color, primitives):
         
         ray.set_direction(E)
-        eColor = ray.get_color_from_hitable()
+        eColor = ray.get_color_from_hitable(primitives)
 
         ray.set_direction(A)
-        aColor = ray.get_color_from_hitable()
+        aColor = ray.get_color_from_hitable(primitives)
 
         ray.set_direction(B)
-        bColor = ray.get_color_from_hitable()
+        bColor = ray.get_color_from_hitable(primitives)
 
         ray.set_direction(C)
-        cColor = ray.get_color_from_hitable()
+        cColor = ray.get_color_from_hitable(primitives)
 
         ray.set_direction(D)
-        dColor = ray.get_color_from_hitable()
+        dColor = ray.get_color_from_hitable(primitives)
 
         """
         A---B
@@ -56,7 +56,7 @@ class Camera:
         FOR C, E box: E, E+hor, C, E-ver, E + hor/2 - ver/2
         FOR D, E box: E - hor, E, E - ver, D, E-hor/2 - ver/2
         """
-        """
+        
         # Check if algorithm reached maximum Depth, if so return color of the middle of subpixel
         if (depth >= maxDepth):
         
@@ -94,10 +94,9 @@ class Camera:
 
         # get mean of the colors and return them
         return ((aColor + eColor) * 0.5 + (bColor + eColor) * 0.5 + (cColor + eColor) * 0.5 + (dColor + eColor) * 0.5) * 0.25
-        """
-        return background_color
     
-    def render_scene(self):
+    
+    def render_scene(self, primitives):
         image = MyImage(self.height, self.width)
         image.fancy_background()
         ## Coordinates viewPlane
@@ -153,7 +152,7 @@ class Camera:
                 
                 # antialiasing
                 #finalColor = backgroundColor
-                finalColor = Camera.adaptive_antialiasing(ray, aCorner, bCorner, cCorner, dCorner, rayTarget, 0, 5, pixelHorizontal / 2, pixelVertical / 2, backgroundColor)
+                finalColor = Camera.adaptive_antialiasing(ray, aCorner, bCorner, cCorner, dCorner, rayTarget, 0, 5, pixelHorizontal / 2, pixelVertical / 2, backgroundColor, primitives)
                 
                 # set pixel color 
                 image.set_pixel(i, j, finalColor)
