@@ -10,11 +10,12 @@ import time
 #    ZAD 2
 # ============
 cam = Camera(position = Vec3(0, 0, 0), view_direction = Vec3(0, 0, 1))
-cam.render_scene()
+
 primitives = [
     Sphere(Vec3(0, 0, 8), 1, [0, 0, 1]),
     Sphere(Vec3(2.5, 0, 16), 1, [1, 0, 0])
 ]
+cam.render_scene(primitives)
 
 """
 time_0 = time.time()
