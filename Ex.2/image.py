@@ -29,29 +29,28 @@ class MyImage:
 
     ## Function setting background color.
     def fancy_background(self):
-        partX = self.width / 6
-        partY = self.height / 6
+        part_x = self.width / 6
+        part_y = self.height / 6
         for x in range(self.width):
             for y in range(self.height):
-                intensity = int(y / partY) / 6.0                
-                column = int(x / partX)
-                if (column == 0):
+                intensity = int(y / part_y) / 6.0
+                column = int(x / part_x)
+                if column == 0:
                     MyImage.set_pixel(self, y, x,  [(intensity + 0.1), 0, 0])
-                elif (column == 1):
+                elif column == 1:
                     MyImage.set_pixel(self, y, x,  [0, (intensity + 0.1), 0])
-                elif (column == 2):
+                elif column == 2:
                     MyImage.set_pixel(self, y, x,  [0, 0, (intensity + 0.1)])
-                elif (column == 3):               
+                elif column == 3:
                     MyImage.set_pixel(self, y, x,  [1, (intensity * 0.3), intensity])
-                elif (column == 4):
+                elif column == 4:
                     MyImage.set_pixel(self, y, x,  [(intensity * 0.3), 1, intensity])
-                elif (column == 5):
+                elif column == 5:
                     MyImage.set_pixel(self, y, x, [1, 1, (intensity + 0.15)])
                 else:
                     MyImage.set_pixel(self, y, x, [1, 1, intensity])
 
         return self.image_matrix
- 
 
     ## Function changing pixel color.
     def set_pixel(self, i, j, value):
