@@ -9,7 +9,7 @@ import numpy as np
 class Camera:
 
     ## Constructor
-    def __init__(self, position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=256, near=.3, far=1000):
+    def __init__(self, position = Vec3(0, 0, 0), view_direction = Vec3(0, 0, 1), width = 512, height = 512, near = .3, far = 1000):
         ## Position of the camera
         self.position = position
         ## Direction camera is facing
@@ -45,7 +45,7 @@ class Camera:
             for j in range(self.h):
                 self.arRay[i][j] = Ray(self.position - center + Vec3(x_offset * i, y_offset * j, z_offset * i), self.view_direction)
 
-    def perspectic_init2(self, horizontal_fov=60, vertical_fov=0, pixel_size=(0.01, 0.01)):
+    def perspective_init2(self, horizontal_fov=60, vertical_fov=0, pixel_size=(0.01, 0.01)):
         single_angle_hor = horizontal_fov / self.w
         if vertical_fov == 0:
             vertical_fov = horizontal_fov * self.hw_ratio
@@ -66,7 +66,7 @@ class Camera:
                 direction = self.view_direction - center + Vec3(x_offset * i, y_offset * j, z_offset * i)
                 self.arRay[i][j] = Ray(self.position, direction)
 
-    def perspectic_init(self, hor_fov=60, vert_fov=0, s=1):
+    def perspective_init(self, hor_fov=60, vert_fov=0, s=1):
 
         if vert_fov == 0:
             vert_fov = hor_fov * self.hw_ratio
@@ -81,8 +81,9 @@ class Camera:
 
     def generate_image(self, primitives):
         image = MyImage(self.h, self.w)
-        background_color = (153, 204, 255)  # RGB
-        image.clear_color(background_color)
+        #background_color = (0.6, 0.8, 1.0)  # RGB
+        #image.clear_color(background_color)
+        image.fancy_background()
 
         depth = np.zeros((self.h, self.w))
         depth.fill(-1)
@@ -102,7 +103,7 @@ class Camera:
                     # If there was no data for this pixel before or that data is from pixel that is futher from pixel
                     # ...assign color and depth
                     if depth[i][j] == -1 or depth[i][j] > hit[1]:
-                        MyImage.set_pixel(image, i, j, p.color)
+                        MyImage.set_pixel(image, i, j, p.color * 255)
                         depth[i][j] = hit[1]
                         hit_obj[i][j] = p
                         continue
@@ -110,3 +111,4 @@ class Camera:
         # TODO - antialiasing
 
         MyImage.save_image(image)
+

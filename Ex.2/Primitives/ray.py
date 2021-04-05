@@ -6,7 +6,7 @@ from vector import *
 class Ray:
 
     ## Constructor.
-    def __init__(self, origin=Vec3(0, 0, 0), direction=Vec3(1, 1, 1), length=math.inf):
+    def __init__(self, origin = Vec3(0, 0, 0), direction = Vec3(1, 1, 1), length = math.inf):
 
         ## Origin vector of a given ray.
         ## Default = (0, 0, 0)

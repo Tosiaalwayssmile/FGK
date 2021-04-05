@@ -6,7 +6,7 @@ from Primitives.primitive import *
 class Plane(Primitive):
 
     ## Constructor.
-    def __init__(self, normal_vector, d, color=[255, 0, 255]):
+    def __init__(self, normal_vector, d, color=[1, 0, 1]):
 
         super().__init__(color)
 

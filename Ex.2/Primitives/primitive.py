@@ -4,7 +4,6 @@ from abc import *
 class Primitive(ABC):
     @abstractmethod
     def __init__(self, color):
-        print('dziala')
         self.color = color
 
     @abstractmethod
