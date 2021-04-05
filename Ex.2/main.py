@@ -17,8 +17,8 @@ cam.perspectic_init2()
 time_2 = time.time()
 
 primitives = [
-    Sphere(Vec3(-1.1, 0, 10), 1),
-    Sphere(Vec3(1.1, 0, 20), 1)
+    Sphere(Vec3(-1.1, 0, 10), 1, [255, 255, 0]),
+    Sphere(Vec3(1.1, 0, 20), 1, [128, 0, 256])
 ]
 time_3 = time.time()
 

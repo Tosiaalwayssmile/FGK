@@ -102,7 +102,7 @@ class Camera:
                     # If there was no data for this pixel before or that data is from pixel that is futher from pixel
                     # ...assign color and depth
                     if depth[i][j] == -1 or depth[i][j] > hit[1]:
-                        MyImage.set_pixel(image, i, j, [255, 0, 0])
+                        MyImage.set_pixel(image, i, j, p.color)
                         depth[i][j] = hit[1]
                         hit_obj[i][j] = p
                         continue
