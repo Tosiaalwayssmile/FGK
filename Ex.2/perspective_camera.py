@@ -30,19 +30,19 @@ class Camera:
     def adaptive_antialiasing(ray, A, B, C, D, E, depth, maxDepth, horizontal, vertical, background_color, primitives):
         
         ray.set_direction(E)
-        eColor = ray.get_color_from_hitable(primitives)
+        eColor = ray.get_pixel_color(primitives)
 
         ray.set_direction(A)
-        aColor = ray.get_color_from_hitable(primitives)
+        aColor = ray.get_pixel_color(primitives)
 
         ray.set_direction(B)
-        bColor = ray.get_color_from_hitable(primitives)
+        bColor = ray.get_pixel_color(primitives)
 
         ray.set_direction(C)
-        cColor = ray.get_color_from_hitable(primitives)
+        cColor = ray.get_pixel_color(primitives)
 
         ray.set_direction(D)
-        dColor = ray.get_color_from_hitable(primitives)
+        dColor = ray.get_pixel_color(primitives)
 
         """
         A---B
