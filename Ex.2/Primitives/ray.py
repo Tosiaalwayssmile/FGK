@@ -92,7 +92,7 @@ class Ray:
         d = None
         c = None
         for p in primitives:
-            hit = p.get_intersection(self)
+            hit = p.get_detailed_intersection(self)
             if hit[0] is None:
                 continue
             if d is None or hit[1] < d:
