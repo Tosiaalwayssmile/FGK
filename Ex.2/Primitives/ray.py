@@ -86,3 +86,7 @@ class Ray:
     ## Sphere.get_ray_intersections(ray) wrapper.
     def get_sphere_intersections(self, sphere):
         return sphere.get_ray_intersections(self)
+
+    def get_color_from_hitable(self):
+        color = Vec3(0,0,0)
+        return color

@@ -102,3 +102,5 @@ class Sphere(Primitive):
         if len(intersections) == 1 or intersections[0][1] < intersections[1][1]:
             return intersections[0]
         return intersections[1]
+
+   
