@@ -12,7 +12,7 @@ import time
 cam = Camera(position=Vec3(0, 0, 0), view_direction = Vec3(0, 0, 1))
 
 primitives = [
-    Sphere(Vec3(0, 0, 8), 10, [0, 0, 0])
+    Sphere(Vec3(0, 0, 8), 1, [0, 0, 0])
 ]
 cam.render_scene(primitives)
 

@@ -45,7 +45,7 @@ class Camera:
             for j in range(self.h):
                 self.arRay[i][j] = Ray(self.position - center + Vec3(x_offset * i, y_offset * j, z_offset * i), self.view_direction)
 
-    def perspective_init2(self, horizontal_fov=60, vertical_fov=0, pixel_size=(0.01, 0.01)):
+    def perspective_init(self, horizontal_fov=60, vertical_fov=0, pixel_size=(0.01, 0.01)):
         single_angle_hor = horizontal_fov / self.w
         if vertical_fov == 0:
             vertical_fov = horizontal_fov * self.hw_ratio
@@ -66,23 +66,8 @@ class Camera:
                 direction = self.view_direction - center + Vec3(x_offset * i, y_offset * j, z_offset * i)
                 self.arRay[i][j] = Ray(self.position, direction)
 
-    def perspective_init(self, hor_fov=60, vert_fov=0, s=1):
-
-        if vert_fov == 0:
-            vert_fov = hor_fov * self.hw_ratio
-
-        up = self.view_direction.cross(Vec3(0, 1, 0)).cross(self.view_direction).normalize()
-        w = -1 * self.view_direction.normalize()
-        up_cross_w = up.cross(w)
-        u = -1 * up_cross_w / up_cross_w.length()
-        v = -up
-
-        pass
-
     def generate_image(self, primitives):
         image = MyImage(self.h, self.w)
-        #background_color = (0.6, 0.8, 1.0)  # RGB
-        #image.clear_color(background_color)
         image.fancy_background()
 
         depth = np.zeros((self.h, self.w))
@@ -94,8 +79,7 @@ class Camera:
         for i in range(self.h):
             for j in range(self.w):
                 for p in primitives:
-                    
-                    
+
                     # Get intersection point
                     hit = p.get_detailed_intersection(self.arRay[j][i])
                     # If there is no intersection, continue
@@ -109,7 +93,6 @@ class Camera:
                         depth[i][j] = hit[1]
                         hit_obj[i][j] = p
                         continue
-                
 
         # TODO - antialiasing
 

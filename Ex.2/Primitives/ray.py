@@ -73,7 +73,7 @@ class Ray:
     def set_direction(self, new_direction):
         if new_direction == Vec3(0, 0, 0):
             raise ValueError('Direction vector cannot be (0, 0, 0)')
-        self.direction = self.direction.normalize()
+        self.direction = new_direction.normalize()
 
     ## Plane.get_intersection(ray) wrapper.
     def get_plane_intersection(self, plane):

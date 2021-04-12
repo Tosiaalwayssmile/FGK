@@ -31,20 +31,30 @@ class Camera:
     @staticmethod
     def adaptive_antialiasing(ray, A, B, C, D, E, depth, max_depth, horizontal, vertical, background_color, primitives):
 
-        ray.set_direction(E)
-        e_color = ray.get_pixel_color(primitives)
-
         ray.set_direction(A)
         a_color = ray.get_pixel_color(primitives)
+        if a_color is None:
+            a_color = background_color
 
         ray.set_direction(B)
         b_color = ray.get_pixel_color(primitives)
+        if b_color is None:
+            b_color = background_color
 
         ray.set_direction(C)
         c_color = ray.get_pixel_color(primitives)
+        if c_color is None:
+            c_color = background_color
 
         ray.set_direction(D)
         d_color = ray.get_pixel_color(primitives)
+        if d_color is None:
+            d_color = background_color
+
+        ray.set_direction(E)
+        e_color = ray.get_pixel_color(primitives)
+        if e_color is None:
+            e_color = background_color
 
         """
         A---B
@@ -63,33 +73,31 @@ class Camera:
         if depth >= max_depth:
             return e_color
 
-        if a_color != e_color:
+        if not np.array_equal(a_color, e_color):
             b_prim = E + vertical
             d_prim = E - horizontal
             e_prim = E - horizontal / 2 + vertical / 2
-            a_color = Camera.adaptive_antialiasing(ray, A, b_prim, E, d_prim, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, backgroundColor, primitives)
+            a_color = Camera.adaptive_antialiasing(ray, A, b_prim, E, d_prim, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, background_color, primitives)
 
-        if b_color != e_color:
+        if not np.array_equal(b_color, e_color):
             a_prim = E + vertical
             c_prim = E + horizontal
             e_prim = E + horizontal / 2 + vertical / 2
-            b_color = Camera.adaptive_antialiasing(ray, a_prim, B, c_prim, E, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, backgroundColor, primitives)
+            b_color = Camera.adaptive_antialiasing(ray, a_prim, B, c_prim, E, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, background_color, primitives)
 
-        if c_color != e_color:
+        if not np.array_equal(c_color, e_color):
             b_prim = E + horizontal
             d_prim = E - vertical
             e_prim = E + horizontal / 2 - vertical / 2
-            c_color = Camera.adaptive_antialiasing(ray, E, b_prim, C, d_prim, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, backgroundColor, primitives)
+            c_color = Camera.adaptive_antialiasing(ray, E, b_prim, C, d_prim, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, background_color, primitives)
 
-        if d_color != e_color:
+        if not np.array_equal(d_color, e_color):
             a_prim = E - horizontal
             c_prim = E - vertical
             e_prim = E - horizontal / 2 - vertical / 2
-            d_color = Camera.adaptive_antialiasing(ray, a_prim, E, c_prim, D, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, backgroundColor, primitives)
+            d_color = Camera.adaptive_antialiasing(ray, a_prim, E, c_prim, D, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, background_color, primitives)
 
         # get mean of the colors and return them
-        tmp = a_color + e_color
-
         return np.multiply(np.add(np.add(np.add(np.add(a_color, b_color), c_color), d_color), np.multiply(e_color, 4)), 0.25)
         # return ((a_color + e_color) * 0.5 + (b_color + e_color) * 0.5 + (c_color + e_color) * 0.5 + (d_color + e_color) * 0.5) * 0.25
 
@@ -152,6 +160,3 @@ class Camera:
                 image.set_pixel(i, j, final_color)
         
         MyImage.save_image(image)
-            
-        
-    
