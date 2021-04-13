@@ -9,12 +9,14 @@ import time
 # ============
 #    ZAD 2
 # ============
-cam = Camera(position=Vec3(0, 0, 0), view_direction = Vec3(0, 0, 1))
+cam = Camera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=500, height=250)
 
 primitives = [
-    Sphere(Vec3(0, 0, 8), 1, [0, 0, 0])
+    Sphere(Vec3(0, 0, 8), 1, [.5, .5, .5]),
 ]
 cam.render_scene(primitives)
+
+print('KONIEC')
 
 """
 time_0 = time.time()

@@ -31,6 +31,10 @@ class Camera:
     @staticmethod
     def adaptive_antialiasing(ray, A, B, C, D, E, depth, max_depth, horizontal, vertical, background_color, primitives):
 
+        e_color = ray.get_pixel_color(primitives)
+        if e_color is None:
+            e_color = background_color
+
         ray.set_direction(A)
         a_color = ray.get_pixel_color(primitives)
         if a_color is None:
@@ -50,11 +54,6 @@ class Camera:
         d_color = ray.get_pixel_color(primitives)
         if d_color is None:
             d_color = background_color
-
-        ray.set_direction(E)
-        e_color = ray.get_pixel_color(primitives)
-        if e_color is None:
-            e_color = background_color
 
         """
         A---B
@@ -102,12 +101,11 @@ class Camera:
         # return ((a_color + e_color) * 0.5 + (b_color + e_color) * 0.5 + (c_color + e_color) * 0.5 + (d_color + e_color) * 0.5) * 0.25
 
     def render_scene(self, primitives):
-        image = MyImage(self.height, self.width)
+        # Prepare color buffer and fill it with background color
+        image = MyImage(self.width, self.height)
         image.fancy_background()
+
         ## Coordinates viewPlane
-        w = Vec3(0, 0, 0)
-        u = Vec3(0, 0, 0)
-        v = Vec3(0, 0, 0)
         theta = self.fov * math.pi / 180
         half_height = math.tan(theta / 2.0)
         aspect = self.width / self.height
@@ -137,26 +135,37 @@ class Camera:
         pixel_horizontal = horizontal / self.width
         pixel_vertical = vertical / self.height
 
-        for i in range(self.width):
-            for j in range(self.height):
-                # New Ray, direction will be changed in antialiasing
-                ray = Ray(self.position, Vec3(0.0, 0.0, 1.0))
-                
-                # Calculate middle of pixel and  corners of the pixel, A, B, C, D, look at antialiasing for exact positions
+        number_of_pixels = self.width * self.height
+        current_px = 1
+
+        for i in range(self.height):
+            for j in range(self.width):
+
+                if current_px % 1000 == 0:
+                    print('Progress: ' + str(round(current_px * 100 / number_of_pixels, 2)) + '%')
+                current_px += 1
+
+                # New ray
                 ray_target = lower_left_corner + pixel_vertical * j + pixel_horizontal * i + pixel_horizontal / 2 + pixel_vertical / 2
+                ray = Ray(self.position, ray_target)
+
+                # Set background color as default, if something is hit, it will be changed to primitive's color
+                final_color = image.get_pixel_color(i, j) / 255
+
+                # ANTIALIASING
+                # Calculate middle of pixel and  corners of the pixel, A, B, C, D, look at antialiasing for exact positions
                 a_corner = ray_target - pixel_horizontal / 2 + pixel_vertical / 2
                 b_corner = ray_target + pixel_horizontal / 2 + pixel_vertical / 2
                 c_corner = ray_target + pixel_horizontal / 2 - pixel_vertical / 2
                 d_corner = ray_target - pixel_horizontal / 2 - pixel_vertical / 2
+                # final_color = Camera.adaptive_antialiasing(ray, a_corner, b_corner, c_corner, d_corner, ray_target, 0, 5, pixel_horizontal / 2, pixel_vertical / 2, background_color, primitives)
 
-                # Get background color from buffer, used in antialiasing
-                background_color = image.get_pixel_color(i, j)
-                
-                # antialiasing
-                # final_color = background_color
-                final_color = Camera.adaptive_antialiasing(ray, a_corner, b_corner, c_corner, d_corner, ray_target, 0, 5, pixel_horizontal / 2, pixel_vertical / 2, background_color, primitives)
-                
-                # set pixel color 
+                # NO ANTIALIASING
+                color = ray.get_pixel_color(primitives)
+                if color is not None:
+                    final_color = color
+
+                # set pixel color
                 image.set_pixel(i, j, final_color)
-        
+
         MyImage.save_image(image)

@@ -14,7 +14,7 @@ class MyImage:
         # A class variable. Height of an image.
         self.height = height
         # A class variable. 
-        self.image_matrix = np.zeros((width, height, 3), dtype = np.uint8)
+        self.image_matrix = np.zeros((height, width, 3), dtype = np.uint8)
 
     ## Function returning image length.
     def len(self):
@@ -56,11 +56,11 @@ class MyImage:
     def set_pixel(self, i, j, value):
         value = LightIntensity.clamp_0_255(value)
         clamped_value = [value.x, value.y, value.z]
-        self.image_matrix[i, j] = clamped_value 
+        self.image_matrix[i, j] = clamped_value
         
     ## Function getting pixel color.
     def get_pixel_color(self, i, j):
-        return self.image_matrix[i, j] 
+        return self.image_matrix[i, j]
 
     ## Function saving image to png format.
     def save_image(self):
