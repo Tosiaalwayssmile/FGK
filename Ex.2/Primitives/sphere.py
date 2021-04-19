@@ -77,7 +77,7 @@ class Sphere(Primitive):
             dist2 = ray.origin.distance(p2)
 
         if p1 is None and p2 is None:
-            return None
+            return None, 0
         if p1 is None:
             return [(p2, dist2)]
         if p2 is None:

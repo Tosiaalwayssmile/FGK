@@ -9,7 +9,7 @@ import numpy as np
 class Camera:
 
     ## Constructor
-    def __init__(self, position = Vec3(0, 0, 0), view_direction = Vec3(0, 0, 1), width = 512, height = 512, near = .1, far = 1000):
+    def __init__(self, position = Vec3(0, 0, 0), view_direction = Vec3(0, 0, 1), width = 512, height = 512, near = .1, far = 1000, fov=60):
         
         ## Position of the camera
         self.position = position
@@ -24,7 +24,7 @@ class Camera:
         ## Far clipping plane
         self.far = far
         ## Field of View
-        self.fov = 65.0
+        self.fov = fov
         ##
         self.up = Vec3(0, 1, 0)
 
@@ -35,22 +35,22 @@ class Camera:
         if e_color is None:
             e_color = background_color
 
-        ray.set_direction(A)
+        ray.set_target(A)
         a_color = ray.get_pixel_color(primitives)
         if a_color is None:
             a_color = background_color
 
-        ray.set_direction(B)
+        ray.set_target(B)
         b_color = ray.get_pixel_color(primitives)
         if b_color is None:
             b_color = background_color
 
-        ray.set_direction(C)
+        ray.set_target(C)
         c_color = ray.get_pixel_color(primitives)
         if c_color is None:
             c_color = background_color
 
-        ray.set_direction(D)
+        ray.set_target(D)
         d_color = ray.get_pixel_color(primitives)
         if d_color is None:
             d_color = background_color
@@ -97,7 +97,16 @@ class Camera:
             d_color = Camera.adaptive_antialiasing(ray, a_prim, E, c_prim, D, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, background_color, primitives)
 
         # get mean of the colors and return them
-        return np.multiply(np.add(np.add(np.add(np.add(a_color, b_color), c_color), d_color), np.multiply(e_color, 4)), 0.25)
+        ae = np.multiply(np.add(a_color, e_color), .5)
+        be = np.multiply(np.add(b_color, e_color), .5)
+        ce = np.multiply(np.add(c_color, e_color), .5)
+        de = np.multiply(np.add(d_color, e_color), .5)
+        summ = np.add(ae, be)
+        summ = np.add(summ, ce)
+        summ = np.add(summ, de)
+
+        return np.multiply(summ, .25)
+        # return np.multiply(np.add(np.add(np.add(np.add(a_color, b_color), c_color), d_color), np.multiply(e_color, 4)), 0.25)
         # return ((a_color + e_color) * 0.5 + (b_color + e_color) * 0.5 + (c_color + e_color) * 0.5 + (d_color + e_color) * 0.5) * 0.25
 
     def render_scene(self, primitives):
@@ -115,7 +124,8 @@ class Camera:
         near_plane = Vec3.length(self.view_direction - self.position)
 
         # W, U, V coordinates, V and U are swapped places and v is negated compared to original
-        w = Vec3.normalize(self.position - self.view_direction)
+        #w = Vec3.normalize(self.position - self.view_direction)
+        w = Vec3.normalize(-self.view_direction)
         u = Vec3.normalize(-(Vec3.cross(self.up, w)))
         v = Vec3.normalize(Vec3.cross(w, u))
         
@@ -146,8 +156,8 @@ class Camera:
                 current_px += 1
 
                 # New ray
-                ray_target = lower_left_corner + pixel_vertical * j + pixel_horizontal * i + pixel_horizontal / 2 + pixel_vertical / 2
-                ray = Ray(self.position, ray_target)
+                ray_target = lower_left_corner + pixel_vertical * i + pixel_horizontal * (self.width - j - 1) + pixel_horizontal / 2 + pixel_vertical / 2
+                ray = Ray(self.position, target=ray_target)
 
                 # Set background color as default, if something is hit, it will be changed to primitive's color
                 final_color = image.get_pixel_color(i, j) / 255
@@ -158,12 +168,13 @@ class Camera:
                 b_corner = ray_target + pixel_horizontal / 2 + pixel_vertical / 2
                 c_corner = ray_target + pixel_horizontal / 2 - pixel_vertical / 2
                 d_corner = ray_target - pixel_horizontal / 2 - pixel_vertical / 2
-                # final_color = Camera.adaptive_antialiasing(ray, a_corner, b_corner, c_corner, d_corner, ray_target, 0, 5, pixel_horizontal / 2, pixel_vertical / 2, background_color, primitives)
+                final_color = Camera.adaptive_antialiasing(ray, a_corner, b_corner, c_corner, d_corner, ray_target, 0, 5, pixel_horizontal / 2, pixel_vertical / 2, final_color, primitives)
 
                 # NO ANTIALIASING
                 color = ray.get_pixel_color(primitives)
                 if color is not None:
-                    final_color = color
+                    #final_color = color
+                    pass
 
                 # set pixel color
                 image.set_pixel(i, j, final_color)

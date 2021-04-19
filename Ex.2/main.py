@@ -9,10 +9,11 @@ import time
 # ============
 #    ZAD 2
 # ============
-cam = Camera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=500, height=250)
+cam = Camera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=500, height=500, fov=60)
 
 primitives = [
-    Sphere(Vec3(0, 0, 8), 1, [.5, .5, .5]),
+    Sphere(Vec3(-1.5, 0, -8), 1, [.5, .5, .5]),
+    Sphere(Vec3(3, 0, -8), 1, [.8, .4, 0])
 ]
 cam.render_scene(primitives)
 
