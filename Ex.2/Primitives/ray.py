@@ -6,15 +6,36 @@ from vector import *
 class Ray:
 
     ## Constructor.
-    def __init__(self, origin = Vec3(0, 0, 0), direction = Vec3(1, 1, 1), length = math.inf):
+    def __init__(self, origin = Vec3(0, 0, 0), direction=None, target=None, length = math.inf):
 
         ## Origin vector of a given ray.
         ## Default = (0, 0, 0)
         self.origin = origin
-        ## Direction vector of a given ray.
-        ## Cannot be (0, 0, 0).
-        ## Default = (1, 1, 1)
-        self.direction = direction / direction.length()
+
+        if direction is None and target is None:
+            raise Exception('Ray has to have either direction or target')
+
+        if direction is not None:
+            if target is not None:
+                raise Exception('Ray can have either direction or target, not both (second one is calculated based on given one)')
+
+            if direction == Vec3(0, 0, 0):
+                raise Exception('Ray\'s direction vector cannot be (0, 0, 0)')
+            ## Direction vector of a given ray.
+            ## Cannot be (0, 0, 0).
+            self.direction = direction / direction.length()
+
+            ## Target point of a given ray.
+            ## Cannot be the same as origin.
+            self.target = self.origin + self.direction
+
+        if target is not None:
+            if target == self.origin:
+                raise Exception('Ray cannot have equal origin and target')
+            self.target = target
+            self.direction = self.origin - target
+            self.direction /= self.direction.length()
+
         ## Length of a given ray.
         ## Default = Infinity
         self.length = length
@@ -73,7 +94,14 @@ class Ray:
     def set_direction(self, new_direction):
         if new_direction == Vec3(0, 0, 0):
             raise ValueError('Direction vector cannot be (0, 0, 0)')
-        self.direction = self.direction.normalize()
+        self.direction = new_direction.normalize()
+        self.target = self.origin + new_direction
+
+    def set_target(self, new_target):
+        if new_target == self.origin:
+            raise Exception('Target cannot be equal to origin of ray')
+        self.target = new_target
+        self.direction = (self.target - self.origin).normalize()
 
     ## Plane.get_intersection(ray) wrapper.
     def get_plane_intersection(self, plane):
@@ -86,3 +114,15 @@ class Ray:
     ## Sphere.get_ray_intersections(ray) wrapper.
     def get_sphere_intersections(self, sphere):
         return sphere.get_ray_intersections(self)
+
+    ## Iterates through list of primitives and returns color of the pixel
+    def get_pixel_color(self, primitives):
+        d = None
+        c = None
+        for p in primitives:
+            hit = p.get_detailed_intersection(self)
+            if hit[0] is None:
+                continue
+            if d is None or hit[1] < d:
+                c = p.color
+        return c

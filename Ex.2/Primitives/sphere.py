@@ -80,7 +80,7 @@ class Sphere(Primitive):
             dist2 = ray.origin.distance(p2)
 
         if p1 is None and p2 is None:
-            return None
+            return None, 0
         if p1 is None:
             return [(p2, dist2)]
         if p2 is None:
@@ -105,3 +105,5 @@ class Sphere(Primitive):
         if len(intersections) == 1 or intersections[0][1] < intersections[1][1]:
             return intersections[0]
         return intersections[1]
+
+   
