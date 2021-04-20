@@ -13,7 +13,7 @@ class Plane(Primitive):
         if normal_vector == Vec3(0, 0, 0):
             raise ValueError('Normal vector cannot be (0, 0, 0)')
 
-        ## VEctor perpendicular to plane.
+        ## Vector perpendicular to plane.
         self.normal_vector = normal_vector
         ## Represents A in 'Ax + By + Cz D = 0' equation.
         self.a = normal_vector.x
