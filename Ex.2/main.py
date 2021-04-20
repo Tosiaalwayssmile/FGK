@@ -10,7 +10,7 @@ o_cam = OrthogonalCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), w
 
 primitives1 = [
     Sphere(Vec3(0, 0, 8), 2, [.2, .4, .75]),
-    Sphere(Vec3(2, 0, 6), 1, [.9, .0, 0])
+    Sphere(Vec3(2, 0, 7), 1, [.9, .0, 0])
 ]
 
 primitives2 = [

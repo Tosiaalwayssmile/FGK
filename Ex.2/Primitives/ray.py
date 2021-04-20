@@ -125,4 +125,5 @@ class Ray:
                 continue
             if d is None or hit[1] < d:
                 c = p.color
+                d = hit[1]
         return c
