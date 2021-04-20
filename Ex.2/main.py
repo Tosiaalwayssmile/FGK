@@ -17,7 +17,7 @@ primitives2 = [
     Sphere(Vec3(0, 0, 8), 1, [.4, .4, .7]),
 ]
 
-p_cam.render_scene(primitives1)
-#o_cam.render_scene(primitives2)
+p_cam.render_scene(primitives1, antialiasing=True)
+#o_cam.render_scene(primitives1)
 
 print('KONIEC')

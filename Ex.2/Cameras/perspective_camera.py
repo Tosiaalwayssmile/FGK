@@ -38,34 +38,49 @@ class PerspectiveCamera:
     @staticmethod
     def adaptive_antialiasing(ray, A, B, C, D, E, depth, max_depth, horizontal, vertical, background_color, primitives):
 
-        ray.set_target(E)
-        e_color = ray.get_pixel_color(primitives)
-        if e_color is None:
-            e_color = background_color
+        if type(E) is Vec3:
+            ray.set_target(E)
+            e_color = ray.get_pixel_color(primitives)
+            if e_color is None:
+                e_color = background_color
+        else:
+            e_color = E
 
         # Check if algorithm reached maximum Depth, if so return color of the middle of subpixel
         if depth >= max_depth:
             return e_color
 
-        ray.set_target(A)
-        a_color = ray.get_pixel_color(primitives)
-        if a_color is None:
-            a_color = background_color
+        if type(A) is Vec3:
+            ray.set_target(A)
+            a_color = ray.get_pixel_color(primitives)
+            if a_color is None:
+                a_color = background_color
+        else:
+            a_color = A
 
-        ray.set_target(B)
-        b_color = ray.get_pixel_color(primitives)
-        if b_color is None:
-            b_color = background_color
+        if type(B) is Vec3:
+            ray.set_target(B)
+            b_color = ray.get_pixel_color(primitives)
+            if b_color is None:
+                b_color = background_color
+        else:
+            b_color = B
 
-        ray.set_target(C)
-        c_color = ray.get_pixel_color(primitives)
-        if c_color is None:
-            c_color = background_color
+        if type(C) is Vec3:
+            ray.set_target(C)
+            c_color = ray.get_pixel_color(primitives)
+            if c_color is None:
+                c_color = background_color
+        else:
+            c_color = C
 
-        ray.set_target(D)
-        d_color = ray.get_pixel_color(primitives)
-        if d_color is None:
-            d_color = background_color
+        if type(D) is Vec3:
+            ray.set_target(D)
+            d_color = ray.get_pixel_color(primitives)
+            if d_color is None:
+                d_color = background_color
+        else:
+            d_color = D
 
         """
         A---B
@@ -84,25 +99,25 @@ class PerspectiveCamera:
             b_prim = E + vertical
             d_prim = E - horizontal
             e_prim = E - horizontal / 2 + vertical / 2
-            a_color = PerspectiveCamera.adaptive_antialiasing(ray, A, b_prim, E, d_prim, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, background_color, primitives)
+            a_color = PerspectiveCamera.adaptive_antialiasing(ray, a_color, b_prim, e_color, d_prim, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, background_color, primitives)
 
         if not are_colors_equal(b_color, e_color):
             a_prim = E + vertical
             c_prim = E + horizontal
             e_prim = E + horizontal / 2 + vertical / 2
-            b_color = PerspectiveCamera.adaptive_antialiasing(ray, a_prim, B, c_prim, E, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, background_color, primitives)
+            b_color = PerspectiveCamera.adaptive_antialiasing(ray, a_prim, b_color, c_prim, e_color, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, background_color, primitives)
 
         if not are_colors_equal(c_color, e_color):
             b_prim = E + horizontal
             d_prim = E - vertical
             e_prim = E + horizontal / 2 - vertical / 2
-            c_color = PerspectiveCamera.adaptive_antialiasing(ray, E, b_prim, C, d_prim, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, background_color, primitives)
+            c_color = PerspectiveCamera.adaptive_antialiasing(ray, e_color, b_prim, c_color, d_prim, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, background_color, primitives)
 
         if not are_colors_equal(d_color, e_color):
             a_prim = E - horizontal
             c_prim = E - vertical
             e_prim = E - horizontal / 2 - vertical / 2
-            d_color = PerspectiveCamera.adaptive_antialiasing(ray, a_prim, E, c_prim, D, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, background_color, primitives)
+            d_color = PerspectiveCamera.adaptive_antialiasing(ray, a_prim, e_color, c_prim, d_color, e_prim, depth + 1, max_depth, horizontal / 2, vertical / 2, background_color, primitives)
 
         # get mean of the colors and return them
         ae = np.multiply(np.add(a_color, e_color), .5)
@@ -117,7 +132,7 @@ class PerspectiveCamera:
         # return np.multiply(np.add(np.add(np.add(np.add(a_color, b_color), c_color), d_color), np.multiply(e_color, 4)), 0.25)
         # return ((a_color + e_color) * 0.5 + (b_color + e_color) * 0.5 + (c_color + e_color) * 0.5 + (d_color + e_color) * 0.5) * 0.25
 
-    def render_scene(self, primitives):
+    def render_scene(self, primitives, antialiasing=True):
         # Prepare color buffer and fill it with background color
         image = MyImage(self.width, self.height)
         image.fancy_background()
@@ -162,26 +177,27 @@ class PerspectiveCamera:
                     print('Progress: ' + str(round(current_px * 100 / number_of_pixels, 2)) + '%')
                 current_px += 1
 
-                # New ray
-                ray_target = lower_left_corner + pixel_vertical * i + pixel_horizontal * j + pixel_horizontal / 2 + pixel_vertical / 2
-                ray = Ray(self.position, target=ray_target)
-
                 # Set background color as default, if something is hit, it will be changed to primitive's color
                 final_color = image.get_pixel_color(i, j) / 255
 
-                # ANTIALIASING
-                # Calculate middle of pixel and  corners of the pixel, A, B, C, D, look at antialiasing for exact positions
-                a_corner = ray_target - pixel_horizontal / 2 + pixel_vertical / 2
-                b_corner = ray_target + pixel_horizontal / 2 + pixel_vertical / 2
-                c_corner = ray_target + pixel_horizontal / 2 - pixel_vertical / 2
-                d_corner = ray_target - pixel_horizontal / 2 - pixel_vertical / 2
-                final_color = PerspectiveCamera.adaptive_antialiasing(ray, a_corner, b_corner, c_corner, d_corner, ray_target, 0, 5, pixel_horizontal / 2, pixel_vertical / 2, final_color, primitives)
+                ray_target = lower_left_corner + pixel_vertical * i + pixel_horizontal * j + pixel_horizontal / 2 + pixel_vertical / 2
 
-                # NO ANTIALIASING
-                color = ray.get_pixel_color(primitives)
-                if color is not None:
-                    #final_color = color
-                    pass
+                if antialiasing:
+                    # ANTIALIASING
+                    # Calculate middle of pixel and  corners of the pixel, A, B, C, D, look at antialiasing for exact positions
+                    a_corner = ray_target - pixel_horizontal / 2 + pixel_vertical / 2
+                    b_corner = ray_target + pixel_horizontal / 2 + pixel_vertical / 2
+                    c_corner = ray_target + pixel_horizontal / 2 - pixel_vertical / 2
+                    d_corner = ray_target - pixel_horizontal / 2 - pixel_vertical / 2
+
+                    ray = Ray(self.position, target=ray_target)
+                    final_color = PerspectiveCamera.adaptive_antialiasing(ray, a_corner, b_corner, c_corner, d_corner, ray_target, 0, 5, pixel_horizontal / 2, pixel_vertical / 2, final_color, primitives)
+                else:
+                    # NO ANTIALIASING
+                    ray = Ray(self.position, target=-ray_target)
+                    color = ray.get_pixel_color(primitives)
+                    if color is not None:
+                        final_color = color
 
                 # set pixel color
                 image.set_pixel(i, j, final_color)
