@@ -51,11 +51,7 @@ class MyImage:
                     MyImage.set_pixel(self, y, x, [1, 1, intensity])
 
         return self.image_matrix
-<<<<<<< HEAD
-
-=======
         
->>>>>>> antyaliasing
     ## Function changing pixel color.
     def set_pixel(self, i, j, value):
         value = LightIntensity.clamp_0_255(value)
