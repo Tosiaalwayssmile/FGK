@@ -97,6 +97,7 @@ class Ray:
         self.direction = new_direction.normalize()
         self.target = self.origin + new_direction
 
+    ## Sets new target and updates direction vector.
     def set_target(self, new_target):
         if new_target == self.origin:
             raise Exception('Target cannot be equal to origin of ray')

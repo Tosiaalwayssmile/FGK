@@ -41,6 +41,7 @@ class OrthogonalCamera:
                 self.arRay[i][j] = Ray(self.position - top_right_corner_offset + Vec3(x_offset * i, y_offset * j, z_offset * i),
                                        self.view_direction)
 
+    ## Function rendering the scene
     def render_scene(self, primitives):
         image = MyImage(self.h, self.w)
         image.fancy_background()

@@ -98,6 +98,7 @@ class Sphere(Primitive):
             return intersections[0][0]
         return intersections[1][0]
 
+    ## Function returning intersection point and distance
     def get_detailed_intersection(self, ray):
         intersections = self.get_ray_intersections(ray)
         if intersections[0] is None:
