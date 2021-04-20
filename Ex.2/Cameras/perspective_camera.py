@@ -40,13 +40,15 @@ class PerspectiveCamera:
 
         ray.set_target(E)
         e_color = ray.get_pixel_color(primitives)
-        original_e = e_color
         if e_color is None:
             e_color = background_color
 
+        # Check if algorithm reached maximum Depth, if so return color of the middle of subpixel
+        if depth >= max_depth:
+            return e_color
+
         ray.set_target(A)
         a_color = ray.get_pixel_color(primitives)
-        original_a = a_color
         if a_color is None:
             a_color = background_color
 
@@ -76,20 +78,6 @@ class PerspectiveCamera:
         FOR B, E box: E + ver, B, E + hor, E, E + hor/2 + ver/2
         FOR C, E box: E, E+hor, C, E-ver, E + hor/2 - ver/2
         FOR D, E box: E - hor, E, E - ver, D, E-hor/2 - ver/2
-        """
-
-        # Check if algorithm reached maximum Depth, if so return color of the middle of subpixel
-        if depth >= max_depth:
-            return e_color
-
-        """
-        if not are_colors_equal(a_color, e_color) or not are_colors_equal(b_color, e_color) or not are_colors_equal(c_color, e_color) or not are_colors_equal(d_color, e_color):
-            print('ROZNICA')
-            print('a_color: ' + str(a_color))
-            print('b_color: ' + str(b_color))
-            print('c_color: ' + str(c_color))
-            print('d_color: ' + str(d_color))
-            print('e_color: ' + str(e_color))
         """
 
         if not are_colors_equal(a_color, e_color):
