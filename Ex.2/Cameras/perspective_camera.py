@@ -32,7 +32,7 @@ class PerspectiveCamera:
         self.far = far
         ## Field of View
         self.fov = fov
-        ##
+        ## Vector direction aligned with the "up" direction of camera
         self.up = Vec3(0, 1, 0)
 
     ## Function calculating color of pixel using adaptive antialiasing
