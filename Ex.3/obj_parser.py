@@ -1,5 +1,6 @@
 import os
 import os.path
+from vector import *
 
 dirname = os.path.dirname(__file__)
 dirname += "/OBJ"
@@ -20,7 +21,7 @@ class ObjLoader:
 					index3 = line.find(" ", index2 + 1)
 					
 					vertex = (float(line[index1:index2]), float(line[index2:index3]), float(line[index3:-1]))
-					vertex = (round(vertex[0], 2), round(vertex[1], 2), round(vertex[2], 2))
+					vertex = Vec3((round(vertex[0], 2), round(vertex[1], 2), round(vertex[2], 2)))
 					self.vertices.append(vertex)
 					
 				elif line[0] == "f":
