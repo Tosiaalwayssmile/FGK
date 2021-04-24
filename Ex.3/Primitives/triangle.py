@@ -6,7 +6,7 @@ class Triangle(Primitive):
 
     ## Constructor.
 
-    def __init__(self, v1=Vec3(0, 0, 0), v2=Vec3(0, 0, 0), v3=Vec3(0, 0, 0),  color=[1, 0, 1]):
+    def __init__(self, v1=Vec3(0, 0, 0), v2=Vec3(0, 0, 0), v3=Vec3(0, 0, 0), color=[1, 0, 1]):
 
         super().__init__(color)
 
