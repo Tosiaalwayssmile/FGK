@@ -6,11 +6,14 @@ from Primitives.primitive import *
 class Plane(Primitive):
 
     ## Constructor.
-    def __init__(self, normal_vector, d):
+    def __init__(self, normal_vector, d, color=[1, 0, 1]):
+
+        super().__init__(color)
+
         if normal_vector == Vec3(0, 0, 0):
             raise ValueError('Normal vector cannot be (0, 0, 0)')
 
-        ## VEctor perpendicular to plane.
+        ## Vector perpendicular to plane.
         self.normal_vector = normal_vector
         ## Represents A in 'Ax + By + Cz D = 0' equation.
         self.a = normal_vector.x
