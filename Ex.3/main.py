@@ -2,10 +2,8 @@ from Primitives.sphere import *
 from Primitives.triangle import *
 from Cameras.perspective_camera import *
 from Cameras.orthogonal_camera import *
+from obj_parser import *
 
-# ============
-#    ZAD 2
-# ============
 p_cam = PerspectiveCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=500, height=500, fov=40)
 o_cam = OrthogonalCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=500, height=500, pixel_size=(0.01, 0.01))
 
@@ -20,8 +18,8 @@ primitives2 = [
     Sphere(Vec3(0, 0, 8), 1, [.4, .4, .7]),
 ]
 
-
-p_cam.render_scene(primitives1, antialiasing=True)
+obj=ObjLoader('pyramid.obj')
+#p_cam.render_scene(primitives1, antialiasing=True)
 #o_cam.render_scene(primitives1)
 
 print('KONIEC')
