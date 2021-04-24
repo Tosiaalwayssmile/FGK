@@ -7,6 +7,12 @@ class Vec3:
     ## The constructor.
     def __init__(self, x = 0, y = 0, z = 0):
 
+        if type(x) is list:
+            self.x = x[0]
+            self.y = x[1]
+            self.z = x[2]
+            return
+
         ## A class variable. Coordinate x of a given vector.
         self.x = x
         ## A class variable. Coordinate y of a given vector.

@@ -1,6 +1,7 @@
 from Primitives.ray import *
 from Primitives.primitive import *
 
+
 ## Documentation for a class Triangle.
 class Triangle(Primitive):
 
