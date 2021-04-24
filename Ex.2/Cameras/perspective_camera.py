@@ -133,9 +133,8 @@ class PerspectiveCamera:
         # return np.multiply(np.add(np.add(np.add(np.add(a_color, b_color), c_color), d_color), np.multiply(e_color, 4)), 0.25)
         # return ((a_color + e_color) * 0.5 + (b_color + e_color) * 0.5 + (c_color + e_color) * 0.5 + (d_color + e_color) * 0.5) * 0.25
 
-
     ## Function rendering the scene
-    def render_scene(self, primitives):
+    def render_scene(self, primitives, antialiasing=True):
         # Prepare color buffer and fill it with background color
         image = MyImage(self.width, self.height)
         image.fancy_background()
