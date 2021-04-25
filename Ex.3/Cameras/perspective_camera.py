@@ -137,7 +137,8 @@ class PerspectiveCamera:
     def render_scene(self, primitives, antialiasing=True):
         # Prepare color buffer and fill it with background color
         image = MyImage(self.width, self.height)
-        image.fancy_background()
+        #image.fancy_background()
+        image.clear_color([0.9, 0.9, 0.8])
 
         ## Coordinates viewPlane
         theta = self.fov * math.pi / 180

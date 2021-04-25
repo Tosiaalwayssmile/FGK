@@ -6,7 +6,7 @@ from obj_parser import *
 
 class Mesh(Primitive):
 
-    def __init__(self, obj_file, position=Vec3(), color=[1, 0, 1]):
+    def __init__(self, obj_file, position=Vec3(), color=[1, 0, 1]):  #color=[1, 0, 1]
 
         super().__init__(color)
 
@@ -14,11 +14,13 @@ class Mesh(Primitive):
 
         vertices = []
         self.triangles = []
-
+        m=0
         for t in triangles_list[0]:
             vertices.append(t)
         for f in triangles_list[1]:
+            color=[1, 1, 1]
             self.triangles.append(Triangle(position + vertices[f.x], position + vertices[f.y], position + vertices[f.z], color))
+            m+=0.05
 
     def get_detailed_intersection(self, ray):
         p = None
