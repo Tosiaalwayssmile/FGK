@@ -32,14 +32,14 @@ class Plane(Primitive):
     def get_detailed_intersection(self, ray):
         # Ray is paralell to plane
         if self.normal_vector * ray.direction == 0:
-            return None, 0
+            return None, 0, None
 
         # Calculate parameters
         t = (-self.d - (self.normal_vector * ray.origin)) / (self.normal_vector * ray.direction)
 
         # Check if intersection is before origin of ray
         if t < 0:
-            return None, 0
+            return None, 0, None
 
         x = round(ray.origin.x + (t * ray.direction.x), 5)
         y = round(ray.origin.y + (t * ray.direction.y), 5)
@@ -49,9 +49,9 @@ class Plane(Primitive):
         # Check if point is in range
         distance = ray.origin.distance(point)
         if distance > ray.length:
-            return None, 0
+            return None, 0, None
 
-        return point, distance
+        return point, distance, self.color
 
     ## Checks if plane and ray intersect witch each other and returns intersection point if they do, otherwise None.
     def get_intersection(self, ray):

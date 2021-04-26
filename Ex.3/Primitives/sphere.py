@@ -102,9 +102,7 @@ class Sphere(Primitive):
     def get_detailed_intersection(self, ray):
         intersections = self.get_ray_intersections(ray)
         if intersections[0] is None:
-            return None, 0
+            return None, 0, None
         if len(intersections) == 1 or intersections[0][1] < intersections[1][1]:
-            return intersections[0]
-        return intersections[1]
-
-   
+            return *intersections[0], self.color
+        return *intersections[1], self.color

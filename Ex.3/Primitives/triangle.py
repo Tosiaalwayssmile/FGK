@@ -36,7 +36,7 @@ class Triangle(Primitive):
         h = Vec3.cross(ray.direction, e2)
         a = e1 * h
 
-        if (a > -0.00001 and a < 0.00001):
+        if -0.00001 < a < 0.00001:
             return None, 0
 
         f = 1 / a
@@ -44,44 +44,34 @@ class Triangle(Primitive):
 
         u = f * s * h
 
-        if (u < 0.0 or u > 1.0):
+        if u < 0.0 or u > 1.0:
             return None, 0
 
         q = s.cross(e1)
         v = f * ray.direction * q
         
-        if (v < 0.0 or u + v > 1.0):
+        if v < 0.0 or u + v > 1.0:
             return None, 0
 
         distance = f * e2 * q
 
         # Ray Intersection
-        if (distance <= 0.00001):
+        if distance <= 0.00001:
             return None, 0
         
         point = ray.origin + distance * ray.direction
-        return [(point, distance)]
+        return point, distance
 
     ## Checks if ray intersects with sphere and returns point closest to ray origin.
     def get_intersection(self, ray):
         intersections = self.get_ray_intersections(ray)
         if intersections is None:
             return None
-        if len(intersections) == 1:
-            return intersections[0][0]
-        if intersections[0][1] < intersections[1][1]:
-            return intersections[0][0]
-        return intersections[1][0]
+        return intersections[0]
 
     ## Function returning intersection point and distance
     def get_detailed_intersection(self, ray):
         intersections = self.get_ray_intersections(ray)
-        if intersections[0] is None:
-            return None, 0
-        if len(intersections) == 1 or intersections[0][1] < intersections[1][1]:
-            return intersections[0]
-        return intersections[1]
-    
-    
-
-   
+        if intersections is None:
+            return None, 0, None
+        return *intersections, self.color

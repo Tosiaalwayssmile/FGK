@@ -121,10 +121,13 @@ class Ray:
         d = None
         c = None
         for p in primitives:
-            hit = p.get_detailed_intersection(self)
+            try:
+                hit = p.get_detailed_intersection(self)
+            except IndexError:
+                pass
             if hit[0] is None:
                 continue
             if d is None or hit[1] < d:
-                c = p.color
+                c = hit[2]
                 d = hit[1]
         return c
