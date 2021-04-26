@@ -44,8 +44,9 @@ class OrthogonalCamera:
     ## Function rendering the scene
     def render_scene(self, primitives):
         image = MyImage(self.h, self.w)
-        image.fancy_background()
-
+        #image.fancy_background()
+        image.clear_color([0.9, 0.9, 0.8])
+        
         depth = np.zeros((self.h, self.w))
         depth.fill(-1)
 
