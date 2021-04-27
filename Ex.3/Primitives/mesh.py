@@ -4,9 +4,10 @@ from Primitives.triangle import *
 from obj_parser import *
 import numpy as np
 
-
+## Documentation for a class Mesh.
 class Mesh(Primitive):
 
+    ## Constructor.
     def __init__(self, obj_file, position=Vec3()):
 
         super().__init__(None)
@@ -22,6 +23,7 @@ class Mesh(Primitive):
             c = np.random.rand()
             self.triangles.append(Triangle(position + vertices[f.x], position + vertices[f.y], position + vertices[f.z], [c, c, c]))
 
+    ## Checks if ray intersects with mesh and returns point closest to ray origin.
     def get_detailed_intersection(self, ray):
         point = None
         distance = None
@@ -35,5 +37,6 @@ class Mesh(Primitive):
                     distance = hit[1]
         return point, distance, color
 
+    ## Function returning intersection point and distance.
     def get_intersection(self, ray):
         return get_detailed_intersection(ray)[0]

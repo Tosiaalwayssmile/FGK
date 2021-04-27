@@ -62,14 +62,14 @@ class Triangle(Primitive):
         point = ray.origin + distance * ray.direction
         return point, distance
 
-    ## Checks if ray intersects with sphere and returns point closest to ray origin.
+    ## Checks if ray intersects with triangle and returns point closest to ray origin.
     def get_intersection(self, ray):
         intersections = self.get_ray_intersections(ray)
         if intersections is None:
             return None
         return intersections[0]
 
-    ## Function returning intersection point and distance
+    ## Function returning intersection point and distance.
     def get_detailed_intersection(self, ray):
         intersections = self.get_ray_intersections(ray)
         if intersections is None:

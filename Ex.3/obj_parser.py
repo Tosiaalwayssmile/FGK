@@ -2,7 +2,7 @@ import os
 import os.path
 from vector import *
 
-
+## Function parsing obj file
 def read_obj_file(filename):
 	vertices = []
 	faces = []
