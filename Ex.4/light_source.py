@@ -1,7 +1,7 @@
-## Documentation for a class Material.
-class LightSource:
+## Documentation for a class LightSource.
+class LightSource(Vec3):
 
-    ## The constructor.
+    ## The constructor. Creates a LightSource with a specified Colour at a given Location.
     def __init__(self, colour=(1,1,1), location=(1,1,1)):
 
         ## Colour of light source.
