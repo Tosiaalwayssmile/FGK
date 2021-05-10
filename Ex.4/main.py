@@ -4,8 +4,11 @@ from Primitives.mesh import *
 from Cameras.perspective_camera import *
 from Cameras.orthogonal_camera import *
 from obj_parser import *
+from material import *
 
-
+m1=Material()
+print(m1)
+""""
 p_cam = PerspectiveCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=512, fov=40)
 o_cam = OrthogonalCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=512, pixel_size=(0.01, 0.01))
 
@@ -27,3 +30,4 @@ p_cam.render_scene(primitives3, antialiasing=False)
 #o_cam.render_scene(primitives3)
 
 print('KONIEC')
+"""
