@@ -15,7 +15,6 @@ class Mesh(Primitive):
 
         vertices = []
         self.triangles = []
-        m=0
         for t in triangles_list[0]:
             vertices.append(t)
         for f in triangles_list[1]:
