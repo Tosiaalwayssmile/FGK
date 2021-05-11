@@ -6,7 +6,6 @@ from Primitives.primitive import *
 class Sphere(Primitive):
 
     ## Constructor.
-
     def __init__(self, centre=Vec3(0, 0, 0), radius=1, color=[1, 0, 1]):
 
         super().__init__(color)
@@ -29,8 +28,8 @@ class Sphere(Primitive):
     def __str__(self):
         return 'Sphere: Centre: ' + self.centre + ', Radius: ' + str(self.radius)
         
-    ## Checks if ray intersects with sphere and returns intersection points in form one- or two-element array.
-    def get_ray_intersections(self, ray):
+    ## Checks if ray intersects with sphere and returns list of hits
+    def get_detailed_intersections(self, ray):
         # Calculate variables
         oc = ray.origin - self.centre
         a = round(ray.direction * ray.direction, 5)
@@ -42,21 +41,21 @@ class Sphere(Primitive):
 
         # If delta is negative, there is no intersection
         if delta < -0.001:
-            return None, 0
+            return [None]
 
         # If delta equals zero, there is one possible intersection
         if 0.001 >= delta >= -0.001:
             t = -b / (2 * a)
             # If t is negative, intersetion occurs before origin point of ray
             if t < 0:
-                return None, 0
+                return [None]
             # Otherwise, return intersection point as one-element array (since 2 intersections are possible if delta is positive)
             p = ray.origin + t * ray.direction
             p.x = round(p.x, 5)
             p.y = round(p.y, 5)
             p.z = round(p.z, 5)
             dist = ray.origin.distance(p)
-            return [(p, dist)]
+            return [Hit(p, dist, self.color)]
 
         p1 = None
         p2 = None
@@ -80,29 +79,25 @@ class Sphere(Primitive):
             dist2 = ray.origin.distance(p2)
 
         if p1 is None and p2 is None:
-            return None, 0
+            return [None]
         if p1 is None:
-            return [(p2, dist2)]
+            return [Hit(p2, dist2, self.color)]
         if p2 is None:
-            return [(p1, dist1)]
-        return [(p1, dist1), (p2, dist2)]
+            return [Hit(p1, dist1, self.color)]
+        return [Hit(p1, dist1, self.color), Hit(p2, dist2, self.color)]
+
+    ## Function returning hit.
+    def get_detailed_intersection(self, ray):
+        hits = self.get_detailed_intersections(ray)
+        if len(hits) == 1 or hits[0].distance < hits[1].distance:
+            return hits[0]
+        return hits[1]
 
     ## Checks if ray intersects with sphere and returns point closest to ray origin.
     def get_intersection(self, ray):
-        intersections = self.get_ray_intersections(ray)
-        if intersections is None:
+        hit = self.get_detailed_intersection(ray)
+        if hit is None:
             return None
-        if len(intersections) == 1:
-            return intersections[0][0]
-        if intersections[0][1] < intersections[1][1]:
-            return intersections[0][0]
-        return intersections[1][0]
+        return hit.point
 
-    ## Function returning intersection point and distance.
-    def get_detailed_intersection(self, ray):
-        intersections = self.get_ray_intersections(ray)
-        if intersections[0] is None:
-            return None, 0, None
-        if len(intersections) == 1 or intersections[0][1] < intersections[1][1]:
-            return *intersections[0], self.color
-        return *intersections[1], self.color
+

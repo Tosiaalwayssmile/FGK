@@ -5,6 +5,7 @@ from vector import *
 class LightIntensity(Vec3):
 
     ## Function clamping values to 0 - 1 range.
+    @staticmethod
     def clamp_0_1(light):
 
         x1 = light[0] 
@@ -28,6 +29,7 @@ class LightIntensity(Vec3):
         return Vec3(x1, y1, z1)
 
     ## Function clamping values to 0 - 255 range.
+    @staticmethod
     def clamp_0_255(light):
         LightIntensity.clamp_0_1(light)
         x1 = int(light[0] * 255)

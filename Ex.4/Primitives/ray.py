@@ -116,18 +116,34 @@ class Ray:
     def get_sphere_intersections(self, sphere):
         return sphere.get_ray_intersections(self)
 
-    ## Iterates through list of primitives and returns color of the pixel
-    def get_pixel_color(self, primitives):
-        d = None
-        c = None
-        for p in primitives:
-            try:
-                hit = p.get_detailed_intersection(self)
-            except IndexError:
-                pass
-            if hit[0] is None:
+    ## Iterates through list of primitives and returns hit
+    def get_pixel_hit(self, primitives):
+        closest_hit = None
+        for pr in primitives:
+            hits = pr.get_detailed_intersections(self)
+            if hits[0] is None:
                 continue
-            if d is None or hit[1] < d:
-                c = hit[2]
-                d = hit[1]
-        return c
+            for hit in hits:
+                if closest_hit is None or hit.distance < closest_hit.distance:
+                    closest_hit = hit
+        return closest_hit
+
+    def check_intersection(self, primitives, max_distance):
+        for p in primitives:
+            hits = p.get_detailed_intersections(self)
+            if hits[0] is None:
+                continue
+            for hit in hits:
+                if 0 < hit.distance < max_distance:
+                    return True
+        return False
+
+
+## Documentation for a class Hit.
+class Hit:
+
+    ## Constructor
+    def __init__(self, point, distance, color):
+        self.point = point
+        self.distance = distance
+        self.color = color

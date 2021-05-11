@@ -4,6 +4,7 @@ from Primitives.triangle import *
 from obj_parser import *
 import numpy as np
 
+
 ## Documentation for a class Mesh.
 class Mesh(Primitive):
 
@@ -16,27 +17,30 @@ class Mesh(Primitive):
 
         vertices = []
         self.triangles = []
-        m=0
         for t in triangles_list[0]:
             vertices.append(t)
         for f in triangles_list[1]:
             c = np.random.rand()
             self.triangles.append(Triangle(position + vertices[f.x], position + vertices[f.y], position + vertices[f.z], [c, c, c]))
 
-    ## Checks if ray intersects with mesh and returns point closest to ray origin.
-    def get_detailed_intersection(self, ray):
-        point = None
-        distance = None
-        color = None
+    ## Checks if ray intersects with mesh and returns list of hits
+    def get_detailed_intersections(self, ray):
+        hits = []
         for t in self.triangles:
             hit = t.get_detailed_intersection(ray)
-            if hit[0] is not None:
-                if distance is None or hit[1] < distance:
-                    color = t.color
-                    point = hit[0]
-                    distance = hit[1]
-        return point, distance, color
+            if hit.point is not None:
+                hits.append(hit)
+        return hits
 
-    ## Function returning intersection point and distance.
+    ## Checks if ray intersects with mesh and returns hit closest to ray origin.
+    def get_detailed_intersection(self, ray):
+        closest_hit = None
+        for hit in self.get_detailed_intersections(ray):
+            if closest_hit is None or hit.distance < closest_hit.distance:
+                closest_hit = hit
+        return closest_hit
+
+    ## Function returning intersection point.
     def get_intersection(self, ray):
-        return get_detailed_intersection(ray)[0]
+        return self.get_detailed_intersection(ray).point
+

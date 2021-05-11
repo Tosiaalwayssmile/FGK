@@ -28,18 +28,22 @@ class Plane(Primitive):
     def __str__(self):
         return str(self.a) + 'x + ' + str(self.b) + 'y + ' + str(self.c) + 'z + ' + str(self.d)
 
-    ## Returns tuple with multiple data: point (None if no intersection), distance to point
+    ## Wrapper
+    def get_detailed_intersections(self, ray):
+        return [self.get_detailed_intersections(ray)]
+
+    ## Returns tuple with multiple data: point (None if no intersection), distance to point, color
     def get_detailed_intersection(self, ray):
         # Ray is paralell to plane
         if self.normal_vector * ray.direction == 0:
-            return None, 0, None
+            return None
 
         # Calculate parameters
         t = (-self.d - (self.normal_vector * ray.origin)) / (self.normal_vector * ray.direction)
 
         # Check if intersection is before origin of ray
         if t < 0:
-            return None, 0, None
+            return None
 
         x = round(ray.origin.x + (t * ray.direction.x), 5)
         y = round(ray.origin.y + (t * ray.direction.y), 5)
@@ -49,10 +53,13 @@ class Plane(Primitive):
         # Check if point is in range
         distance = ray.origin.distance(point)
         if distance > ray.length:
-            return None, 0, None
+            return None
 
-        return point, distance, self.color
+        return Hit(point, distance, self.color)
 
     ## Checks if plane and ray intersect witch each other and returns intersection point if they do, otherwise None.
     def get_intersection(self, ray):
-        return self.get_detailed_intersection(ray)[0]
+        hit = self.get_detailed_intersection(ray)
+        if hit is None:
+            return None
+        return hit.point

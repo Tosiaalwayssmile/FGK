@@ -35,6 +35,38 @@ class PerspectiveCamera:
         ## Vector direction aligned with the "up" direction of camera
         self.up = Vec3(0, 1, 0)
 
+    @staticmethod
+    def calculate_light_color(point, primitives, light_sources):
+
+        # Set ambient light
+        colors = [[c * light_sources[0][0] for c in light_sources[0][1]]]
+
+        # Iterate through lights
+        for light in light_sources[1:]:
+            ray = Ray(origin=point, target=light.position)
+            if ray.check_intersection(primitives, point.distance(light.position)):
+                # If something blocks the light, go to next light
+                continue
+
+            # If nothing blocks the light
+            dist = point.distance(light.position)
+            i = light.intensity / dist**2
+            i = min(i, 1)
+            colors.append([c * i for c in light.color])
+
+        r = 0
+        g = 0
+        b = 0
+        for c in colors:
+            r += c[0]
+            g += c[1]
+            b += c[2]
+        r /= len(colors)
+        g /= len(colors)
+        b /= len(colors)
+
+        return [r, g, b]
+
     ## Function calculating color of pixel using adaptive antialiasing
     @staticmethod
     def adaptive_antialiasing(ray, A, B, C, D, E, depth, max_depth, horizontal, vertical, background_color, primitives):
@@ -134,7 +166,7 @@ class PerspectiveCamera:
         # return ((a_color + e_color) * 0.5 + (b_color + e_color) * 0.5 + (c_color + e_color) * 0.5 + (d_color + e_color) * 0.5) * 0.25
 
     ## Function rendering the scene
-    def render_scene(self, primitives, antialiasing=True):
+    def render_scene(self, primitives, light_sources, antialiasing=True):
         # Prepare color buffer and fill it with background color
         image = MyImage(self.width, self.height)
         #image.fancy_background()
@@ -182,7 +214,6 @@ class PerspectiveCamera:
 
                 # Set background color as default, if something is hit, it will be changed to primitive's color
                 final_color = image.get_pixel_color(i, j) / 255
-
                 ray_target = lower_left_corner + pixel_vertical * i + pixel_horizontal * j + pixel_horizontal / 2 + pixel_vertical / 2
 
                 if antialiasing:
@@ -198,9 +229,10 @@ class PerspectiveCamera:
                 else:
                     # NO ANTIALIASING
                     ray = Ray(self.position, target=-ray_target)
-                    color = ray.get_pixel_color(primitives)
-                    if color is not None:
-                        final_color = color
+                    hit = ray.get_pixel_hit(primitives)
+                    if hit is not None:
+                        light_color = PerspectiveCamera.calculate_light_color(hit.point, primitives, light_sources)
+                        final_color = [hit.color[i] * light_color[i] for i in range(len(hit.color))]
 
                 # set pixel color
                 image.set_pixel(i, j, final_color)

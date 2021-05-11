@@ -1,6 +1,6 @@
 import unittest
 
-from light_intensity import *
+from Lights.light_intensity import *
 from Primitives.plane import *
 from Primitives.sphere import *
 

@@ -26,9 +26,12 @@ class Triangle(Primitive):
     def __str__(self):
         return 'Triangle: A' + str(self.v1) + ', B' + str(self.v2) + ', C' + str(self.v3) + ', Normal' + str(self.normal_vector)
 
-    ## Checks if ray intersects with triangle and returns intersection points in form one- or two-element array.
-    def get_ray_intersections(self, ray):
+    ## Checks if ray intersects with triangle and returns hit in form of a list.
+    def get_detailed_intersections(self, ray):
+        return [self.get_detailed_intersections(ray)]
 
+    ## Checks if ray intercescts with triangle and returns hit.
+    def get_detailed_intersection(self, ray):
         # Calculate variables
         e1 = Vec3(self.v2.x - self.v1.x, self.v2.y - self.v1.y, self.v2.z - self.v1.z)
         e2 = Vec3(self.v3.x - self.v1.x, self.v3.y - self.v1.y, self.v3.z - self.v1.z)
@@ -37,7 +40,7 @@ class Triangle(Primitive):
         a = e1 * h
 
         if -0.00001 < a < 0.00001:
-            return None, 0
+            return None
 
         f = 1 / a
         s = Vec3(ray.origin.x - self.v1.x, ray.origin.y - self.v1.y, ray.origin.z - self.v1.z)
@@ -45,33 +48,26 @@ class Triangle(Primitive):
         u = f * s * h
 
         if u < 0.0 or u > 1.0:
-            return None, 0
+            return None
 
         q = s.cross(e1)
         v = f * ray.direction * q
-        
+
         if v < 0.0 or u + v > 1.0:
-            return None, 0
+            return None
 
         distance = f * e2 * q
 
         # Ray Intersection
         if distance <= 0.00001:
-            return None, 0
-        
-        point = ray.origin + distance * ray.direction
-        return point, distance
-
-    ## Checks if ray intersects with triangle and returns point closest to ray origin.
-    def get_intersection(self, ray):
-        intersections = self.get_ray_intersections(ray)
-        if intersections is None:
             return None
-        return intersections[0]
 
-    ## Function returning intersection point and distance.
-    def get_detailed_intersection(self, ray):
-        intersections = self.get_ray_intersections(ray)
-        if intersections is None:
-            return None, 0, None
-        return *intersections, self.color
+        point = ray.origin + distance * ray.direction
+        return Hit(point, distance, self.color)
+
+    ## Checks if ray intersects with triangle and return intersection point
+    def get_intersection(self, ray):
+        intersection = self.get_ray_intersection(ray)
+        if intersection is None:
+            return None
+        return intersection.point

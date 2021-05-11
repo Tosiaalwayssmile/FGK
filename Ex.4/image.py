@@ -1,7 +1,6 @@
 import numpy as np
 from PIL import Image
-import math
-from light_intensity import *
+from Lights.light_intensity import *
 
 ## Documentation for a class MyImage.
 class MyImage:
