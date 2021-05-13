@@ -17,3 +17,7 @@ class Primitive(ABC):
     @abstractmethod
     def get_detailed_intersections(self, ray):
         pass
+
+    @abstractmethod
+    def get_normal(self, point):
+        pass

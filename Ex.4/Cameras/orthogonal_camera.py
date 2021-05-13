@@ -13,7 +13,7 @@ class OrthogonalCamera:
         ## Position of the camera
         self.position = position
         ## Direction camera is facing
-        self.view_direction = view_direction.normalize()
+        self.view_direction = view_direction.normalized()
         ## Width in pixels
         self.w = width
         ## Height in pixels

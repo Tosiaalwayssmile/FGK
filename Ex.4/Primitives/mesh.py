@@ -44,3 +44,6 @@ class Mesh(Primitive):
     def get_intersection(self, ray):
         return self.get_detailed_intersection(ray).point
 
+    def get_normal(self, point):
+        pass
+

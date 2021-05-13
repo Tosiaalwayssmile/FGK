@@ -1,46 +1,56 @@
-import math
-from vector import *
+import numpy as np
+
 
 ## Documentation for a class LightIntensity.
-class LightIntensity(Vec3):
+class LightIntensity:
 
-    ## Function clamping values to 0 - 1 range.
     @staticmethod
-    def clamp_0_1(light):
+    def clamp01(value):
+        if value <= 0:
+            return 0
+        if value >= 1:
+            return 1
+        return value
 
-        x1 = light[0] 
-        y1 = light[1]  
-        z1 = light[2] 
-
-        if x1 < 0:
-            x1 = 0
-        if y1 < 0:
-            y1 = 0
-        if z1 < 0:
-            z1 = 0
-
-        if x1 > 1:
-            x1 = 1
-        if y1 > 1:
-            y1 = 1
-        if z1 > 1:
-            z1 = 1
-
-        return Vec3(x1, y1, z1)
-
-    ## Function clamping values to 0 - 255 range.
     @staticmethod
-    def clamp_0_255(light):
-        LightIntensity.clamp_0_1(light)
-        x1 = int(light[0] * 255)
-        y1 = int(light[1] * 255)
-        z1 = int(light[2] * 255)
+    def clamp_0_255(value):
+        if isinstance(value, list) or isinstance(value, np.ndarray):
+            return [LightIntensity.clamp_0_255(value[0]),
+                    LightIntensity.clamp_0_255(value[1]),
+                    LightIntensity.clamp_0_255(value[2])]
 
-        if x1 > 255:
-            x1 = 255
-        if y1 > 255:
-            y1 = 255
-        if z1 > 255:
-            z1 = 255
+        if value <= 0:
+            return 0
+        if value >= 255:
+            return 255
+        return value
 
-        return Vec3(x1, y1, z1)
+    @staticmethod
+    def remap_0_255(value):
+        if isinstance(value, list) or isinstance(value, np.ndarray):
+            return [value[0] * 255,
+                    value[1] * 255,
+                    value[2] * 255]
+
+        return value * 255
+
+    @staticmethod
+    def clamp_color(color):
+        return [LightIntensity.clamp01(color[0]),
+                LightIntensity.clamp01(color[1]),
+                LightIntensity.clamp01(color[2])]
+
+    def __init__(self, color=[0, 0, 0]):
+        self.color = LightIntensity.clamp_color(color)
+
+    def __add__(self, other):
+        if isinstance(other, list):
+            self.color = LightIntensity.clam_color([self.color[i] + other[i] for i in range(3)])
+        if isinstance(other, LightIntensity):
+            self.color = LightIntensity.clam_color([self.color[i] + other.color[i] for i in range(3)])
+
+    def __truediv__(self, other):
+        if isinstance(other, list):
+            self.color = LightIntensity.clam_color([self.color[i] / other[i] for i in range(3)])
+        if isinstance(other, LightIntensity):
+            self.color = LightIntensity.clam_color([self.color[i] / other.color[i] for i in range(3)])

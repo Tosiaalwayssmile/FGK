@@ -53,8 +53,7 @@ class MyImage:
         
     ## Function changing pixel color.
     def set_pixel(self, i, j, value):
-        value = LightIntensity.clamp_0_255(value)
-        clamped_value = [value.x, value.y, value.z]
+        clamped_value = LightIntensity.clamp_0_255(LightIntensity.remap_0_255(value))
         self.image_matrix[i, j] = clamped_value
         
     ## Function getting pixel color.

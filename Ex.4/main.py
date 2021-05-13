@@ -14,9 +14,9 @@ o_cam = OrthogonalCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), w
 
 primitives1 = [
     Sphere(Vec3(0, 0, 8), 2, [.2, .4, .75]),
-    Sphere(Vec3(2, 0, 7), 1, [.9, .0, 0])
-
+    #Sphere(Vec3(2, 0, 7), 1, [.9, .0, 0])
 ]
+
 primitives2 = [
     Triangle(Vec3(-1, 0, 8), Vec3(0, 1, 8), Vec3(1, 0, 8), [0, 0, 0])
 ]
@@ -28,11 +28,11 @@ primitives3 = [
 
 # First element is ambient light: [intensity, [color]]
 lights = [
-    [0.3, [1, 1, 1]],
-    PointLightSource(position=Vec3(0, 1.5, 8), color=[1, 1, 1], intensity=10)
+    [0.2, [1, 1, 1]],
+    PointLightSource(position=Vec3(3, 0, 3), color=[1, 1, 1], intensity=10)
 ]
 
-p_cam.render_scene(primitives1, lights, antialiasing=False)
+p_cam.render_scene(primitives1, lights, antialiasing=True)
 # o_cam.render_scene(primitives3)
 
 print('KONIEC')

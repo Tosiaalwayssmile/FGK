@@ -55,7 +55,7 @@ class Sphere(Primitive):
             p.y = round(p.y, 5)
             p.z = round(p.z, 5)
             dist = ray.origin.distance(p)
-            return [Hit(p, dist, self.color)]
+            return [Hit(p, dist, self.color, self)]
 
         p1 = None
         p2 = None
@@ -81,10 +81,10 @@ class Sphere(Primitive):
         if p1 is None and p2 is None:
             return [None]
         if p1 is None:
-            return [Hit(p2, dist2, self.color)]
+            return [Hit(p2, dist2, self.color, self)]
         if p2 is None:
-            return [Hit(p1, dist1, self.color)]
-        return [Hit(p1, dist1, self.color), Hit(p2, dist2, self.color)]
+            return [Hit(p1, dist1, self.color, self)]
+        return [Hit(p1, dist1, self.color, self), Hit(p2, dist2, self.color, self)]
 
     ## Function returning hit.
     def get_detailed_intersection(self, ray):
@@ -99,5 +99,9 @@ class Sphere(Primitive):
         if hit is None:
             return None
         return hit.point
+
+    ## Gets normal for given point
+    def get_normal(self, point):
+        return (point - self.centre).normalized()
 
 

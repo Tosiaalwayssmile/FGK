@@ -55,7 +55,7 @@ class Plane(Primitive):
         if distance > ray.length:
             return None
 
-        return Hit(point, distance, self.color)
+        return Hit(point, distance, self.color, self)
 
     ## Checks if plane and ray intersect witch each other and returns intersection point if they do, otherwise None.
     def get_intersection(self, ray):
@@ -63,3 +63,6 @@ class Plane(Primitive):
         if hit is None:
             return None
         return hit.point
+
+    def get_normal(self, point):
+        return self.normal_vector

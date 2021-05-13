@@ -1,4 +1,5 @@
 import math
+import numpy as np
 from vector import *
 
 
@@ -94,7 +95,7 @@ class Ray:
     def set_direction(self, new_direction):
         if new_direction == Vec3(0, 0, 0):
             raise ValueError('Direction vector cannot be (0, 0, 0)')
-        self.direction = new_direction.normalize()
+        self.direction = new_direction.normalized()
         self.target = self.origin + new_direction
 
     ## Sets new target and updates direction vector.
@@ -102,7 +103,7 @@ class Ray:
         if new_target == self.origin:
             raise Exception('Target cannot be equal to origin of ray')
         self.target = new_target
-        self.direction = (self.target - self.origin).normalize()
+        self.direction = (self.target - self.origin).normalized()
 
     ## Plane.get_intersection(ray) wrapper.
     def get_plane_intersection(self, plane):
@@ -128,22 +129,54 @@ class Ray:
                     closest_hit = hit
         return closest_hit
 
-    def check_intersection(self, primitives, max_distance):
+    def get_pixel_color(self, primitives, lights):
+        hit = self.get_pixel_hit(primitives)
+        if hit is None:
+            return None
+
+        # Set ambient light
+        r = lights[0][0] * lights[0][1][0]
+        g = lights[0][0] * lights[0][1][1]
+        b = lights[0][0] * lights[0][1][2]
+
+        # Iterate through lights
+        for light in lights[1:]:
+            distance = hit.point.distance(light.position)
+            ray = Ray(origin=hit.point, target=light.position, length=distance + 0.001)
+            if ray.check_intersection(primitives):
+                # If something blocks the light, go to next light
+                continue
+
+            normal = hit.primitive.get_normal(hit.point).normalized()
+            direction = ray.direction.normalized()
+            falloff = np.abs(normal * direction / (normal.length() * direction.length()))
+
+            # If nothing blocks the light
+            i = light.intensity * falloff / distance ** 2
+            i = min(i, 1)
+            r += light.color[0] * i
+            g += light.color[1] * i
+            b += light.color[2] * i
+
+        return [hit.color[i] * [r, g, b][i] for i in range(3)]
+
+    def check_intersection(self, primitives):
         for p in primitives:
             hits = p.get_detailed_intersections(self)
             if hits[0] is None:
                 continue
             for hit in hits:
-                if 0 < hit.distance < max_distance:
-                    return True
-        return False
+                if 0.001 < hit.distance:
+                    return False
+        return True
 
 
 ## Documentation for a class Hit.
 class Hit:
 
     ## Constructor
-    def __init__(self, point, distance, color):
+    def __init__(self, point, distance, color, primitive):
         self.point = point
         self.distance = distance
         self.color = color
+        self.primitive = primitive

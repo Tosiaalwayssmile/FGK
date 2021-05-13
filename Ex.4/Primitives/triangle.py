@@ -20,7 +20,7 @@ class Triangle(Primitive):
         ## Color of triangle
         self.color = color
         ## Vector perpendicular to plane.
-        self.normal_vector = ((v2 - v1).cross(v3 - v1)).normalize()
+        self.normal_vector = ((v2 - v1).cross(v3 - v1)).normalized()
 
     ## Function returning object values in string format.
     def __str__(self):
@@ -63,7 +63,7 @@ class Triangle(Primitive):
             return None
 
         point = ray.origin + distance * ray.direction
-        return Hit(point, distance, self.color)
+        return Hit(point, distance, self.color, self)
 
     ## Checks if ray intersects with triangle and return intersection point
     def get_intersection(self, ray):
@@ -71,3 +71,8 @@ class Triangle(Primitive):
         if intersection is None:
             return None
         return intersection.point
+
+    def get_normal(self, point):
+        v1 = self.v1 - self.v2
+        v2 = self.v1 - self.v3
+        return v1.cross(v2)
