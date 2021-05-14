@@ -1,4 +1,4 @@
-from PIL import Image, r
+from PIL import Image
 import math
 
 
@@ -9,12 +9,12 @@ class Texture:
         
         self.img = Image.open(file_name).convert('RGB')
 
-        self.height = self.img.shape[0]
+        self.height = self.img.size[0]
 
-        self.width = self.img.shape[1]
+        self.width = self.img.size[1]
 
 
-    def rectangular_mapping(self, coords: Vec3): 
+    def rectangular_mapping(self, coords): 
         u = (coords.z + 1)/2
         v = (coords.x - 1)/2
 
@@ -26,7 +26,7 @@ class Texture:
         return [r, g, b]
 
 
-    def spherical_mapping(self, coords: Vec3):
+    def spherical_mapping(self, coords):
         phi = math.atan(coords.x/coords.z)
         theta = math.acos(coords.y)
 
