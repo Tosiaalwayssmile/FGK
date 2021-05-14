@@ -8,3 +8,14 @@ class Texture:
         self.height = height
 
         self.width = width
+
+
+    def rectangular_mapping() -> None:
+        pass
+
+
+    def spherical_mapping() -> None:
+        pass
+    
+    def __str__(self) -> str:
+        return 'Texture: height = ' + str(self.height) + ', width = ' + str(self.width)

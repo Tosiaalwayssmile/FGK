@@ -27,4 +27,4 @@ class Material:
     ## Function returning object values in string format.
     def __str__(self):
         return 'Material: ambColour' + str(self.ambientColour) + ', diffColour' + str(self.diffuseColour) + ', reflColour' + str(self.reflectColour) \
-             + ', specularColour' + str(self.specularColour) + ', specularExponent = ' + str(self.specularExponent)
+             + ', specularColour' + str(self.specularColour) + ', specularExponent = ' + str(self.specularExponent) + ', texture = ' + str(self.texture)
