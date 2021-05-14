@@ -5,7 +5,7 @@ import math
 class Material:
 
     ## The constructor.
-    def __init__(self, ambientColour=(1,1,1), diffuseColour=(1,1,1), reflectColour=(1,1,1), specularColour=(0,0,0), specularExponent=1):
+    def __init__(self, ambientColour=(1,1,1), diffuseColour=(1,1,1), reflectColour=(1,1,1), specularColour=(0,0,0), specularExponent=1, texture=None):
 
         ## Colour of Material under white ambient light. Usually, but not always, the same as diffuseColour.
         self.ambientColour = ambientColour
@@ -21,6 +21,8 @@ class Material:
 
         ## 'Hardness' of Material's specular hightlights - high values give small, sharp highlights.
         self.specularExponent = specularExponent
+
+        self.texture = texture
 
     ## Function returning object values in string format.
     def __str__(self):
