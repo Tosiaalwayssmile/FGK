@@ -41,7 +41,7 @@ class Texture:
 
         r, g, b = self.img.getpixel((x, y))
 
-        return [r, g, b]
+        return [r/255., g/255., b/255.]
     
     def __str__(self) -> str:
         return 'Texture: height = ' + str(self.height) + ', width = ' + str(self.width)
