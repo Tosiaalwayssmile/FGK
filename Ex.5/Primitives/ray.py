@@ -157,8 +157,10 @@ class Ray:
             r += light.color[0] * i
             g += light.color[1] * i
             b += light.color[2] * i
+        
+        #texturing check
 
-        return [hit.color[i] * [r, g, b][i] for i in range(3)]
+        return [hit.primitive.material.texture.spherical_mapping(hit.point)[i] * [r, g, b][i] for i in range(3)]
 
     def check_intersection(self, primitives):
         for p in primitives:
