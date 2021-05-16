@@ -26,7 +26,7 @@ class Texture:
         x = (self.height - 1) * u
         y = (self.width - 1) * v
 
-        r, g, b = self.img.getpixel((x, y))/255.
+        r, g, b = self.img.getpixel((x, y))
         r, g, b = r/255., g/255., b/255.
 
         return [r, g, b]
