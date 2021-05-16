@@ -13,11 +13,11 @@ from texture import *
 p_cam = PerspectiveCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=512, fov=40)
 o_cam = OrthogonalCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=512, pixel_size=(0.01, 0.01))
 
-texture = Texture('/home/werdon4/Desktop/FGK/Ex.5/text.png')
+texture = Texture('sample_texture.png')
 material = Material(texture=texture)
 
 primitives1 = [
-    Sphere(Vec3(0, 0, 8), 2, [.2, .4, .75], material),
+    Sphere(Vec3(0, 0, 8), 1.1, [.2, .4, .75], material),
     #Sphere(Vec3(2, 0, 7), 1, [.9, .0, 0])
 ]
 
@@ -27,7 +27,7 @@ primitives2 = [
 primitives3 = [
     Mesh('cube.obj', position=Vec3(0, 2.3, 8), material=material),
     Mesh('pyramid.obj', position=Vec3(0, -2, 8), material=material),
-    Sphere(Vec3(0, 2.3, 8), 1.1, [.2, .4, .75])
+    Sphere(Vec3(0, 2.3, 8), 1.1, [.2, .4, .75], material)
 ]
 
 # First element is ambient light: [intensity, [color]]
@@ -36,7 +36,7 @@ lights = [
     PointLightSource(position=Vec3(3, 0, 3), color=[1, 1, 1], intensity=10)
 ]
 
-p_cam.render_scene(primitives3, lights, antialiasing=True)
+p_cam.render_scene(primitives1, lights, antialiasing=True)
 # o_cam.render_scene(primitives3)
 
 print('KONIEC')

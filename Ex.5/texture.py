@@ -20,8 +20,8 @@ class Texture:
 
     ## Returns pixel color for primitive and ray intersection represented by coords for rectangulars
     def rectangular_mapping(self, coords, u0, v0): 
-        u = (coords.z/u0 + 1)/2
-        v = (coords.x/v0 - 1)/2
+        u = (coords.z + 1)/2
+        v = (coords.x - 1)/2
 
         x = (self.height - 1) * u
         y = (self.width - 1) * v

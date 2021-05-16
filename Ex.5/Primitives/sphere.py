@@ -109,4 +109,4 @@ class Sphere(Primitive):
         if self.material is None or self.material.texture is None :
             return self.color
         else:
-            return self.material.texture.spherical_mapping(coords, self.radius)
+            return self.material.texture.spherical_mapping((coords - self.centre).normalized(), self.radius)
