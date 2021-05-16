@@ -9,9 +9,9 @@ import numpy as np
 class Mesh(Primitive):
 
     ## Constructor.
-    def __init__(self, obj_file, position=Vec3()):
+    def __init__(self, obj_file, position=Vec3(), material=None):
 
-        super().__init__(None)
+        super().__init__(None, material)
 
         triangles_list = read_obj_file(obj_file)
 
@@ -21,7 +21,7 @@ class Mesh(Primitive):
             vertices.append(t)
         for f in triangles_list[1]:
             c = np.random.rand()
-            self.triangles.append(Triangle(position + vertices[f.x], position + vertices[f.y], position + vertices[f.z], [c, c, c]))
+            self.triangles.append(Triangle(position + vertices[f.x], position + vertices[f.y], position + vertices[f.z], [c, c, c], material))
 
     ## Checks if ray intersects with mesh and returns list of hits
     def get_detailed_intersections(self, ray):

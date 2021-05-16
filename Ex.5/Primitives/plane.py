@@ -6,9 +6,9 @@ from Primitives.primitive import *
 class Plane(Primitive):
 
     ## Constructor.
-    def __init__(self, normal_vector, d, color=[1, 0, 1]):
+    def __init__(self, normal_vector, d, color=[1, 0, 1], material=None):
 
-        super().__init__(color)
+        super().__init__(color, material)
 
         if normal_vector == Vec3(0, 0, 0):
             raise ValueError('Normal vector cannot be (0, 0, 0)')

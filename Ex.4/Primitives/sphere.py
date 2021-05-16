@@ -6,9 +6,9 @@ from Primitives.primitive import *
 class Sphere(Primitive):
 
     ## Constructor.
-    def __init__(self, centre=Vec3(0, 0, 0), radius=1, color=[1, 0, 1]):
+    def __init__(self, centre=Vec3(0, 0, 0), radius=1, color=[1, 0, 1], material=None):
 
-        super().__init__(color)
+        super().__init__(color, material)
 
         ## Centre of the sphere
         self.centre = centre

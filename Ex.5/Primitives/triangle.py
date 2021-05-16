@@ -7,9 +7,9 @@ class Triangle(Primitive):
 
     ## Constructor.
 
-    def __init__(self, v1=Vec3(0, 0, 0), v2=Vec3(0, 0, 0), v3=Vec3(0, 0, 0), color=[1, 0, 1]):
+    def __init__(self, v1=Vec3(0, 0, 0), v2=Vec3(0, 0, 0), v3=Vec3(0, 0, 0), color=[1, 0, 1], material=None):
 
-        super().__init__(color)
+        super().__init__(color, material)
 
         ## Triangle vertex
         self.v1 = v1
