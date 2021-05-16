@@ -104,4 +104,9 @@ class Sphere(Primitive):
     def get_normal(self, point):
         return (point - self.centre).normalized()
 
-
+    ## Gets pixel color from material texture. If texture or material is None than return privmitive color
+    def get_texture_color(self, coords):
+        if self.material.texture is None or self.material is None:
+            return self.color
+        else:
+            return self.material.texture.spherical_mapping(coords, self.radius)

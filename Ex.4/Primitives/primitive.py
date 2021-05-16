@@ -3,8 +3,9 @@ from abc import *
 
 class Primitive(ABC):
     @abstractmethod
-    def __init__(self, color):
+    def __init__(self, color, material=None):
         self.color = color
+        self.material = material
 
     @abstractmethod
     def get_intersection(self, ray):

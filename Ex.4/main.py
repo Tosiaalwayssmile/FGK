@@ -13,7 +13,7 @@ p_cam = PerspectiveCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), 
 o_cam = OrthogonalCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=512, pixel_size=(0.01, 0.01))
 
 primitives1 = [
-    Sphere(Vec3(0, 0, 8), 2, [.2, .4, .75]),
+    Sphere(Vec3(0, 0, 8), 2, [.2, .4, .75], material=Material()),
     #Sphere(Vec3(2, 0, 7), 1, [.9, .0, 0])
 ]
 

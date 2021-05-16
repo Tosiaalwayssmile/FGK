@@ -154,13 +154,19 @@ class Ray:
             # If nothing blocks the light
             i = light.intensity * falloff / distance ** 2
             i = min(i, 1)
-            r += light.color[0] * i
-            g += light.color[1] * i
-            b += light.color[2] * i
-        
-        #texturing check
 
-        return [hit.primitive.material.texture.spherical_mapping(hit.point)[i] * [r, g, b][i] for i in range(3)]
+            if hit.primitive.material is not None:
+                reflection = -ray.direction - 2 * (-ray.direction * normal) * normal
+                intensity = -i * (hit.primitive.material.mirror_reflection_coefficient * (direction * normal) + hit.primitive.material.diffuse_reflection_coefficient * (reflection * -self.direction) ** hit.primitive.material.specularExponent)
+                intensity = min(intensity, 1)
+            else:
+                intensity = i
+
+            r += light.color[0] * intensity
+            g += light.color[1] * intensity
+            b += light.color[2] * intensity
+
+        return [hit.primitive.get_texture_color(hit.point)[i] * [r, g, b][i] for i in range(3)]
 
     def check_intersection(self, primitives):
         for p in primitives:

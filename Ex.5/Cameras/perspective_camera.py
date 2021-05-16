@@ -175,7 +175,7 @@ class PerspectiveCamera:
             for j in range(self.width):
 
                 if current_px % 1000 == 0:
-                    print('Progress: ' + str(round(current_px * 100 / number_of_pixels, 2)) + '%', end="\r")
+                    print('Progress: ' + str(round(current_px * 100 / number_of_pixels, 2)) + '%')
                 current_px += 1
 
                 # Set background color as default, if something is hit, it will be changed to primitive's color
