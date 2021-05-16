@@ -30,6 +30,9 @@ class Mesh(Primitive):
             hit = t.get_detailed_intersection(ray)
             if hit is not None:
                 hits.append(hit)
+
+        if len(hits) == 0:
+            hits.append(None)
         return hits
 
     ## Checks if ray intersects with mesh and returns hit closest to ray origin.
