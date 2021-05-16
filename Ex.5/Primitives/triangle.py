@@ -28,7 +28,7 @@ class Triangle(Primitive):
 
     ## Checks if ray intersects with triangle and returns hit in form of a list.
     def get_detailed_intersections(self, ray):
-        return [self.get_detailed_intersections(ray)]
+        return [self.get_detailed_intersection(ray)]
 
     ## Checks if ray intercescts with triangle and returns hit.
     def get_detailed_intersection(self, ray):
@@ -77,5 +77,12 @@ class Triangle(Primitive):
         v2 = self.v1 - self.v3
         return v1.cross(v2)
 
-    def get_texture_color(self):
-        pass
+    def get_texture_color(self, coords):
+        if self.material is None or self.material.texture is None :
+            return self.color
+        else:
+            u0 = max(self.v1.z, self.v2.z, self.v3.z)
+            u0 = u0 if u0 > 0 else 1
+            v0 = max(self.v1.x, self.v2.x, self.v3.x)
+            v0 = v0 if v0 > 0 else 1
+            return self.material.texture.rectangular_mapping(coords, u0, v0)
