@@ -28,7 +28,7 @@ class Mesh(Primitive):
         hits = []
         for t in self.triangles:
             hit = t.get_detailed_intersection(ray)
-            if hit.point is not None:
+            if hit is not None:
                 hits.append(hit)
         return hits
 
