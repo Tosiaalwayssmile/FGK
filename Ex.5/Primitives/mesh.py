@@ -47,3 +47,6 @@ class Mesh(Primitive):
     def get_normal(self, point):
         pass
 
+    def get_texture_color(self):
+        pass
+

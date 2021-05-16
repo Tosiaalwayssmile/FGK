@@ -76,3 +76,6 @@ class Triangle(Primitive):
         v1 = self.v1 - self.v2
         v2 = self.v1 - self.v3
         return v1.cross(v2)
+
+    def get_texture_color(self):
+        pass
