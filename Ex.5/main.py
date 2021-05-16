@@ -22,7 +22,7 @@ primitives1 = [
 ]
 
 primitives2 = [
-    Triangle(Vec3(-1, 0, 8), Vec3(0, 1, 8), Vec3(1, 0, 8), [0, 0, 0], material)
+    Triangle(Vec3(-3, 0, 8), Vec3(0, 3, 8), Vec3(3, 0, 8), [0, 0, 0], material)
 ]
 primitives3 = [
     Mesh('cube.obj', position=Vec3(0, 2.3, 8), material=material),
@@ -36,7 +36,7 @@ lights = [
     PointLightSource(position=Vec3(3, 0, 3), color=[1, 1, 1], intensity=10)
 ]
 
-p_cam.render_scene(primitives1, lights, antialiasing=True)
+p_cam.render_scene(primitives3, lights, antialiasing=True)
 # o_cam.render_scene(primitives3)
 
 print('KONIEC')

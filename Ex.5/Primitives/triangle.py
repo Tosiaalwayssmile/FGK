@@ -81,8 +81,4 @@ class Triangle(Primitive):
         if self.material is None or self.material.texture is None :
             return self.color
         else:
-            u0 = max(self.v1.z, self.v2.z, self.v3.z)
-            u0 = u0 if u0 > 0 else 1
-            v0 = max(self.v1.x, self.v2.x, self.v3.x)
-            v0 = v0 if v0 > 0 else 1
-            return self.material.texture.rectangular_mapping(coords.normalized(), u0, v0)
+            return self.material.texture.rectangular_mapping(coords.normalized())
