@@ -13,7 +13,7 @@ from texture import *
 p_cam = PerspectiveCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=512, fov=40)
 o_cam = OrthogonalCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=512, pixel_size=(0.01, 0.01))
 
-texture = Texture('bricks.jpg')
+texture = Texture('sample_texture.png')
 material = Material(texture=texture)
 
 primitives1 = [
