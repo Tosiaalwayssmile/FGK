@@ -8,3 +8,4 @@ File | Content |
 [**Ex.3**](https://github.com/Tosiaalwayssmile/FGK/tree/main/Ex.3) | Zadanie 3 - Pan Trójkąt. |
 [**Ex.4**](https://github.com/Tosiaalwayssmile/FGK/tree/main/Ex.4) | Zadanie 4 - Niech stanie się światłość. |
 [**Ex.5**](https://github.com/Tosiaalwayssmile/FGK/tree/main/Ex.5) | Zadanie 5 - Tekstury. |
+[**Ex.6**](https://github.com/Tosiaalwayssmile/FGK/tree/main/Ex.6) | Zadanie 6 - Odbicia zwierciadlane, refrakcja, rekursywny Raytracing. |
