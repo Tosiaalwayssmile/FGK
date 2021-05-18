@@ -30,7 +30,7 @@ class Plane(Primitive):
 
     ## Wrapper
     def get_detailed_intersections(self, ray):
-        return [self.get_detailed_intersections(ray)]
+        return [self.get_detailed_intersection(ray)]
 
     ## Returns tuple with multiple data: point (None if no intersection), distance to point, color
     def get_detailed_intersection(self, ray):
@@ -66,3 +66,6 @@ class Plane(Primitive):
 
     def get_normal(self, point):
         return self.normal_vector
+
+    def get_texture_color(self, coords):
+        return self.color

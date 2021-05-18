@@ -5,7 +5,7 @@ import math
 class Material:
 
     ## The constructor.
-    def __init__(self, ambientColour=(1,1,1), diffuseColour=(1,1,1), reflectColour=(1,1,1), specularColour=(0,0,0), specularExponent=1, mirror_reflection_coefficient=1, diffuse_reflection_coefficient=1, texture=None):
+    def __init__(self, ambientColour=(1,1,1), diffuseColour=(1,1,1), reflectColour=(1,1,1), specularColour=(0,0,0), specularExponent=1, mirror_reflection_coefficient=1, diffuse_reflection_coefficient=1, texture=None, refractive_index=1):
 
         ## Colour of Material under white ambient light. Usually, but not always, the same as diffuseColour.
         self.ambientColour = ambientColour
@@ -26,6 +26,8 @@ class Material:
         self.diffuse_reflection_coefficient = diffuse_reflection_coefficient
 
         self.texture = texture
+
+        self.refractive_index = refractive_index
 
     ## Function returning object values in string format.
     def __str__(self):
