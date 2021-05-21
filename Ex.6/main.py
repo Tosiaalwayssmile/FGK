@@ -17,8 +17,8 @@ texture = Texture('sample_texture.png')
 material = Material(texture=texture)
 
 primitives1 = [
-    Sphere(Vec3(0, 0, 8), 1.1, [.2, .4, .75], material),
-    #Sphere(Vec3(2, 0, 7), 1, [.9, .0, 0])
+    Sphere(Vec3(-1.5, 0, 8), 1, [.2, .4, .75], material),
+    Sphere(Vec3(2, 0, 7), 0.5, [.9, .0, 0])
 ]
 
 primitives2 = [
@@ -36,7 +36,7 @@ lights = [
     PointLightSource(position=Vec3(3, 0, 3), color=[1, 1, 1], intensity=10)
 ]
 
-p_cam.render_scene(primitives3, lights, antialiasing=True)
+p_cam.render_scene(primitives1, lights, antialiasing=True)
 # o_cam.render_scene(primitives3)
 
 print('KONIEC')
