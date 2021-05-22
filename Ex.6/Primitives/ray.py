@@ -1,3 +1,4 @@
+from materialType import *
 import math
 import numpy as np
 from vector import *
@@ -129,7 +130,9 @@ class Ray:
                     closest_hit = hit
         return closest_hit
 
-    def get_pixel_color(self, primitives, lights):
+    def get_pixel_color(self, primitives, lights, recursion_number=0):
+        recursion_limit = 2
+
         hit = self.get_pixel_hit(primitives)
         if hit is None:
             return None
@@ -167,6 +170,25 @@ class Ray:
             r += light.color[0] * intensity
             g += light.color[1] * intensity
             b += light.color[2] * intensity
+        
+        # Recursive raytracing step 3a
+        if hit.primitive.material.material_type is MaterialType.Reflective and recursion_number < recursion_limit:
+            normal = hit.primitive.get_normal(hit.point).normalized()
+            reflection = self.direction - 2 * normal * (normal * self.direction) 
+            recursive_ray = Ray(origin=hit.point, direction=reflection)
+            recursion_number += 1
+            recursive_color = recursive_ray.get_pixel_color(primitives, lights, recursion_number)
+
+            if recursive_color is not None:
+                return [recursive_color[i] * [r, g, b][i] for i in range(3)]
+
+        #     # if recursive_color is None:# if recursive ray hits nothing, do not return None beacause primitive get background color insted of its own color
+        #         # pass
+        #     # else:
+        #     if recursive_color is not None:
+        #         return recursive_ray.get_pixel_color(primitives, lights, recursion_number)
+        # elif hit.primitive.material.material_type is MaterialType.Dull:
+        #     px_color = hit.primitive.get_texture_color(hit.point)
 
         return [hit.primitive.get_texture_color(hit.point)[i] * [r, g, b][i] for i in range(3)]
 
