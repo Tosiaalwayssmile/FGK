@@ -15,7 +15,7 @@ from texture import *
 p_cam = PerspectiveCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=512, fov=40)
 o_cam = OrthogonalCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=512, pixel_size=(0.01, 0.01))
 
-texture = Texture('/home/werdon4/Desktop/FGK/Ex.6/sample_texture.png')
+texture = Texture('sample_texture.png')
 material1 = Material(material_type=MaterialType.Dull)
 material2 = Material(material_type=MaterialType.Reflective)
 
@@ -36,11 +36,11 @@ primitives1 = [
 
 # First element is ambient light: [intensity, [color]]
 lights = [
-    [0.8, [1, 1, 1]],
+    [0.3, [1, 1, 1]],
     PointLightSource(position=Vec3(3, 0, 3), color=[1, 1, 1], intensity=10)
 ]
 
-p_cam.render_scene(primitives1, lights, antialiasing=True)
+p_cam.render_scene(primitives1, lights, antialiasing=False)
 # o_cam.render_scene(primitives3)
 
 print('KONIEC')
