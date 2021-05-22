@@ -144,16 +144,13 @@ class Ray:
 
 
     def get_pixel_color(self, primitives, lights, recursion_number=0):
-        recursion_limit = 1
+        recursion_limit = 3
         recursive_color = None
 
         hit = self.get_pixel_hit(primitives)
 
         if hit is None:
             return None
-
-        # if hit.primitive == self.origin.primitive:
-        #     print("adadfasf")
 
         # Set ambient light
         r = lights[0][0] * lights[0][1][0]
@@ -192,7 +189,7 @@ class Ray:
         # Recursive raytracing step 3a
         if hit.primitive.material.material_type is MaterialType.Reflective and recursion_number < recursion_limit:
             normal = hit.primitive.get_normal(hit.point).normalized()
-            reflection = self.direction - 2 * normal * (normal * self.direction) 
+            reflection = ray.direction - 2 * (ray.direction * normal) * normal
             recursive_ray = Ray(origin=hit.point, direction=reflection)
 
             recursion_number += 1
