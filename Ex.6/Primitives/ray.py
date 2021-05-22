@@ -117,7 +117,7 @@ class Ray:
     def get_sphere_intersections(self, sphere):
         return sphere.get_ray_intersections(self)
 
-    ## Iterates through list of primitives and returns hit
+    ## Iterates through list of primitives and returns the closest hit, raytracing step 2
     def get_pixel_hit(self, primitives):
         closest_hit = None
         for pr in primitives:
@@ -139,7 +139,7 @@ class Ray:
         g = lights[0][0] * lights[0][1][1]
         b = lights[0][0] * lights[0][1][2]
 
-        # Iterate through lights
+        # Iterate through lights, raytracing step 3
         for light in lights[1:]:
             distance = hit.point.distance(light.position)
             ray = Ray(origin=hit.point, target=light.position, length=distance + 0.001)
@@ -155,8 +155,10 @@ class Ray:
             i = light.intensity * falloff / distance ** 2
             i = min(i, 1)
 
+            # Phong model
             if hit.primitive.material is not None:
                 reflection = -ray.direction - 2 * (-ray.direction * normal) * normal
+                # For diffusing material
                 intensity = -i * (hit.primitive.material.mirror_reflection_coefficient * (direction * normal) + hit.primitive.material.diffuse_reflection_coefficient * (reflection * -self.direction) ** hit.primitive.material.specularExponent)
                 intensity = min(intensity, 1)
             else:
