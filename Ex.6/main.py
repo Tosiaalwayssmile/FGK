@@ -21,7 +21,7 @@ material2 = Material(material_type=MaterialType.Reflective)
 
 primitives1 = [
     Sphere(Vec3(-1.5, 0, 8), 2, [1, 0, 0], material1),
-    Sphere(Vec3(2, 0, 7), 1, [0, 0, 1], material2)
+    Sphere(Vec3(2, 0, 8), 1, [0, 0, 1], material2)
     # Sphere(Vec3(-1.5, 2, 8), 1, [.2, .4, .75], material1)
 ]
 

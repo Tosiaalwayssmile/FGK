@@ -2,6 +2,7 @@ from materialType import *
 import math
 import numpy as np
 from vector import *
+import copy
 
 
 ## Documentation for a class Ray.
@@ -42,9 +43,11 @@ class Ray:
         ## Default = Infinity
         self.length = length
 
+
     ## Function returning object values in string format.
     def __str__(self):
         return 'Origin: ' + str(self.origin) + ', Vector: ' + str(self.direction)
+
 
     ## Check if point is on ray, returns true if yes, false otherwise.
     def is_point_on_ray(self, point):
@@ -92,12 +95,14 @@ class Ray:
         # If all conditions are met, return true
         return True
 
+
     ## Sets new direction vector and converts it to normalized vector.
     def set_direction(self, new_direction):
         if new_direction == Vec3(0, 0, 0):
             raise ValueError('Direction vector cannot be (0, 0, 0)')
         self.direction = new_direction.normalized()
         self.target = self.origin + new_direction
+
 
     ## Sets new target and updates direction vector.
     def set_target(self, new_target):
@@ -106,17 +111,21 @@ class Ray:
         self.target = new_target
         self.direction = (self.target - self.origin).normalized()
 
+
     ## Plane.get_intersection(ray) wrapper.
     def get_plane_intersection(self, plane):
         return plane.get_intersection(self)
+
 
     ## Sphere.get_intersection(ray) wrapper.
     def get_sphere_intersection(self, sphere):
         return sphere.get_intersection(self)
 
+
     ## Sphere.get_ray_intersections(ray) wrapper.
     def get_sphere_intersections(self, sphere):
         return sphere.get_ray_intersections(self)
+
 
     ## Iterates through list of primitives and returns the closest hit, raytracing step 2
     def get_pixel_hit(self, primitives):
@@ -128,14 +137,23 @@ class Ray:
             for hit in hits:
                 if closest_hit is None or hit.distance < closest_hit.distance:
                     closest_hit = hit
+                # elif hit.distance < closest_hit.distance and hit.primitive != closest_hit.primitive:
+                #     closest_hit = hit
+
         return closest_hit
 
+
     def get_pixel_color(self, primitives, lights, recursion_number=0):
-        recursion_limit = 2
+        recursion_limit = 1
+        recursive_color = None
 
         hit = self.get_pixel_hit(primitives)
+
         if hit is None:
             return None
+
+        # if hit.primitive == self.origin.primitive:
+        #     print("adadfasf")
 
         # Set ambient light
         r = lights[0][0] * lights[0][1][0]
@@ -176,21 +194,18 @@ class Ray:
             normal = hit.primitive.get_normal(hit.point).normalized()
             reflection = self.direction - 2 * normal * (normal * self.direction) 
             recursive_ray = Ray(origin=hit.point, direction=reflection)
+
             recursion_number += 1
+
             recursive_color = recursive_ray.get_pixel_color(primitives, lights, recursion_number)
+            # return [recursive_color[i] * [r, g, b][i] for i in range(3)]
+            # return recursive_color
 
             if recursive_color is not None:
                 return [recursive_color[i] * [r, g, b][i] for i in range(3)]
 
-        #     # if recursive_color is None:# if recursive ray hits nothing, do not return None beacause primitive get background color insted of its own color
-        #         # pass
-        #     # else:
-        #     if recursive_color is not None:
-        #         return recursive_ray.get_pixel_color(primitives, lights, recursion_number)
-        # elif hit.primitive.material.material_type is MaterialType.Dull:
-        #     px_color = hit.primitive.get_texture_color(hit.point)
-
         return [hit.primitive.get_texture_color(hit.point)[i] * [r, g, b][i] for i in range(3)]
+
 
     def check_intersection(self, primitives):
         for p in primitives:

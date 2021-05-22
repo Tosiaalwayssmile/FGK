@@ -51,7 +51,7 @@ class Mesh(Primitive):
         pass
 
     def get_texture_color(self, coords):
-        if self.material.texture is None or self.material is None :
+        if self.material is None or self.material.texture is None :
             return self.color
         else:
             return self.material.texture.rectangular_mapping(coords)
