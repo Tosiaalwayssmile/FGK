@@ -7,6 +7,7 @@ from Lights.point_light_source import *
 from obj_parser import *
 from material import *
 from texture import *
+from materialType import *
 
 # m1=Material()
 # print(m1)
