@@ -9,7 +9,7 @@ import copy
 class Ray:
 
     ## Constructor.
-    def __init__(self, origin = Vec3(0, 0, 0), direction=None, target=None, length = math.inf):
+    def __init__(self, origin = Vec3(0, 0, 0), direction=None, target=None, length = math.inf, medium_refractive_index=1):
 
         ## Origin vector of a given ray.
         ## Default = (0, 0, 0)
@@ -42,6 +42,9 @@ class Ray:
         ## Length of a given ray.
         ## Default = Infinity
         self.length = length
+
+        ## The refractive index of the medium in which the ray propagates
+        self.medium_refractive_index=medium_refractive_index
 
     ## Function returning object values in string format.
     def __str__(self):
@@ -127,7 +130,7 @@ class Ray:
             if hits[0] is None:
                 continue
             for hit in hits:
-                if (closest_hit is None or hit.distance < closest_hit.distance) and (hit.distance > .05 or pr is not hit.primitive):
+                if (closest_hit is None or hit.distance < closest_hit.distance) and (hit.distance > .05 ):
                     closest_hit = hit
                 # elif hit.distance < closest_hit.distance and hit.primitive != closest_hit.primitive:
                 #     closest_hit = hit
@@ -136,7 +139,7 @@ class Ray:
 
     ## Iterates through list of primitives and lights and calculates pixel color
     def get_pixel_color(self, primitives, lights, recursion_number=0):
-        recursion_limit = 3
+        recursion_limit = 8
 
         hit = self.get_pixel_hit(primitives)
 
@@ -177,7 +180,7 @@ class Ray:
             g += light.color[1] * intensity
             b += light.color[2] * intensity
         
-        # Recursive raytracing step 3a
+        # Recursive raytracing, reflective material
         if hit.primitive.material.material_type is MaterialType.Reflective and recursion_number < recursion_limit:
             normal = hit.primitive.get_normal(hit.point).normalized()
             reflection = self.direction - 2 * (self.direction * normal) * normal
@@ -188,6 +191,22 @@ class Ray:
 
             if recursive_color is not None:
                 return [recursive_color[i] * [r, g, b][i] for i in range(3)]
+
+        elif hit.primitive.material.material_type is MaterialType.Refractive and recursion_number < recursion_limit:
+            normal = hit.primitive.get_normal(hit.point).normalized()
+            lambda_s = self.medium_refractive_index
+            lambda_t = hit.primitive.material.index_of_refraction
+
+            refraction = lambda_s * (self.direction - normal * (self.direction * normal)) / lambda_t
+            refraction =refraction - normal * np.sqrt(1 - lambda_s**2 * (1 - (self.direction * normal)**2) / lambda_t**2)
+            recursive_ray = Ray(origin=hit.point, direction=refraction, medium_refractive_index=lambda_t)
+
+            recursion_number += 1
+            recursive_color = recursive_ray.get_pixel_color(primitives, lights, recursion_number)
+
+            if recursive_color is not None:
+                return [recursive_color[i] * [r, g, b][i] for i in range(3)]
+
 
         return [hit.primitive.get_texture_color(hit.point)[i] * [r, g, b][i] for i in range(3)]
 

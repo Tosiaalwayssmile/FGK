@@ -15,14 +15,15 @@ from texture import *
 p_cam = PerspectiveCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=512, fov=40)
 o_cam = OrthogonalCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=512, pixel_size=(0.01, 0.01))
 
-texture = Texture('sample_texture.png')
-material1 = Material(material_type=MaterialType.Dull)
-material2 = Material(material_type=MaterialType.Reflective)
+texture = Texture('/home/werdon4/Desktop/FGK/Ex.6/sample_texture.png')
+material_dull = Material(material_type=MaterialType.Dull)
+material_reflective = Material(material_type=MaterialType.Reflective)
+material_refractive = Material(material_type=MaterialType.Refractive, index_of_refraction=1.52)
 
 primitives1 = [
-    Sphere(Vec3(-1.5, 0, 8), 2, [1, 0, 0], material1),
-    Sphere(Vec3(2, 0, 8), 1, [0, 0, 1], material2)
-    # Sphere(Vec3(-1.5, 2, 8), 1, [.2, .4, .75], material1)
+    Sphere(Vec3(-1.5, 0, 12), 1.2, [0, 1, 0], material_dull),
+    Sphere(Vec3(2, 0, 8), 1, [0, 0, 1], material_reflective),
+    Sphere(Vec3(-1.5, 0, 8), 1, [1, 0, 0], material_refractive)
 ]
 
 # primitives2 = [
@@ -36,7 +37,7 @@ primitives1 = [
 
 # First element is ambient light: [intensity, [color]]
 lights = [
-    [0.3, [1, 1, 1]],
+    [0.8, [1, 1, 1]],
     PointLightSource(position=Vec3(3, 0, 3), color=[1, 1, 1], intensity=10)
 ]
 
