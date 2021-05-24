@@ -130,6 +130,7 @@ class Ray:
             if hits[0] is None:
                 continue
             for hit in hits:
+                # if (closest_hit is None or hit.distance < closest_hit.distance) and (hit.distance > .05 ):
                 if (closest_hit is None or hit.distance < closest_hit.distance) and (hit.distance > .05 ):
                     closest_hit = hit
                 # elif hit.distance < closest_hit.distance and hit.primitive != closest_hit.primitive:
@@ -139,7 +140,7 @@ class Ray:
 
     ## Iterates through list of primitives and lights and calculates pixel color
     def get_pixel_color(self, primitives, lights, recursion_number=0):
-        recursion_limit = 8
+        recursion_limit = 1
 
         hit = self.get_pixel_hit(primitives)
 
@@ -191,21 +192,22 @@ class Ray:
 
             if recursive_color is not None:
                 return [recursive_color[i] * [r, g, b][i] for i in range(3)]
-
+        
+        # Refractive material
         elif hit.primitive.material.material_type is MaterialType.Refractive and recursion_number < recursion_limit:
             normal = hit.primitive.get_normal(hit.point).normalized()
             lambda_s = self.medium_refractive_index
             lambda_t = hit.primitive.material.index_of_refraction
 
-            refraction = lambda_s * (self.direction - normal * (self.direction * normal)) / lambda_t
-            refraction =refraction - normal * np.sqrt(1 - lambda_s**2 * (1 - (self.direction * normal)**2) / lambda_t**2)
+            refraction = (lambda_s * (self.direction - normal*(self.direction.cross(normal)))) / lambda_t - normal * np.sqrt(1 - (lambda_s**2 * (1 - (self.direction.cross(normal))*(self.direction.cross(normal)))) / lambda_t**2)
+
             recursive_ray = Ray(origin=hit.point, direction=refraction, medium_refractive_index=lambda_t)
 
             recursion_number += 1
-            recursive_color = recursive_ray.get_pixel_color(primitives, lights, recursion_number)
-
-            if recursive_color is not None:
-                return [recursive_color[i] * [r, g, b][i] for i in range(3)]
+            return recursive_ray.get_pixel_color(primitives, lights, recursion_number)
+            # recursive_color = recursive_ray.get_pixel_color(primitives, lights, recursion_number)
+            # if recursive_color is not None:
+            #     return [recursive_color[i] * [r, g, b][i] for i in range(3)]
 
 
         return [hit.primitive.get_texture_color(hit.point)[i] * [r, g, b][i] for i in range(3)]
