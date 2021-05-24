@@ -140,7 +140,7 @@ class Ray:
 
     ## Iterates through list of primitives and lights and calculates pixel color
     def get_pixel_color(self, primitives, lights, recursion_number=0):
-        recursion_limit = 1
+        recursion_limit = 2
 
         hit = self.get_pixel_hit(primitives)
 
@@ -204,10 +204,10 @@ class Ray:
             recursive_ray = Ray(origin=hit.point, direction=refraction, medium_refractive_index=lambda_t)
 
             recursion_number += 1
-            return recursive_ray.get_pixel_color(primitives, lights, recursion_number)
-            # recursive_color = recursive_ray.get_pixel_color(primitives, lights, recursion_number)
-            # if recursive_color is not None:
-            #     return [recursive_color[i] * [r, g, b][i] for i in range(3)]
+            recursive_color = recursive_ray.get_pixel_color(primitives, lights, recursion_number)
+
+            if recursive_color is not None:
+                return [recursive_color[i] * [r, g, b][i] for i in range(3)]
 
 
         return [hit.primitive.get_texture_color(hit.point)[i] * [r, g, b][i] for i in range(3)]
