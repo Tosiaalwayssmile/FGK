@@ -18,10 +18,10 @@ o_cam = OrthogonalCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), w
 texture = Texture('sample_texture.png')
 material_dull = Material(material_type=MaterialType.Dull)
 material_reflective = Material(material_type=MaterialType.Reflective)
-material_refractive = Material(material_type=MaterialType.Refractive, index_of_refraction=1.2)
+material_refractive = Material(material_type=MaterialType.Refractive, index_of_refraction=4)
 
 primitives1 = [
-    Sphere(Vec3(-1.5, 0, 12), 1.2, [0, 1, 0], material_dull),
+    Sphere(Vec3(-1.5, 0, 12), 0.7, [0, 1, 0], material_dull),
     Sphere(Vec3(2, 0, 8), 1, [0, 0, 1], material_reflective),
     Sphere(Vec3(-1.5, 0, 8), 1, [1, 0, 0], material_refractive)
 ]

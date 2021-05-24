@@ -140,7 +140,7 @@ class Ray:
 
     ## Iterates through list of primitives and lights and calculates pixel color
     def get_pixel_color(self, primitives, lights, recursion_number=0):
-        recursion_limit = 2
+        recursion_limit = 3
 
         hit = self.get_pixel_hit(primitives)
 
