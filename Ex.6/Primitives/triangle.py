@@ -1,4 +1,5 @@
-from Primitives.ray import *
+from Math.hit import *
+from Math.ray import *
 from Primitives.primitive import *
 
 

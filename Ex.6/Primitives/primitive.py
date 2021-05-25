@@ -24,5 +24,5 @@ class Primitive(ABC):
         pass
 
     @abstractmethod
-    def get_texture_color(self):
+    def get_texture_color(self, point):
         pass

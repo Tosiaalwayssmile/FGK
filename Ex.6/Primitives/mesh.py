@@ -1,15 +1,12 @@
-from Primitives.primitive import *
-from Primitives.ray import *
 from Primitives.triangle import *
 from obj_parser import *
-import numpy as np
 
 
 ## Documentation for a class Mesh.
 class Mesh(Primitive):
 
     ## Constructor.
-    def __init__(self, obj_file, position=Vec3(), material=None):
+    def __init__(self, obj_file, position=Vec3(), color=[1, 1, 1], material=None):
 
         super().__init__(None, material)
 
@@ -20,8 +17,7 @@ class Mesh(Primitive):
         for t in triangles_list[0]:
             vertices.append(t)
         for f in triangles_list[1]:
-            c = np.random.rand()
-            self.triangles.append(Triangle(position + vertices[f.x], position + vertices[f.y], position + vertices[f.z], [c, c, c], material))
+            self.triangles.append(Triangle(position + vertices[f.x], position + vertices[f.y], position + vertices[f.z], color, material))
 
     ## Checks if ray intersects with mesh and returns list of hits
     def get_detailed_intersections(self, ray):
@@ -51,7 +47,7 @@ class Mesh(Primitive):
         pass
 
     def get_texture_color(self, coords):
-        if self.material is None or self.material.texture is None :
+        if self.material is None or self.material.texture is None:
             return self.color
         else:
             return self.material.texture.rectangular_mapping(coords)

@@ -2,6 +2,7 @@ from materialType import *
 import math
 import numpy as np
 from vector import *
+from Primitives.plane import *
 import copy
 
 
@@ -9,7 +10,7 @@ import copy
 class Ray:
 
     ## Constructor.
-    def __init__(self, origin = Vec3(0, 0, 0), direction=None, target=None, length = math.inf, medium_refractive_index=1):
+    def __init__(self, origin = Vec3(0, 0, 0), direction=None, target=None, length = math.inf, medium=None):
 
         ## Origin vector of a given ray.
         ## Default = (0, 0, 0)
@@ -43,8 +44,8 @@ class Ray:
         ## Default = Infinity
         self.length = length
 
-        ## The refractive index of the medium in which the ray propagates
-        self.medium_refractive_index=medium_refractive_index
+        ## The medium in which the ray propagates
+        self.medium = medium
 
     ## Function returning object values in string format.
     def __str__(self):
@@ -122,6 +123,12 @@ class Ray:
     def get_sphere_intersections(self, sphere):
         return sphere.get_ray_intersections(self)
 
+    ## Returns medium index of refraction
+    def get_medium_refraction_index(self):
+        if self.medium is None:
+            return 1
+        return self.medium.material.index_of_refraction
+
     ## Iterates through list of primitives and returns the closest hit, raytracing step 2
     def get_pixel_hit(self, primitives):
         closest_hit = None
@@ -140,7 +147,7 @@ class Ray:
 
     ## Iterates through list of primitives and lights and calculates pixel color
     def get_pixel_color(self, primitives, lights, recursion_number=0):
-        recursion_limit = 3
+        recursion_limit = 6
 
         hit = self.get_pixel_hit(primitives)
 
@@ -156,7 +163,7 @@ class Ray:
         for light in lights[1:]:
             distance = hit.point.distance(light.position)
             ray = Ray(origin=hit.point, target=light.position, length=distance + 0.001)
-            if ray.check_intersection(primitives):
+            if ray.check_light_intersection(primitives):
                 # If something blocks the light, go to next light
                 continue
 
@@ -167,6 +174,7 @@ class Ray:
             # If nothing blocks the light
             i = light.intensity * falloff / distance ** 2
             i = min(i, 1)
+            i = max(i, 0)
 
             # Phong model
             if hit.primitive.material is not None:
@@ -174,6 +182,7 @@ class Ray:
                 # For diffusing material
                 intensity = -i * (hit.primitive.material.mirror_reflection_coefficient * (direction * normal) + hit.primitive.material.diffuse_reflection_coefficient * (reflection * -self.direction) ** hit.primitive.material.specularExponent)
                 intensity = min(intensity, 1)
+                intensity = max(intensity, 0)
             else:
                 intensity = i
 
@@ -191,44 +200,61 @@ class Ray:
             recursive_color = recursive_ray.get_pixel_color(primitives, lights, recursion_number)
 
             if recursive_color is not None:
-                return [recursive_color[i] * [r, g, b][i] for i in range(3)]
+                # It's no matter how much recursive material is lit, it only matters how lit is point that it reflects
+                # return [recursive_color[i] * [r, g, b][i] for i in range(3)]
+                return recursive_color
         
         # Refractive material
         elif hit.primitive.material.material_type is MaterialType.Refractive and recursion_number < recursion_limit:
             normal = hit.primitive.get_normal(hit.point).normalized()
-            lambda_s = self.medium_refractive_index
-            lambda_t = hit.primitive.material.index_of_refraction
+            n1 = self.get_medium_refraction_index()
+            n2 = hit.primitive.material.index_of_refraction
+            new_medium = hit.primitive
 
-            refraction = (lambda_s * (self.direction - normal*(self.direction.cross(normal)))) / lambda_t - normal * np.sqrt(1 - (lambda_s**2 * (1 - (self.direction.cross(normal))*(self.direction.cross(normal)))) / lambda_t**2)
+            n12 = n1 / n2
+            direction = self.direction.normalized()
+            nor_cross_dir = normal.cross(direction)
 
-            recursive_ray = Ray(origin=hit.point, direction=refraction, medium_refractive_index=lambda_t)
+            refracted_vec = np.sqrt((1 - n12 ** 2) * (1 - (nor_cross_dir * nor_cross_dir))) * -normal + (n12 * (direction - nor_cross_dir * normal))
+
+            recursive_ray = Ray(origin=hit.point, direction=refracted_vec, medium=new_medium)
 
             recursion_number += 1
             recursive_color = recursive_ray.get_pixel_color(primitives, lights, recursion_number)
 
             if recursive_color is not None:
-                return [recursive_color[i] * [r, g, b][i] for i in range(3)]
-
+                # It's no matter how much recursive material is lit, it only matters how lit is point that is behind it
+                # return [recursive_color[i] * [r, g, b][i] for i in range(3)]
+                return recursive_color
 
         return [hit.primitive.get_texture_color(hit.point)[i] * [r, g, b][i] for i in range(3)]
 
+    ## Checks if ray intersects with any given primitive
     def check_intersection(self, primitives):
         for p in primitives:
             hits = p.get_detailed_intersections(self)
             if hits[0] is None:
                 continue
             for hit in hits:
-                if 0.001 < hit.distance:
+                min_dist = 0.0001
+                if isinstance(p, Plane):
+                    min_dist = 0
+                if min_dist <= hit.distance <= self.length:
+                    return False
+        return True
+
+    ## Checks if ray intersects with any given primitive, ignores primitives with refractive material
+    def check_light_intersection(self, primitives):
+        for p in primitives:
+            hits = p.get_detailed_intersections(self)
+            if hits[0] is None:
+                continue
+            for hit in hits:
+                min_dist = 0.0001
+                if isinstance(p, Plane):
+                    min_dist = 0
+                if min_dist <= hit.distance <= self.length or p.material.material_type == MaterialType.Refractive:
                     return False
         return True
 
 
-## Documentation for a class Hit.
-class Hit:
-
-    ## Constructor
-    def __init__(self, point, distance, color, primitive):
-        self.point = point
-        self.distance = distance
-        self.color = color
-        self.primitive = primitive

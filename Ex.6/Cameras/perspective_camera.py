@@ -1,6 +1,4 @@
-from PIL import Image
-from Primitives.ray import *
-from Primitives.primitive import *
+from Math.ray import *
 from image import *
 import numpy as np
 
