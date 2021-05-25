@@ -13,7 +13,7 @@ from texture import *
 
 # m1=Material()
 # print(m1)
-p_cam = PerspectiveCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=256, height=256, fov=40)
+p_cam = PerspectiveCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=1024, height=1024, fov=40)
 o_cam = OrthogonalCamera(position=Vec3(0, 0, 0), view_direction=Vec3(0, 0, 1), width=512, height=512, pixel_size=(0.01, 0.01))
 
 texture = Texture('sample_texture.png')
@@ -40,7 +40,7 @@ lights = [
     PointLightSource(position=Vec3(0, 0, 10), color=[1, 1, 1], intensity=10)
 ]
 
-p_cam.render_scene(primitives1, lights, antialiasing=False)
+p_cam.render_scene(primitives1, lights, antialiasing=True)
 # o_cam.render_scene(primitives3)
 
 print('KONIEC')
