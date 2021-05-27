@@ -161,6 +161,7 @@ class Ray:
 
         # Iterate through lights
         for light in lights[1:]:
+
             distance = hit.point.distance(light.position)
             ray = Ray(origin=hit.point, target=light.position, length=distance + 0.001)
             if ray.check_light_intersection(primitives):
@@ -245,16 +246,22 @@ class Ray:
 
     ## Checks if ray intersects with any given primitive, ignores primitives with refractive material
     def check_light_intersection(self, primitives):
+
+        import Primitives.sphere
+
         for p in primitives:
-            hits = p.get_detailed_intersections(self)
+            if isinstance(p, Primitives.sphere.Sphere):
+                hits = p.get_detailed_intersections(self, invert_dir=True)
+            else:
+                hits = p.get_detailed_intersections(self)
             if hits[0] is None:
                 continue
             for hit in hits:
-                min_dist = 0.0001
-                if isinstance(p, Plane):
-                    min_dist = 0
-                if min_dist <= hit.distance <= self.length or p.material.material_type == MaterialType.Refractive:
-                    return False
-        return True
+                if isinstance(p, Plane) and hit.primitive is p:
+                    continue
+                if 0.001 <= hit.distance <= self.length and p.material.material_type != MaterialType.Refractive:
+                    # If somethong blocks the light
+                    return True
+        return False
 
 

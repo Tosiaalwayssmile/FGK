@@ -30,6 +30,7 @@ class Sphere(Primitive):
         return 'Sphere: Centre: ' + self.position + ', Radius: ' + str(self.radius)
         
     ## Checks if ray intersects with sphere and returns list of hits
+    """
     def get_detailed_intersections(self, ray):
         # Calculate variables
         oc = ray.origin - self.position
@@ -86,6 +87,33 @@ class Sphere(Primitive):
         if p2 is None:
             return [Hit(p1, dist1, self.color, self)]
         return [Hit(p1, dist1, self.color, self), Hit(p2, dist2, self.color, self)]
+    """
+    def get_detailed_intersections(self, ray, invert_dir=False):
+
+        if invert_dir:
+            v = self.position - ray.origin
+        else:
+            v = ray.origin - self.position
+        b = -(v * ray.direction)
+        delta = b ** 2 - (v * v) + self.radius
+
+        if delta < 0.001:
+            return [None]
+
+        delta = np.sqrt(delta)
+        i1 = b - delta
+        i2 = b + delta
+
+        if i1 < 0 and i2 < 0:
+            return [None]
+
+        if i1 < 0:
+            return [Hit(ray.origin + ray.direction * i2, i2, self.color, self)]
+
+        if i2 < 0:
+            return [Hit(ray.origin + ray.direction * i1, i1, self.color, self)]
+
+        return [Hit(ray.origin + ray.direction * i1, i1, self.color, self), Hit(ray.origin + ray.direction * i2, i2, self.color, self)]
 
     ## Function returning hit.
     def get_detailed_intersection(self, ray):
@@ -107,7 +135,7 @@ class Sphere(Primitive):
 
     ## Gets pixel color from material texture. If texture or material is None than return privmitive color
     def get_texture_color(self, coords):
-        if self.material is None or self.material.texture is None :
+        if self.material is None or self.material.texture is None:
             return self.color
         else:
             return self.material.texture.spherical_mapping((coords - self.position).normalized(), self.radius)
