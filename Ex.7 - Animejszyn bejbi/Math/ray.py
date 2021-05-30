@@ -4,6 +4,7 @@ import numpy as np
 from vector import *
 from Primitives.plane import *
 import copy
+import Scene
 
 
 ## Documentation for a class Ray.
@@ -146,8 +147,11 @@ class Ray:
         return closest_hit
 
     ## Iterates through list of primitives and lights and calculates pixel color
-    def get_pixel_color(self, primitives, lights, recursion_number=0):
+    def get_pixel_color(self, scene=None, shutter_exposure_time=None, primitives=None, lights=None, recursion_number=0):
         recursion_limit = 6
+
+        if scene is not None and shutter_exposire_time is not None and primitives is None and lights is None:
+            primitives, lights = scene.get_scene_for_time(np.random.uniform(shutter_exposure_time[0], shutter_exposure_time[1]))
 
         hit = self.get_pixel_hit(primitives)
 
@@ -198,7 +202,7 @@ class Ray:
             recursive_ray = Ray(origin=hit.point, direction=reflection)
 
             recursion_number += 1
-            recursive_color = recursive_ray.get_pixel_color(primitives, lights, recursion_number)
+            recursive_color = recursive_ray.get_pixel_color(primitives=primitives, lights=lights, recursion_number=recursion_number)
 
             if recursive_color is not None:
                 # It's no matter how much recursive material is lit, it only matters how lit is point that it reflects
@@ -221,7 +225,7 @@ class Ray:
             recursive_ray = Ray(origin=hit.point, direction=refracted_vec, medium=new_medium)
 
             recursion_number += 1
-            recursive_color = recursive_ray.get_pixel_color(primitives, lights, recursion_number)
+            recursive_color = recursive_ray.get_pixel_color(primitives=primitives, lights=lights, recursion_number=recursion_number)
 
             if recursive_color is not None:
                 # It's no matter how much recursive material is lit, it only matters how lit is point that is behind it
@@ -229,6 +233,14 @@ class Ray:
                 return recursive_color
 
         return [hit.primitive.get_texture_color(hit.point)[i] * [r, g, b][i] for i in range(3)]
+
+    def get_avg_pixel_color(self, scene=None, shutter_exposure_timeframe=None, amount_of_samples=3):
+        px_color = np.array([.0, .0, .0])
+        step = (shutter_exposure_timeframe[1] - shutter_exposure_timeframe[0]) / amount_of_samples
+        for i in range(amount_of_samples):
+            primitives, lights = scene.get_scene_for_time(shutter_exposure_timeframe[0] + (step * i))
+            px_color += self.get_pixel_color(primitives=primitives, lights=lights)
+        return [c / amount_of_samples for c in px_color]
 
     ## Checks if ray intersects with any given primitive
     def check_intersection(self, primitives):
