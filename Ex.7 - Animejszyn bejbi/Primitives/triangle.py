@@ -73,11 +73,13 @@ class Triangle(Primitive):
             return None
         return intersection.point
 
+    ## Returns normal for point
     def get_normal(self, point):
         v1 = self.v1 - self.v2
         v2 = self.v1 - self.v3
         return v1.cross(v2)
 
+    ## Returns texture color for point
     def get_texture_color(self, coords):
         if self.material is None or self.material.texture is None :
             return self.color

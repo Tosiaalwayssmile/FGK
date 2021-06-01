@@ -43,9 +43,11 @@ class Mesh(Primitive):
     def get_intersection(self, ray):
         return self.get_detailed_intersection(ray).point
 
+    ## Gets normal - does nothing for mesh, has to be invoked for triangle
     def get_normal(self, point):
         pass
 
+    ## Gets texture color in given point
     def get_texture_color(self, coords):
         if self.material is None or self.material.texture is None:
             return self.color

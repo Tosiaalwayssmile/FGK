@@ -4,6 +4,7 @@ import numpy as np
 ## Documentation for a class LightIntensity.
 class LightIntensity:
 
+    ## Clamps value between 0 and 1
     @staticmethod
     def clamp01(value):
         if value <= 0:
@@ -12,6 +13,7 @@ class LightIntensity:
             return 1
         return value
 
+    ## Clamps value between 0 and 255
     @staticmethod
     def clamp_0_255(value):
         if isinstance(value, list) or isinstance(value, np.ndarray):
@@ -25,6 +27,7 @@ class LightIntensity:
             return 255
         return value
 
+    ## Remapsvalue from 0-1 to 0-255
     @staticmethod
     def remap_0_255(value):
         if isinstance(value, list) or isinstance(value, np.ndarray):
@@ -34,6 +37,7 @@ class LightIntensity:
 
         return value * 255
 
+    ## Clamps color to 0-1
     @staticmethod
     def clamp_color(color):
         return [LightIntensity.clamp01(color[0]),

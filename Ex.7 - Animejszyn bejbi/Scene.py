@@ -31,6 +31,7 @@ class Scene:
             PointLightSource(position=Vec3(0, 0, 7), color=[1, 1, 1], intensity=10)
         ]
 
+    ## Returns scene state for given time from 0-1 range
     def get_scene_for_time(self, i):
         angle = np.deg2rad(i * 360)
         sin = np.sin(angle) * 1.5

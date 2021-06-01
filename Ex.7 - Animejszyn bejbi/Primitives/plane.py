@@ -65,8 +65,10 @@ class Plane(Primitive):
             return None
         return hit.point
 
+    ## Returns normal for point
     def get_normal(self, point):
         return self.normal_vector
 
+    ## Returns texture color for point
     def get_texture_color(self, coords):
         return self.color

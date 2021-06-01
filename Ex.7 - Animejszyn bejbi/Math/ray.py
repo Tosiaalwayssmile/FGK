@@ -234,6 +234,7 @@ class Ray:
 
         return [hit.primitive.get_texture_color(hit.point)[i] * [r, g, b][i] for i in range(3)]
 
+    ## Gets average pixel color in given shutter exposure time and given amount of samples
     def get_avg_pixel_color(self, scene=None, shutter_exposure_timeframe=None, amount_of_samples=3):
         px_color = np.array([.0, .0, .0])
         step = (shutter_exposure_timeframe[1] - shutter_exposure_timeframe[0]) / amount_of_samples

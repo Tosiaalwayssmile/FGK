@@ -65,13 +65,3 @@ class MyImage:
     def save_image(self, filename):
         img = Image.fromarray(self.image_matrix, 'RGB')
         img.save(filename)
-
-    def merge_images(self, images):
-        for i in range(self.height):
-            for j in range(self.width):
-                val = [0, 0, 0]
-                for img in images:
-                    if (img[i, j] != [0, 0, 0]).any():
-                        val = img[i, j]
-                        break
-                self.image_matrix[i, j] = val

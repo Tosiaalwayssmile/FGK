@@ -144,6 +144,7 @@ class PerspectiveCamera:
 
         return np.multiply(summ, .25)
 
+    ## Function rendering part of scene to run in parallel thread/process
     def render_part_of_scene(self, scene, shutter_exposure_timeframe, blur_ratio, antialiasing, start_row, start_col, rows, cols,
                              lower_left_corner, pixel_horizontal, pixel_vertical, returned_img, process_nr):
 
