@@ -9,4 +9,4 @@ File | Content |
 [**Ex.4**](https://github.com/Tosiaalwayssmile/FGK/tree/main/Ex.4) | Zadanie 4 - Niech stanie się światłość. |
 [**Ex.5**](https://github.com/Tosiaalwayssmile/FGK/tree/main/Ex.5) | Zadanie 5 - Tekstury. |
 [**Ex.6**](https://github.com/Tosiaalwayssmile/FGK/tree/main/Ex.6) | Zadanie 6 - Odbicia zwierciadlane, refrakcja, rekursywny Raytracing. |
-[**Ex.7**](https://github.com/Tosiaalwayssmile/FGK/tree/main/Ex.7) | Zadanie 7 (dodatkowe) - Animacja + motion blur |
+[**Ex.7**](https://github.com/Tosiaalwayssmile/FGK/tree/main/Ex.7- Animejszyn bejbi) | Zadanie 7 (dodatkowe) - Animacja + motion blur |
