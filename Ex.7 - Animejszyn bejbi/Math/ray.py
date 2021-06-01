@@ -150,7 +150,7 @@ class Ray:
     def get_pixel_color(self, scene=None, shutter_exposure_time=None, primitives=None, lights=None, recursion_number=0):
         recursion_limit = 6
 
-        if scene is not None and shutter_exposire_time is not None and primitives is None and lights is None:
+        if scene is not None and shutter_exposure_time is not None and primitives is None and lights is None:
             primitives, lights = scene.get_scene_for_time(np.random.uniform(shutter_exposure_time[0], shutter_exposure_time[1]))
 
         hit = self.get_pixel_hit(primitives)
