@@ -10,3 +10,5 @@ File | Content |
 [**Ex.5**](https://github.com/Tosiaalwayssmile/FGK/tree/main/Ex.5) | Zadanie 5 - Tekstury. |
 [**Ex.6**](https://github.com/Tosiaalwayssmile/FGK/tree/main/Ex.6) | Zadanie 6 - Odbicia zwierciadlane, refrakcja, rekursywny Raytracing. |
 [**Ex.7**](https://github.com/Tosiaalwayssmile/FGK/tree/main/Ex.7%20-%20Animejszyn%20bejbi) | Zadanie 7 (dodatkowe) - Animacja + motion blur |
+
+![gif30](https://user-images.githubusercontent.com/45010707/160661480-bbb1884c-ebe2-4f18-9896-804589def922.gif)
